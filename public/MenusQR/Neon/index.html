@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="restaurant-title">Menú del Restaurante</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-primary: #00ffcc;
+            --accent-secondary: #ff0066;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 204, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 102, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+            min-height: 100vh;
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            to {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 5px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .language-switcher button {
+            background: transparent;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 45px;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .language-switcher button.active {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+        }
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 5px 20px rgba(0, 255, 204, 0.4);
+        }
+
+        .whatsapp-float:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 30px rgba(0, 255, 204, 0.6);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            animation: fadeInScale 1s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .hero-logo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 2rem;
+            border-radius: 50%;
+            border: 3px solid var(--accent-primary);
+            padding: 5px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 30px rgba(0, 255, 204, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 50px rgba(0, 255, 204, 0.8);
+            }
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            border: 2px solid var(--accent-primary);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-secondary);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn-primary:hover::before {
+            left: 0;
+        }
+
+        .btn-primary:hover {
+            border-color: var(--accent-secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 0, 102, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: var(--glass-bg);
+            border-color: var(--accent-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 255, 204, 0.3);
+        }
+
+        /* Info Cards */
+        .hero-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .info-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .info-item:hover::before {
+            opacity: 0.1;
+        }
+
+        .info-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 30px rgba(0, 255, 204, 0.2);
+        }
+
+        .info-item i {
+            font-size: 2.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .info-item h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .info-item p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--accent-primary);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 300px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border);
+            padding: 2rem;
+            overflow-y: auto;
+            z-index: 10;
+        }
+
+        .sidebar-logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 2rem;
+            display: block;
+            border-radius: 50%;
+            border: 2px solid var(--accent-primary);
+            padding: 3px;
+            background: var(--glass-bg);
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        .sidebar-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .category-button {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--glass-border);
+            padding: 15px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+        }
+
+        .category-button:hover {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border-color: var(--accent-primary);
+            transform: translateX(5px);
+        }
+
+        .category-button.active {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+        }
+
+        .category-button span:last-child {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 3rem;
+            overflow-y: auto;
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .menu-item-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-item-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--accent-primary);
+            box-shadow: 0 20px 40px rgba(0, 255, 204, 0.2);
+        }
+
+        .menu-item-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .menu-item-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .menu-item-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .price-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: var(--bg-primary);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.3);
+        }
+
+        .promo-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent-secondary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            animation: pulse-badge 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            padding: 4rem 0;
+            background: var(--bg-secondary);
+            margin-top: 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reviews-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, var(--accent-secondary) 0%, transparent 70%);
+            opacity: 0.1;
+        }
+
+        .reviews-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .reviews-container h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            font-family: 'Bebas Neue', cursive;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .review-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-secondary);
+            box-shadow: 0 15px 30px rgba(255, 0, 102, 0.2);
+        }
+
+        .review-stars {
+            color: var(--accent-primary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-text {
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .review-author {
+            color: var(--accent-secondary);
+            font-weight: 600;
+        }
+
+        /* Location Section */
+        .location-section {
+            padding: 4rem 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .location-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .location-info h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            font-family: 'Bebas Neue', cursive;
+            color: var(--accent-primary);
+        }
+
+        .location-details {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .location-details p {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .location-details i {
+            color: var(--accent-primary);
+            font-size: 1.2rem;
+        }
+
+        #map {
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            background: var(--glass-bg);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            position: relative;
+            z-index: 2;
+        }
+
+        footer h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--accent-primary);
+        }
+
+        #social-media-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        #social-media-links a {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        #social-media-links a:hover {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            transform: translateY(-5px) rotate(360deg);
+            box-shadow: 0 10px 20px rgba(0, 255, 204, 0.4);
+        }
+
+        .download-menu {
+            margin: 2rem 0;
+        }
+
+        .download-menu a {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: var(--bg-primary);
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+        }
+
+        .download-menu a:hover::before {
+            left: 100%;
+        }
+
+        .download-menu a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 255, 204, 0.5);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--glass-border);
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-content {
+                grid-template-columns: 1fr;
+            }
+
+            #map {
+                height: 300px;
+            }
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button id="lang-es" class="active" onclick="switchLanguage('es')">ES</button>
+        <button id="lang-en" onclick="switchLanguage('en')">EN</button>
+    </div>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/521234567890" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <img src="images/logo.png" alt="Logo del Restaurante" class="hero-logo">
+            <h1 class="hero-title" id="hero-restaurant-name">Su restaurante</h1>
+            <p class="hero-subtitle" data-es="Sabores auténticos que cuentan historias" data-en="Authentic flavors that tell stories">Sabores auténticos que cuentan historias</p>
+
+            <div class="hero-buttons">
+                <a href="#menu" class="btn-primary">
+                    <i class="fas fa-utensils"></i>
+                    <span data-es="Explorar Menú" data-en="Explore Menu">Explorar Menú</span>
+                </a>
+                <a href="#location" class="btn-secondary">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span data-es="Ubicación" data-en="Location">Ubicación</span>
+                </a>
+            </div>
+
+            <div class="hero-info">
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <h3 data-es="Horario" data-en="Hours">Horario</h3>
+                    <p id="hero-hours">Lun-Vie: 8:00am - 10:00pm<br>Sáb-Dom: 9:00am - 11:00pm</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <h3 data-es="Teléfono" data-en="Phone">Teléfono</h3>
+                    <p>(123) 456-7890</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-star"></i>
+                    <h3 data-es="Calificación" data-en="Rating">Calificación</h3>
+                    <p>4.8/5 ⭐⭐⭐⭐⭐</p>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down fa-2x"></i>
+        </div>
+    </section>
+
+    <!-- Main Layout -->
+    <section id="menu" class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <img src="images/logo.png" alt="Logo del Restaurante" class="sidebar-logo">
+            <h2 id="restaurant-name-sidebar">Su restaurante</h2>
+            <p class="sidebar-subtitle" data-es="Selecciona una categoría" data-en="Select a category">Selecciona una categoría</p>
+            <nav class="category-nav" id="category-buttons"></nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="menu-grid" id="menu-items-container"></div>
+        </main>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+        <div class="reviews-container">
+            <h2 data-es="Lo que dicen nuestros clientes" data-en="What our customers say">Lo que dicen nuestros clientes</h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text" data-es="¡La mejor hamburguesa que he probado! El servicio es excelente y el ambiente muy acogedor." data-en="The best burger I've ever had! The service is excellent and the atmosphere is very welcoming.">"¡La mejor hamburguesa que he probado! El servicio es excelente y el ambiente muy acogedor."</p>
+                    <p class="review-author">- María García</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text" data-es="Las papas son increíbles y las porciones muy generosas. ¡Definitivamente volveré!" data-en="The fries are amazing and the portions are very generous. I'll definitely come back!">"Las papas son increíbles y las porciones muy generosas. ¡Definitivamente volveré!"</p>
+                    <p class="review-author">- Carlos Mendoza</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text" data-es="Un lugar perfecto para disfrutar con familia y amigos. La comida es deliciosa." data-en="A perfect place to enjoy with family and friends. The food is delicious.">"Un lugar perfecto para disfrutar con familia y amigos. La comida es deliciosa."</p>
+                    <p class="review-author">- Ana López</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="location" class="location-section">
+        <div class="location-content">
+            <div class="location-info">
+                <h2 data-es="Encuéntranos" data-en="Find Us">Encuéntranos</h2>
+                <div class="location-details">
+                    <p><i class="fas fa-map-marker-alt"></i> <span data-es="Calle Principal #123, Centro, La Paz, BCS" data-en="Main Street #123, Downtown, La Paz, BCS">Calle Principal #123, Centro, La Paz, BCS</span></p>
+                    <p><i class="fas fa-phone"></i> (123) 456-7890</p>
+                    <p><i class="fas fa-envelope"></i> info@lacreme.com</p>
+                    <p><i class="fas fa-clock"></i> <span id="location-hours">Lun-Vie: 8:00am - 10:00pm | Sáb-Dom: 9:00am - 11:00pm</span></p>
+                </div>
+                <a href="https://maps.google.com" target="_blank" class="btn-primary">
+                    <i class="fas fa-directions"></i>
+                    <span data-es="Cómo llegar" data-en="Get Directions">Cómo llegar</span>
+                </a>
+            </div>
+            <div id="map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3736.2681752806!2d-110.3109!3d24.1426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDA4JzMzLjQiTiAxMTDCsDE4JzM5LjIiVw!5e0!3m2!1ses!2smx!4v1234567890" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <h2 data-es="¡Síguenos en redes sociales!" data-en="Follow us on social media!">¡Síguenos en redes sociales!</h2>
+        <div id="social-media-links"></div>
+        
+        <div class="download-menu">
+            <a href="menu.pdf" download>
+                <i class="fas fa-download"></i>
+                <span data-es="Descargar Menú PDF" data-en="Download Menu PDF">Descargar Menú PDF</span>
+            </a>
+        </div>
+        
+        <p><span id="restaurantTimes"></span></p>
+        <p>&copy; <span id="current-year"></span> <span id="restaurant-name-footer"></span>. <span data-es="Todos los derechos reservados." data-en="All rights reserved.">Todos los derechos reservados.</span></p>
+    </footer>
+
+    <script>
+        // Initialize particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (20 + Math.random() * 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Mock menu data for demonstration
+        const menuData = {
+            restaurantName: "Su restaurante",
+            logoPath: "images/logo.png",
+            restaurantTimes: {
+                es: "Lun-Vie: 8:00am - 10:00pm | Sáb-Dom: 9:00am - 11:00pm",
+                en: "Mon-Fri: 8:00am - 10:00pm | Sat-Sun: 9:00am - 11:00pm"
+            },
+            categories: [
+                {
+                    id: "hotdogs",
+                    name: { es: "Hot Dogs", en: "Hot Dogs" },
+                    items: [
+                        {
+                            name: { es: "Hot Dog Clásico", en: "Classic Hot Dog" },
+                            description: { es: "Salchicha de res con mostaza y ketchup", en: "Beef sausage with mustard and ketchup" },
+                            price: "45 MXN",
+                            image: "images/hotdog_asada.jpg"
+                        },
+                        {
+                            name: { es: "Hot Dog Especial", en: "Special Hot Dog" },
+                            description: { es: "Con tocino, queso y cebolla caramelizada", en: "With bacon, cheese and caramelized onion" },
+                            price: "65 MXN",
+                            image: "images/hotdog_sencillo.jpg",
+                            promo: "10% OFF"
+                        }
+                    ]
+                },
+                {
+                    id: "papas",
+                    name: { es: "Papas", en: "Fries" },
+                    items: [
+                        {
+                            name: { es: "Papas Fritas", en: "French Fries" },
+                            description: { es: "Papas doradas y crujientes", en: "Golden and crispy fries" },
+                            price: "35 MXN",
+                            image: "images/papas_con_salchicha.jpg"
+                        }
+                    ]
+                },
+                {
+                    id: "hamburguesas",
+                    name: { es: "Hamburguesas", en: "Burgers" },
+                    items: [
+                        {
+                            name: { es: "Hamburguesa Sencilla", en: "Simple Burger" },
+                            description: { es: "Carne de res 100% a la plancha, lechuga, jitomate y aderezos.", en: "100% grilled beef, lettuce, tomato and dressings." },
+                            price: "90 MXN",
+                            image: "images/hamburguesa.jpg"
+                        }
+                    ]
+                }
+            ],
+            socialMedia: [
+                { name: "Facebook", url: "https://facebook.com/lacreme", iconClass: "fab fa-facebook" },
+                { name: "Instagram", url: "https://instagram.com/lacreme", iconClass: "fab fa-instagram" },
+                { name: "TikTok", url: "https://tiktok.com/@lacreme", iconClass: "fab fa-tiktok" }
+            ]
+        };
+
+        let currentLanguage = 'es';
+
+        // Initialize restaurant
+        function initializeRestaurant() {
+            document.getElementById('restaurant-title').textContent = `Menú - ${menuData.restaurantName}`;
+            document.getElementById('hero-restaurant-name').textContent = menuData.restaurantName;
+            document.getElementById('restaurant-name-sidebar').textContent = menuData.restaurantName;
+            document.getElementById('restaurant-name-footer').textContent = menuData.restaurantName;
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            populateCategories(menuData.categories);
+            populateSocialMedia(menuData.socialMedia);
+            
+            if (menuData.categories.length > 0) {
+                displayCategoryItems(menuData.categories[0].id);
+                document.querySelector('.category-button').classList.add('active');
+            }
+            
+            updateRestaurantTimes();
+        }
+
+        function populateCategories(categories) {
+            const container = document.getElementById('category-buttons');
+            container.innerHTML = '';
+            
+            categories.forEach((category, index) => {
+                const button = document.createElement('button');
+                button.className = 'category-button';
+                button.dataset.categoryId = category.id;
+                button.innerHTML = `
+                    <span>${category.name[currentLanguage]}</span>
+                    <span>${category.items.length}</span>
+                `;
+                button.addEventListener('click', () => {
+                    displayCategoryItems(category.id);
+                    document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                });
+                container.appendChild(button);
+            });
+        }
+
+        function displayCategoryItems(categoryId) {
+            const category = menuData.categories.find(cat => cat.id === categoryId);
+            const container = document.getElementById('menu-items-container');
+            container.innerHTML = '';
+            
+            if (category && category.items) {
+                category.items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'menu-item-card';
+                    
+                    let imageHTML = '';
+                    if (item.image) {
+                        imageHTML = `<img src="${item.image}" alt="${item.name[currentLanguage]}">`;
+                    }
+                    
+                    let promoHTML = '';
+                    if (item.promo) {
+                        promoHTML = `<span class="promo-badge">${item.promo}</span>`;
+                    }
+                    
+                    card.innerHTML = `
+                        ${imageHTML}
+                        ${promoHTML}
+                        <div class="menu-item-content">
+                            <h3>${item.name[currentLanguage]}</h3>
+                            ${item.description ? `<p>${item.description[currentLanguage]}</p>` : ''}
+                            <span class="price-tag">${item.price}</span>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+        }
+
+        function populateSocialMedia(socialLinks) {
+            const container = document.getElementById('social-media-links');
+            if (!socialLinks || !container) return;
+            
+            container.innerHTML = '';
+            socialLinks.forEach(link => {
+                const anchor = document.createElement('a');
+                anchor.href = link.url;
+                anchor.target = "_blank";
+                anchor.rel = "noopener noreferrer";
+                anchor.setAttribute('aria-label', link.name);
+                
+                if (link.iconClass) {
+                    const icon = document.createElement('i');
+                    icon.className = link.iconClass;
+                    anchor.appendChild(icon);
+                }
+                container.appendChild(anchor);
+            });
+        }
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            
+            document.querySelectorAll('[data-es][data-en]').forEach(element => {
+                element.textContent = element.getAttribute(`data-${lang}`);
+            });
+            
+            populateCategories(menuData.categories);
+            const activeButton = document.querySelector('.category-button.active');
+            if (activeButton) {
+                const activeId = activeButton.dataset.categoryId;
+                displayCategoryItems(activeId);
+                document.querySelector(`.category-button[data-category-id='${activeId}']`).classList.add('active');
+            }
+            
+            updateRestaurantTimes();
+        }
+
+        function updateRestaurantTimes() {
+            const timesElement = document.getElementById('restaurantTimes');
+            const heroHours = document.getElementById('hero-hours');
+            const locationHours = document.getElementById('location-hours');
+            
+            const times = menuData.restaurantTimes[currentLanguage];
+            if (timesElement) timesElement.textContent = times;
+            if (heroHours) heroHours.innerHTML = times.replace(/\|/g, '<br>');
+            if (locationHours) locationHours.textContent = times;
+        }
+
+        function setupSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Initialize
+        initializeRestaurant();
+        setupSmoothScrolling();
+    </script>
+</body>
+</html>

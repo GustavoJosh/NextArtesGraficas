@@ -22,79 +22,87 @@ import {
   Linkedin,
 } from "lucide-react";
 
+import Link from "next/link";
+import CircularGallery from '@/components/ui/CircularGallery';
+
+
+
 // -------------------------------------------------
 //#endregion
 
 // #region servicios
 const services = [
   {
-    icon: <Printer className="w-8 h-8 text-blue-400" />,
     title: "Impresión Digital",
-    description:
-      "Impresiones de alta calidad en diversos formatos y materiales.",
+    description: "Impresiones de alta calidad en diversos formatos y materiales.",
+    // Nombre del archivo sin extensión - el código buscará .webp primero, luego .jpg/.png
+    imageName: "impresion-digital"
   },
   {
-    icon: <Scan className="w-8 h-8 text-blue-400" />,
     title: "Lonas y Gran Formato",
-    description:
-      "Publicidad impactante que se ve desde lejos con la mejor durabilidad.",
+    description: "Publicidad impactante que se ve desde lejos con la mejor durabilidad.",
+    imageName: "lonas-gran-formato"
   },
   {
-    icon: <Gem className="w-8 h-8 text-blue-400" />,
     title: "Grabado Láser",
-    description:
-      "Personalización y detalle de precisión sobre metal, madera y más.",
+    description: "Personalización y detalle de precisión sobre metal, madera y más.",
+    imageName: "grabado-laser"
   },
   {
-    icon: <Scissors className="w-8 h-8 text-blue-400" />,
     title: "Corte Láser",
-    description:
-      "Cortes exactos y diseños complejos en una gran variedad de materiales.",
+    description: "Cortes exactos y diseños complejos en una gran variedad de materiales.",
+    imageName: "corte-laser"
   },
   {
-    icon: <Newspaper className="w-8 h-8 text-blue-400" />,
     title: "Folletos y Papelería",
-    description:
-      "Comunica tus ideas de forma efectiva con folletos, trípticos y más.",
+    description: "Comunica tus ideas de forma efectiva con folletos, trípticos y más.",
+    imageName: "folletos-papeleria"
   },
   {
-    icon: <StickyNote className="w-8 h-8 text-blue-400" />,
     title: "Stickers y Etiquetas",
-    description:
-      "Adhesivos personalizados con cualquier forma, tamaño y acabado.",
+    description: "Adhesivos personalizados con cualquier forma, tamaño y acabado.",
+    imageName: "stickers-etiquetas"
   },
 ];
 
-// #endregion
+// Función helper para obtener la ruta de la imagen
+// Prioriza .webp, luego busca .jpg o .png como fallback
+const getImagePath = (imageName: string) => {
+  // En Next.js, las imágenes en public/ se sirven desde la raíz
+  // Primero intentamos con .webp
+  const webpPath = `/images/services/${imageName}.webp`;
+  const jpgPath = `/images/services/${imageName}.jpg`;
+  const pngPath = `/images/services/${imageName}.png`;
+  
+  // Para producción, deberías verificar qué archivo existe
+  // Por ahora, asumimos que tienes archivos .webp
+  // Si no, puedes cambiar el orden de prioridad aquí
+  return webpPath;
+};
+
+// Mapear servicios al formato requerido por CircularGallery
+const servicesForGallery = services.map(service => ({
+  text: service.title,
+  image: getImagePath(service.imageName),
+  // Opcionalmente, puedes incluir la descripción si tu CircularGallery la soporta
+  description: service.description
+}));
 
 export function ServicesSection() {
   return (
     <section id="servicios" className="w-full py-12 md:py-24 bg-gray-950">
-      <div className="container px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white">
             Nuestros Servicios
           </h2>
           <p className="text-gray-400 mt-2">
-            Todo lo que necesitas para que tu marca destaque.
+            Todo lo que necesitas para que tu marca destaque. Desliza para explorar.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <Card
-              key={index}
-              className="bg-gray-900 border-gray-700 text-white flex flex-col hover:border-blue-500 transition-colors"
-            >
-              <CardHeader className="flex items-center gap-4">
-                {service.icon}
-                <CardTitle>{service.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <p className="text-gray-400">{service.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+
+        <CircularGallery items={servicesForGallery} />
+
       </div>
     </section>
   );
@@ -102,23 +110,26 @@ export function ServicesSection() {
 
 const projects = [
   {
-    title: "Branding Corporativo",
-    image: "https://placehold.co/600x400/1e293b/ffffff/png?text=Proyecto+1",
+    title: "Menu Elegante",
+    image: "https://placehold.co/600x400/1e293b/ffffff/png?text=Menu+Elegante",
+     url: "/menusqr/elegante/index.html",
   },
   {
-    title: "Campaña en Redes",
-    image: "https://placehold.co/600x400/1e293b/ffffff/png?text=Proyecto+2",
+    title: "Menu casual",
+    image: "https://placehold.co/600x400/1e293b/ffffff/png?text=Menu+casual",
+    url: "/menusqr/casual/index.html",
   },
   {
-    title: "Diseño de Empaque",
-    image: "https://placehold.co/600x400/1e293b/ffffff/png?text=Proyecto+3",
+    title: "Menu Oceano",
+    image: "https://placehold.co/600x400/1e293b/ffffff/png?text=Menu+Oceano",
+    url: "/menusqr/oceano/index.html",  
   },
 ];
 
 export function PortfolioSection() {
   return (
     <section id="portafolio" className="w-full py-12 md:py-24 bg-gray-900">
-      <div className="container px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white">
             Nuestro Trabajo
@@ -127,11 +138,15 @@ export function PortfolioSection() {
             Un vistazo a algunos de nuestros proyectos exitosos.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className="group relative overflow-hidden rounded-lg"
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((project) => (
+            // 👇 1. Aquí empieza la magia. Envolvemos todo en el componente Link.
+            <Link
+              key={project.title} // Usamos un key único como el título.
+              href={project.url}   // 2. Le decimos a dónde debe dirigir el enlace.
+              target="_blank"      // 3. (Opcional) Para que se abra en una nueva pestaña.
+              rel="noopener noreferrer" // Necesario por seguridad al usar target="_blank".
+              className="group relative block overflow-hidden rounded-lg" // 4. Movimos las clases del div al Link.
             >
               <Image
                 src={project.image}
@@ -145,13 +160,14 @@ export function PortfolioSection() {
                   {project.title}
                 </h3>
               </div>
-            </div>
+            </Link> // 1. Y aquí termina el Link.
           ))}
         </div>
       </div>
     </section>
   );
 }
+
 
 const testimonials = [
   {
@@ -171,7 +187,7 @@ const testimonials = [
 export function TestimonialsSection() {
   return (
     <section id="testimonios" className="w-full py-12 md:py-24 bg-gray-950">
-      <div className="container px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white">
             Lo que dicen nuestros clientes
@@ -212,7 +228,7 @@ export function TestimonialsSection() {
 export function CtaSection() {
   return (
     <section id="contacto" className="w-full py-16 md:py-28 bg-blue-600">
-      <div className="container px-4 md:px-6 text-center text-white">
+      <div className="container mx-auto px-4 md:px-6 text-center text-white">
         <h2 className="text-3xl md:text-5xl font-bold">
           ¿Listo para darle vida a tu marca?
         </h2>
@@ -255,7 +271,7 @@ export default function Home() {
   return (
     <main>
       <section className="w-full min-h-screen flex flex-col justify-center items-center text-center p-8 bg-gray-900 text-white">
-        <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 text-transparent bg-clip-text animate-gradient-xy">
+        <h1 className="text-5xl md:text-7xl leading-normal font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 text-transparent bg-clip-text animate-gradient-xy">
           Artes Gráficas Digitales
         </h1>
         <p className="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl">

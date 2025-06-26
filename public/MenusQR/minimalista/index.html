@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="restaurant-title">Menú del Restaurante</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c2c2c;
+            --accent-color: #d4a574;
+            --text-primary: #2c2c2c;
+            --text-secondary: #6b7280;
+            --text-light: #9ca3af;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-accent: #faf7f4;
+            --border-color: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-accent) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem auto;
+            border-radius: 50%;
+            border: 3px solid var(--accent-color);
+            background-color: var(--bg-primary);
+            padding: 8px;
+            box-shadow: var(--shadow-lg);
+            object-fit: cover;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 14px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .btn-primary {
+            background-color: var(--text-primary);
+            color: var(--bg-primary);
+            border: 2px solid var(--text-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .info-item i {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .info-item h3 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .info-item p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: var(--bg-primary);
+            border-radius: 50px;
+            padding: 4px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .language-switcher button {
+            background: none;
+            border: none;
+            padding: 10px 16px;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .language-switcher button.active {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #25d366, #20bd5a);
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 999;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-primary);
+            padding: 2rem 0;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        #restaurant-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem auto;
+            border-radius: 50%;
+            border: 2px solid var(--accent-color);
+            background-color: var(--bg-primary);
+            padding: 4px;
+            object-fit: cover;
+        }
+
+        #restaurant-name-header {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        #category-buttons {
+            text-align: center;
+            margin: 3rem 0;
+            padding: 0 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .category-button {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            letter-spacing: 0.02em;
+        }
+
+        .category-button:hover,
+        .category-button.active {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            border-color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Menu Items */
+        #menu-items-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+            max-width: 1400px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .menu-item-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-color);
+        }
+
+        .menu-item-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: opacity 0.4s ease;
+        }
+
+        .menu-item-content {
+            padding: 1.5rem;
+        }
+
+        .menu-item-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .menu-item-card .price {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            background: var(--bg-accent);
+            padding: 8px 16px;
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        /* Promo Badge */
+        .promo-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent-color);
+            color: var(--bg-primary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            background: var(--bg-secondary);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .reviews-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 3rem;
+        }
+
+        .reviews-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .review-card {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .review-stars {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-text {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Location Section */
+        .location-section {
+            padding: 4rem 2rem;
+            background: var(--bg-primary);
+        }
+
+        .location-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .location-info h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .location-details {
+            margin-bottom: 2rem;
+        }
+
+        .location-details p {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .location-details i {
+            color: var(--accent-color);
+            width: 20px;
+            font-size: 1.1rem;
+        }
+
+        #map {
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        footer h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        #social-media-links {
+            margin: 2rem 0;
+        }
+
+        #social-media-links a {
+            color: var(--accent-color);
+            margin: 0 1rem;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        #social-media-links a:hover {
+            color: var(--bg-primary);
+            transform: translateY(-2px);
+        }
+
+        /* Download Menu Button */
+        .download-menu {
+            margin: 2rem 0;
+        }
+
+        .download-menu a {
+            background: var(--accent-color);
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .download-menu a:hover {
+            background: var(--bg-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        footer p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .location-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            #map {
+                height: 300px;
+            }
+
+            .category-button {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            #menu-items-container {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+
+            .language-switcher,
+            .whatsapp-float {
+                right: 20px;
+            }
+
+            .language-switcher {
+                top: 20px;
+            }
+
+            .whatsapp-float {
+                bottom: 20px;
+            }
+        }
+
+        /* Hidden class for language switching */
+        .hidden {
+            display: none;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            animation: bounce 2s infinite;
+            color: var(--text-secondary);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button id="lang-es" class="active" onclick="switchLanguage('es')">ES</button>
+        <button id="lang-en" onclick="switchLanguage('en')">EN</button>
+    </div>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/521234567890" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='50' fill='%23d4a574' stroke='%232c2c2c' stroke-width='2'/%3E%3Ctext x='60' y='65' text-anchor='middle' font-family='serif' font-size='16' fill='%232c2c2c'%3ELOGO%3C/text%3E%3C/svg%3E" alt="Logo del Restaurante" class="hero-logo">
+            <h1 class="hero-title" id="hero-restaurant-name">Su restaurante</h1>
+            <p class="hero-subtitle" data-es="Sabores auténticos que cuentan historias" data-en="Authentic flavors that create stories">Sabores auténticos</p>
+
+            <div class="hero-buttons">
+                <a href="#menu" class="btn-primary">
+                    <i class="fas fa-utensils"></i>
+                    <span data-es="Ver Menú" data-en="View Menu">Ver Menú</span>
+                </a>
+                <a href="#location" class="btn-secondary">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span data-es="Ubicación" data-en="Location">Ubicación</span>
+                </a>
+            </div>
+
+            <div class="hero-info">
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <h3 data-es="Horario" data-en="Hours">Horario</h3>
+                    <p id="hero-hours">Lun-Vie: 8:00am - 10:00pm<br>Sáb-Dom: 9:00am - 11:00pm</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <h3 data-es="Teléfono" data-en="Phone">Teléfono</h3>
+                    <p>(123) 456-7890</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-star"></i>
+                    <h3 data-es="Calificación" data-en="Rating">Calificación</h3>
+                    <p>4.8/5 ⭐⭐⭐⭐⭐</p>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down fa-2x"></i>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu">
+        <header>
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='35' fill='%23d4a574' stroke='%232c2c2c' stroke-width='2'/%3E%3Ctext x='40' y='45' text-anchor='middle' font-family='serif' font-size='12' fill='%232c2c2c'%3ELOGO%3C/text%3E%3C/svg%3E" alt="Logo del Restaurante" id="restaurant-logo">
+            <h1 id="restaurant-name-header"></h1>
+            <p data-es="Conoce nuestras opciones, seguro que más de una te fascinará." data-en="Discover our options, surely more than one will fascinate you.">Conoce nuestras opciones, seguro que más de una te fascinará.</p>
+        </header>
+
+        <nav id="category-buttons"></nav>
+        <main id="menu-items-container"></main>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+        <h2 data-es="Lo que dicen nuestros clientes" data-en="What our customers say">Lo que dicen nuestros clientes</h2>
+        <div class="reviews-container">
+            <div class="review-card">
+                <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                <p class="review-text" data-es="¡La mejor hamburguesa que he probado! El servicio es excelente y el ambiente muy acogedor." data-en="The best burger I've ever had! The service is excellent and the atmosphere is very welcoming.">"¡La mejor hamburguesa que he probado! El servicio es excelente y el ambiente muy acogedor."</p>
+                <p class="review-author">- María García</p>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                <p class="review-text" data-es="Las papas son increíbles y las porciones muy generosas. ¡Definitivamente volveré!" data-en="The fries are amazing and the portions are very generous. I'll definitely come back!">"Las papas son increíbles y las porciones muy generosas. ¡Definitivamente volveré!"</p>
+                <p class="review-author">- Carlos Mendoza</p>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                <p class="review-text" data-es="Un lugar perfecto para disfrutar con familia y amigos. La comida es deliciosa." data-en="A perfect place to enjoy with family and friends. The food is delicious.">"Un lugar perfecto para disfrutar con familia y amigos. La comida es deliciosa."</p>
+                <p class="review-author">- Ana López</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="location" class="location-section">
+        <div class="location-content">
+            <div class="location-info">
+                <h2 data-es="Encuéntranos" data-en="Find Us">Encuéntranos</h2>
+                <div class="location-details">
+                    <p><i class="fas fa-map-marker-alt"></i> <span data-es="Calle Principal #123, Centro, La Paz, BCS" data-en="Main Street #123, Downtown, La Paz, BCS">Calle Principal #123, Centro, La Paz, BCS</span></p>
+                    <p><i class="fas fa-phone"></i> (123) 456-7890</p>
+                    <p><i class="fas fa-envelope"></i> info@restaurante.com</p>
+                    <p><i class="fas fa-clock"></i> <span id="location-hours">Lun-Vie: 8:00am - 10:00pm | Sáb-Dom: 9:00am - 11:00pm</span></p>
+                </div>
+                <a href="https://maps.google.com" target="_blank" class="btn-primary">
+                    <i class="fas fa-directions"></i>
+                    <span data-es="Cómo llegar" data-en="Get Directions">Cómo llegar</span>
+                </a>
+            </div>
+            <div id="map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3736.2681752806!2d-110.3109!3d24.1426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDA4JzMzLjQiTiAxMTDCsDE4JzM5LjIiVw!5e0!3m2!1ses!2smx!4v1234567890" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <h2 data-es="¡Síguenos en redes sociales!" data-en="Follow us on social media!">¡Síguenos en redes sociales!</h2>
+        <div id="social-media-links"></div>
+        
+        <div class="download-menu">
+            <a href="menu.pdf" download>
+                <i class="fas fa-download"></i>
+                <span data-es="Descargar Menú PDF" data-en="Download Menu PDF">Descargar Menú PDF</span>
+            </a>
+        </div>
+        
+        <p><span id="restaurantTimes"></span></p>
+        <p>&copy; <span id="current-year"></span> <span id="restaurant-name-footer"></span>. <span data-es="Todos los derechos reservados." data-en="All rights reserved.">Todos los derechos reservados.</span></p>
+    </footer>
+
+    <script>
+        // Variable para almacenar los datos del menú una vez cargados
+        let menuData;
+        // Variable para el idioma actual
+        let currentLanguage = 'es';
+
+        // Datos del menú (normalmente vendría de menu.json)
+        const restaurantData = {
+    "restaurantName": "El Fogón Marino",
+    "logoPath": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' rx='15' ry='15' fill='%23e67e22'/%3E%3Ccircle cx='60' cy='60' r='40' fill='%23f1c40f'/%3E%3Cpath d='M40 70 Q60 90 80 70 T60 50 T40 70' fill='none' stroke='%23e67e22' stroke-width='3'/%3E%3Ctext x='60' y='65' text-anchor='middle' font-family='serif' font-size='18' fill='%23ffffff'%3EFM%3C/text%3E%3C/svg%3E",
+    "restaurantTimes": {
+        "es": "Mar-Vie: 12:00pm - 10:30pm | Sáb-Dom: 1:00pm - 11:00pm | Lunes: Cerrado",
+        "en": "Tue-Fri: 12:00pm - 10:30pm | Sat-Sun: 1:00pm - 11:00pm | Mon: Closed"
+    },
+    "categories": [
+        {
+            "id": "entradas",
+            "name": { "es": "Entradas", "en": "Appetizers" },
+            "items": [
+                {
+                    "name": { "es": "Carpaccio de Pulpo a las Brasas", "en": "Grilled Octopus Carpaccio" },
+                    "description": { "es": "Finas láminas de pulpo asado con vinagreta de cítricos y polvo de chile de árbol.", "en": "Thin slices of grilled octopus with citrus vinaigrette and árbol chili powder." },
+                    "price": "230 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fff3e0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23ff9800'%3ECarpaccio Pulpo%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Tostadas de Atún Fresco y Mayonesa de Habanero", "en": "Fresh Tuna Tostadas with Habanero Mayo" },
+                    "description": { "es": "Atún aleta azul sellado sobre cama de aguacate, cebolla morada encurtida y poro frito.", "en": "Seared bluefin tuna on a bed of avocado, pickled red onion, and fried leek." },
+                    "price": "215 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fff3e0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23ff9800'%3ETostadas Atún%3C/text%3E%3C/svg%3E",
+                    "promo": "El Favorito"
+                },
+                {
+                    "name": { "es": "Chicharrón de Pescado con Guacamole", "en": "Fish Cracklings with Guacamole" },
+                    "description": { "es": "Trozos de pescado frito crujientes, acompañados de guacamole casero y salsa molcajeteada.", "en": "Crispy fried fish pieces, served with homemade guacamole and molcajete salsa." },
+                    "price": "180 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fff3e0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23ff9800'%3EChicharrón Pescado%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Empanadas de Jaiba y Queso", "en": "Crab and Cheese Empanadas" },
+                    "description": { "es": "Empanadas doradas rellenas de jaiba guisada con epazote y queso Oaxaca, con aderezo de chipotle.", "en": "Golden empanadas filled with crab stewed with epazote and Oaxacan cheese, with chipotle dressing." },
+                    "price": "195 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fff3e0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23ff9800'%3EEmpanadas Jaiba%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Aguachile Verde de Camarón", "en": "Green Shrimp Aguachile" },
+                    "description": { "es": "Camarón fresco curtido en jugo de limón, chile serrano, cilantro y pepino. Servido con cebolla morada y aguacate.", "en": "Fresh shrimp cured in lime juice, serrano pepper, cilantro, and cucumber. Served with red onion and avocado." },
+                    "price": "240 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fff3e0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23ff9800'%3EAguachile Verde%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Almejas Chocolatas a la Mantequilla", "en": "Butter-Grilled Chocolata Clams" },
+                    "description": { "es": "Almejas de la región asadas en su concha con una mezcla de mantequilla, ajo y perejil.", "en": "Local clams grilled in their shell with a mix of butter, garlic, and parsley." },
+                    "price": "260 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fff3e0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23ff9800'%3EAlmejas Chocolatas%3C/text%3E%3C/svg%3E"
+                }
+            ]
+        },
+        {
+            "id": "sopas-cremas",
+            "name": { "es": "Sopas y Cremas", "en": "Soups & Creams" },
+            "items": [
+                {
+                    "name": { "es": "Crema de Almeja y Papa", "en": "Clam and Potato Chowder" },
+                    "description": { "es": "Clásica crema estilo Nueva Inglaterra con trozos de almeja, papa y un toque de tocino.", "en": "Classic New England style chowder with clam chunks, potato, and a hint of bacon." },
+                    "price": "160 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23f1f8e9'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%238bc34a'%3ECrema de Almeja%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Sopa de Mariscos 'Levanta Muertos'", "en": "'Raise the Dead' Seafood Soup" },
+                    "description": { "es": "Robusto caldo rojo con camarón, pulpo, pescado, mejillones y un toque de chile chipotle.", "en": "Robust red broth with shrimp, octopus, fish, mussels, and a touch of chipotle chili." },
+                    "price": "250 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23f1f8e9'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%238bc34a'%3ESopa de Mariscos%3C/text%3E%3C/svg%3E"
+                }
+            ]
+        },
+        {
+            "id": "ensaladas",
+            "name": { "es": "Ensaladas", "en": "Salads" },
+            "items": [
+                {
+                    "name": { "es": "Ensalada de Camarones Cítricos", "en": "Citrus Shrimp Salad" },
+                    "description": { "es": "Mezcla de lechugas frescas, gajos de toronja y naranja, aguacate, pepino y camarones a la parrilla con vinagreta de mango.", "en": "Mixed fresh greens, grapefruit and orange segments, avocado, cucumber, and grilled shrimp with mango vinaigrette." },
+                    "price": "190 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e8f5e9'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%234caf50'%3EEnsalada Camarones%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Ensalada Caprese con Burrata", "en": "Caprese Salad with Burrata" },
+                    "description": { "es": "Tomates heirloom, burrata cremosa, albahaca fresca y reducción de balsámico.", "en": "Heirloom tomatoes, creamy burrata, fresh basil, and balsamic reduction." },
+                    "price": "175 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e8f5e9'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%234caf50'%3EEnsalada Caprese%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Ensalada Griega con Pulpo", "en": "Greek Salad with Octopus" },
+                    "description": { "es": "Pepino, tomate, cebolla morada, aceitunas kalamata, queso feta y pulpo marinado.", "en": "Cucumber, tomato, red onion, Kalamata olives, feta cheese, and marinated octopus." },
+                    "price": "225 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e8f5e9'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%234caf50'%3EEnsalada Griega%3C/text%3E%3C/svg%3E",
+                    "promo": "Opción Saludable"
+                },
+                {
+                    "name": { "es": "Ensalada César con Pollo a la Parrilla", "en": "Caesar Salad with Grilled Chicken" },
+                    "description": { "es": "Lechuga romana, aderezo césar casero, crutones al ajo y lascas de parmesano. Puede añadir pollo o camarones.", "en": "Romaine lettuce, homemade Caesar dressing, garlic croutons, and parmesan shavings. You can add chicken or shrimp." },
+                    "price": "180 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e8f5e9'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%234caf50'%3EEnsalada César%3C/text%3E%3C/svg%3E"
+                }
+            ]
+        },
+        {
+            "id": "tacos-especialidad",
+            "name": { "es": "Tacos de Especialidad", "en": "Specialty Tacos" },
+            "items": [
+                {
+                    "name": { "es": "Tacos Gobernador", "en": "Governor's Tacos" },
+                    "description": { "es": "Tacos de machaca de camarón con pimiento, cebolla y queso gratinado en tortilla de maíz (3 pzs).", "en": "Shredded shrimp tacos with bell pepper, onion, and melted cheese in a corn tortilla (3 pcs)." },
+                    "price": "265 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fff9c4'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23fbc02d'%3ETacos Gobernador%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Tacos de Pescado Estilo Ensenada", "en": "Ensenada-Style Fish Tacos" },
+                    "description": { "es": "Tiras de pescado en capeado ligero, servidos con col, pico de gallo y aderezo cremoso (3 pzs).", "en": "Lightly battered fish strips, served with cabbage, pico de gallo, and creamy dressing (3 pcs)." },
+                    "price": "240 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fff9c4'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23fbc02d'%3ETacos de Pescado%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Tacos de Pulpo a las Brasas", "en": "Grilled Octopus Tacos" },
+                    "description": { "es": "Pulpo a la parrilla finamente picado sobre costra de queso y aguacate en tortilla de maíz (3 pzs).", "en": "Finely chopped grilled octopus on a cheese crust and avocado in a corn tortilla (3 pcs)." },
+                    "price": "280 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fff9c4'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23fbc02d'%3ETacos de Pulpo%3C/text%3E%3C/svg%3E"
+                }
+            ]
+        },
+        {
+            "id": "platos-fuertes",
+            "name": { "es": "Platos Fuertes", "en": "Main Courses" },
+            "items": [
+                {
+                    "name": { "es": "Pescado Zarandeado del Pacífico", "en": "Pacific Zarandeado Fish" },
+                    "description": { "es": "Huachinango entero marinado en salsa especial y asado a las brasas, servido con arroz y verduras.", "en": "Whole red snapper marinated in our special sauce and grilled over coals, served with rice and vegetables." },
+                    "price": "450 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23ffebee'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23d32f2f'%3EPescado Zarandeado%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Camarones al Ajillo con Chiltepín", "en": "Garlic Shrimp with Chiltepín" },
+                    "description": { "es": "Camarones jumbo salteados con ajo, chiltepín, vino blanco y mantequilla, con un toque de perejil.", "en": "Jumbo shrimp sautéed with garlic, chiltepín pepper, white wine, and butter, with a hint of parsley." },
+                    "price": "340 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23ffebee'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23d32f2f'%3ECamarones Ajillo%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Filete de Res con Salsa de Langosta", "en": "Beef Fillet with Lobster Sauce" },
+                    "description": { "es": "Medallón de filete de res a la parrilla, bañado en una rica salsa de bisque de langosta.", "en": "Grilled beef fillet medallion, bathed in a rich lobster bisque sauce." },
+                    "price": "510 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23ffebee'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23d32f2f'%3EFilete Res%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Paella Marinera (para 2 personas)", "en": "Seafood Paella (for 2 people)" },
+                    "description": { "es": "Arroz con azafrán, camarones, mejillones, calamar, almejas y trozos de pescado.", "en": "Saffron rice with shrimp, mussels, squid, clams, and fish pieces." },
+                    "price": "680 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23ffebee'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23d32f2f'%3EPaella Marinera%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Salmón a la Plancha con Espárragos", "en": "Grilled Salmon with Asparagus" },
+                    "description": { "es": "Filete de salmón fresco cocinado a la plancha, servido con espárragos al vapor y mantequilla de limón.", "en": "Fresh salmon fillet grilled, served with steamed asparagus and lemon butter." },
+                    "price": "395 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23ffebee'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23d32f2f'%3ESalmón Plancha%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Pulpo a las brasas con papas arrugadas", "en": "Grilled octopus with wrinkled potatoes" },
+                    "description": { "es": "Tentáculos de pulpo marinados y asados a la perfección, acompañados de papas arrugadas y mojo de pimentón.", "en": "Marinated octopus tentacles grilled to perfection, served with wrinkled potatoes and paprika mojo." },
+                    "price": "410 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23ffebee'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23d32f2f'%3EPulpo a las Brasas%3C/text%3E%3C/svg%3E"
+                }
+            ]
+        },
+        {
+            "id": "bebidas",
+            "name": { "es": "Bebidas", "en": "Beverages" },
+            "items": [
+                {
+                    "name": { "es": "Aguas Frescas del Día", "en": "Fresh Waters of the Day" },
+                    "description": { "es": "Horchata, Jamaica, Tamarindo, Limón con chía (pregunte por la de temporada).", "en": "Horchata, Hibiscus, Tamarind, Lemon with chia (ask for seasonal flavor)." },
+                    "price": "60 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e3f2fd'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%232196f3'%3EAguas Frescas%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Limonada y Naranjada", "en": "Lemonade & Orangeade" },
+                    "description": { "es": "Preparadas con fruta fresca, pueden ser naturales o minerales.", "en": "Made with fresh fruit, available still or sparkling." },
+                    "price": "65 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e3f2fd'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%232196f3'%3ELimonada%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Sodas Mexicanas", "en": "Mexican Sodas" },
+                    "description": { "es": "Coca-Cola, Jarritos (varios sabores), Sidral Mundet, Topo Chico.", "en": "Coca-Cola, Jarritos (various flavors), Sidral Mundet, Topo Chico." },
+                    "price": "50 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e3f2fd'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%232196f3'%3ESodas Mexicanas%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Cerveza Artesanal Local", "en": "Local Craft Beer" },
+                    "description": { "es": "Selección de cervezas de Baja California Sur (IPA, Lager, Stout).", "en": "Selection of beers from Baja California Sur (IPA, Lager, Stout)." },
+                    "price": "110 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e3f2fd'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%232196f3'%3ECerveza Artesanal%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Margarita de la Casa", "en": "House Margarita" },
+                    "description": { "es": "Tequila blanco, triple sec y jugo de limón fresco. Pídela clásica o de sabores (mango, fresa).", "en": "Blanco tequila, triple sec, and fresh lime juice. Ask for it classic or flavored (mango, strawberry)." },
+                    "price": "165 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e3f2fd'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%232196f3'%3EMargarita%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Vino de la Casa (Copa)", "en": "House Wine (Glass)" },
+                    "description": { "es": "Selección de vino tinto (Cabernet) o blanco (Sauvignon Blanc) del Valle de Guadalupe.", "en": "Selection of house red (Cabernet) or white (Sauvignon Blanc) wine from Guadalupe Valley." },
+                    "price": "140 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e3f2fd'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%232196f3'%3EVino Copa%3C/text%3E%3C/svg%3E"
+                }
+            ]
+        },
+        {
+            "id": "postres",
+            "name": { "es": "Postres", "en": "Desserts" },
+            "items": [
+                {
+                    "name": { "es": "Cheesecake de Guayaba con Salsa de Mezcal", "en": "Guava Cheesecake with Mezcal Sauce" },
+                    "description": { "es": "Cheesecake cremoso de guayaba, coronado con una salsa artesanal de mezcal.", "en": "Creamy guava cheesecake, topped with an artisanal mezcal sauce." },
+                    "price": "130 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fce4ec'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23ad1457'%3ECheesecake Guayaba%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Brownie de Chocolate con Nuez y Helado", "en": "Chocolate Walnut Brownie with Ice Cream" },
+                    "description": { "es": "Cálido brownie de chocolate oscuro con nueces, servido con una bola de helado de vainilla y salsa de caramelo.", "en": "Warm dark chocolate brownie with walnuts, served with a scoop of vanilla ice cream and caramel sauce." },
+                    "price": "120 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fce4ec'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23ad1457'%3EBrownie%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Flan Napolitano de la Casa", "en": "House Neapolitan Flan" },
+                    "description": { "es": "El flan clásico con un caramelo perfecto, receta de la abuela.", "en": "The classic flan with a perfect caramel, grandmother's recipe." },
+                    "price": "95 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fce4ec'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23ad1457'%3EFlan Napolitano%3C/text%3E%3C/svg%3E"
+                },
+                {
+                    "name": { "es": "Helado Artesanal (sabores variados)", "en": "Artisanal Ice Cream (various flavors)" },
+                    "description": { "es": "Pregunta por nuestros sabores de helado artesanal de temporada, hechos en casa.", "en": "Ask about our seasonal artisanal ice cream flavors, made in-house." },
+                    "price": "70 MXN",
+                    "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23fce4ec'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23ad1457'%3EHelado Artesanal%3C/text%3E%3C/svg%3E"
+                }
+            ]
+        }
+    ],
+    "socialMedia": [
+        { "name": "Facebook", "url": "https://facebook.com/elfogonmarino", "iconClass": "fab fa-facebook-f" },
+        { "name": "Instagram", "url": "https://instagram.com/elfogonmarino", "iconClass": "fab fa-instagram" },
+        { "name": "TikTok", "url": "https://tiktok.com/@elfogonmarino", "iconClass": "fab fa-tiktok" },
+        { "name": "TripAdvisor", "url": "https://tripadvisor.com/elfogonmarino", "iconClass": "fab fa-tripadvisor" }
+    ]
+};
+        // 1. Esperar a que todo el contenido del HTML esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            menuData = restaurantData;
+            initializeRestaurant();
+            setupSmoothScrolling();
+            initializeImageLoading();
+        });
+
+        /**
+         * Inicializa la información principal del restaurante en la página.
+         */
+        function initializeRestaurant() {
+            // Set restaurant info
+            document.getElementById('restaurant-title').textContent = `Menú - ${menuData.restaurantName}`;
+            document.getElementById('hero-restaurant-name').textContent = menuData.restaurantName;
+            document.getElementById('restaurant-name-header').textContent = menuData.restaurantName;
+            document.getElementById('restaurant-name-footer').textContent = menuData.restaurantName;
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Set logos
+            const logos = document.querySelectorAll('#restaurant-logo, .hero-logo');
+            logos.forEach(logo => {
+                if (menuData.logoPath) {
+                    logo.src = menuData.logoPath;
+                    logo.style.display = 'block';
+                }
+            });
+            
+            // Populate categories
+            populateCategories(menuData.categories);
+            
+            // Populate social media
+            populateSocialMedia(menuData.socialMedia);
+            
+            // Show first category by default
+            if (menuData.categories.length > 0) {
+                displayCategoryItems(menuData.categories[0].id);
+                const firstButton = document.querySelector('.category-button');
+                if (firstButton) {
+                    firstButton.classList.add('active');
+                }
+            }
+            
+            // Update times
+            updateRestaurantTimes();
+        }
+
+        /**
+         * Crea y muestra los botones de cada categoría.
+         * @param {Array} categories - El arreglo de categorías del menú.
+         */
+        function populateCategories(categories) {
+            const container = document.getElementById('category-buttons');
+            container.innerHTML = '';
+            
+            categories.forEach(category => {
+                const button = document.createElement('button');
+                button.className = 'category-button';
+                button.textContent = category.name[currentLanguage];
+                button.dataset.categoryId = category.id;
+                button.addEventListener('click', () => {
+                    displayCategoryItems(category.id);
+                    document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                });
+                container.appendChild(button);
+            });
+        }
+
+        /**
+         * Muestra los platillos de una categoría específica.
+         * @param {string} categoryId - El ID de la categoría a mostrar.
+         */
+        function displayCategoryItems(categoryId) {
+            const category = menuData.categories.find(cat => cat.id === categoryId);
+            const container = document.getElementById('menu-items-container');
+            container.innerHTML = '';
+            
+            if (category && category.items) {
+                category.items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'menu-item-card';
+                    
+                    let imageHTML = '';
+                    if (item.image) {
+                        imageHTML = `<img src="${item.image}" alt="${item.name[currentLanguage]}" style="opacity:0;">`;
+                    }
+                    
+                    let promoHTML = '';
+                    if (item.promo) {
+                        promoHTML = `<span class="promo-badge">${item.promo}</span>`;
+                    }
+                    
+                    card.innerHTML = `
+                        ${imageHTML}
+                        ${promoHTML}
+                        <div class="menu-item-content">
+                            <h3>${item.name[currentLanguage]}</h3>
+                            ${item.description ? `<p>${item.description[currentLanguage]}</p>` : ''}
+                            <span class="price">${item.price}</span>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+                initializeImageLoading();
+            }
+        }
+
+        /**
+         * Crea y muestra los enlaces a redes sociales.
+         * @param {Array} socialLinks - El arreglo de enlaces de redes sociales.
+         */
+        function populateSocialMedia(socialLinks) {
+            const container = document.getElementById('social-media-links');
+            if (!socialLinks || !container) return;
+            
+            container.innerHTML = '';
+            socialLinks.forEach(link => {
+                const anchor = document.createElement('a');
+                anchor.href = link.url;
+                anchor.target = "_blank";
+                anchor.rel = "noopener noreferrer";
+                anchor.setAttribute('aria-label', link.name);
+                
+                if (link.iconClass) {
+                    const icon = document.createElement('i');
+                    icon.className = link.iconClass;
+                    anchor.appendChild(icon);
+                }
+                container.appendChild(anchor);
+            });
+        }
+
+        /**
+         * Cambia el idioma de la página y actualiza el contenido.
+         * @param {string} lang - El idioma a cambiar ('es' o 'en').
+         */
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button
+            document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            
+            // Update all elements with data attributes
+            document.querySelectorAll('[data-es][data-en]').forEach(element => {
+                element.textContent = element.getAttribute(`data-${lang}`);
+            });
+            
+            // Update categories and redisplay items
+            populateCategories(menuData.categories);
+            const activeButton = document.querySelector('.category-button[data-category-id]');
+            if (activeButton) {
+                const activeId = activeButton.dataset.categoryId;
+                displayCategoryItems(activeId);
+                document.querySelector(`.category-button[data-category-id='${activeId}']`).classList.add('active');
+            }
+            
+            // Update times
+            updateRestaurantTimes();
+        }
+
+        /**
+         * Actualiza los textos de horarios en la página.
+         */
+        function updateRestaurantTimes() {
+            const timesElement = document.getElementById('restaurantTimes');
+            const heroHours = document.getElementById('hero-hours');
+            const locationHours = document.getElementById('location-hours');
+            
+            const times = menuData.restaurantTimes[currentLanguage];
+            if (timesElement) timesElement.textContent = times;
+            if (heroHours) heroHours.innerHTML = times.replace(/\|/g, '<br>');
+            if (locationHours) locationHours.textContent = times;
+        }
+
+        /**
+         * Configura el desplazamiento suave para los enlaces internos.
+         */
+        function setupSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        /**
+         * Agrega una animación de carga para las imágenes.
+         */
+        function initializeImageLoading() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                if (img.style.opacity !== '1') {
+                    img.style.transition = 'opacity 0.4s ease-in-out';
+                    
+                    if (img.complete) {
+                        img.style.opacity = '1';
+                    } else {
+                        img.addEventListener('load', function() {
+                            this.style.opacity = '1';
+                        }, { once: true });
+                        
+                        img.addEventListener('error', function() {
+                            this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200"%3E%3Crect width="300" height="200" fill="%23ddd"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="16" fill="%23999"%3EImagen no disponible%3C/text%3E%3C/svg%3E';
+                            this.style.opacity = '1';
+                        }, { once: true });
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
