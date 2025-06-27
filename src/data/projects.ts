@@ -12,9 +12,9 @@ export const projects: Project[] = [
     url: "/menusqr/elegante/index.html",
   },
   {
-    title: "Menu casual",
-    image: "https://placehold.co/600x400/1e293b/ffffff/png?text=Menu+casual",
-    url: "/menusqr/casual/index.html",
+    title: "Menu Minimalista",
+    image: "https://placehold.co/600x400/1e293b/ffffff/png?text=Menu+Minimalista",
+    url: "/menusqr/minimalista/index.html",
   },
   {
     title: "Menu Oceano",
