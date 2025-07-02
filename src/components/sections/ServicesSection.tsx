@@ -1,9 +1,13 @@
 // src/components/sections/ServicesSection.tsx
+"use client";
+
+import Link from 'next/link';
 import CircularGallery from '@/components/ui/CircularGallery';
 import { services, getImagePath } from '@/data/services';
+import { Button } from '@/components/ui/button';
+import { LayoutGrid } from 'lucide-react';
 
 export function ServicesSection() {
-  // Mapear servicios al formato requerido por CircularGallery
   const servicesForGallery = services.map(service => ({
     text: service.title,
     image: getImagePath(service.imageName),
@@ -22,7 +26,18 @@ export function ServicesSection() {
           </p>
         </div>
 
+        {/* La galería visual se mantiene igual */}
         <CircularGallery items={servicesForGallery} />
+
+        {/* --- Botón que redirige a la nueva página de catálogo --- */}
+        <div className="text-center mt-12">
+          <Button asChild size="lg">
+            <Link href="/servicios">
+              <LayoutGrid className="mr-2 h-5 w-5" />
+              Ver Catálogo Completo
+            </Link>
+          </Button>
+        </div>
       </div>
     </section>
   );

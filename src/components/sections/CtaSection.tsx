@@ -13,8 +13,8 @@ export function CtaSection() {
           convertirlas en realidad.
         </p>
         <Button asChild className="mt-8 px-10 py-6 text-lg" variant="secondary">
-          <a href="mailto:tuemail@ejemplo.com">Contáctanos Ahora</a>
-        </Button>
+        <a href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`}>Contáctanos Ahora</a>
+      </Button>
       </div>
     </section>
   );
