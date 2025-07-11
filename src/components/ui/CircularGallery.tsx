@@ -1,4 +1,4 @@
-// src/components/ui/CircularGallery.tsx - Versión Final Corregida
+// src/components/ui/CircularGallery.tsx - Versión Final Corregida y Tipada
 "use client";
 
 import { useRef, useEffect, useState } from 'react';
@@ -13,14 +13,14 @@ import {
 } from 'ogl';
 
 // --- DEFINICIONES DE TIPOS (TypeScript) ---
-type OGLRenderer = any;
-type OGLCamera = any;
-type OGLTransform = any;
-type OGLPlane = any;
-type OGLMesh = any;
-type OGLProgram = any;
-type OGLTexture = any;
-type OGLContext = any;
+// FIX: Usamos los tipos importados directamente de la librería 'ogl'
+type OGLRenderer = Renderer;
+type OGLCamera = Camera;
+type OGLTransform = Transform;
+type OGLPlane = Plane;
+type OGLMesh = Mesh;
+type OGLProgram = Program;
+type OGLContext = Renderer['gl']; // El contexto se deriva del Renderer
 
 interface GalleryItem {
   text: string;
@@ -50,11 +50,12 @@ interface Viewport {
 
 // --- FUNCIONES DE AYUDA (Helpers) ---
 
-function debounce(func: (...args: any[]) => void, wait: number) {
+// FIX: Reemplazamos 'any' con 'unknown' para mayor seguridad de tipos
+function debounce(func: (...args: unknown[]) => void, wait: number) {
   let timeout: NodeJS.Timeout;
-  return function (this: any, ...args: any[]) {
+  return function (this: unknown, ...args: unknown[]) {
     clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, args), wait);
+    timeout = setTimeout(() => func.apply(this, args as any[]), wait);
   };
 }
 
@@ -161,6 +162,26 @@ class Title {
     }
 }
 
+// FIX: Interfaz para las props del constructor de Media
+interface MediaConstructorProps {
+    geometry: OGLPlane;
+    gl: OGLContext;
+    image: string;
+    index: number;
+    length: number;
+    scene: OGLTransform;
+    text: string;
+    bend: number;
+    textColor: string;
+    borderRadius: number;
+    font: string;
+    isMobile: boolean;
+    spacing: number | null;
+    cardSize: 'small' | 'normal' | 'large';
+    screen: Screen;
+    viewport: Viewport;
+}
+
 class Media {
     extra: number = 0;
     geometry: OGLPlane;
@@ -169,9 +190,9 @@ class Media {
     index: number;
     length: number;
     scene: OGLTransform;
-    screen!: Screen;
+    screen: Screen;
     text: string;
-    viewport!: Viewport;
+    viewport: Viewport;
     bend: number;
     textColor: string;
     borderRadius: number;
@@ -191,14 +212,20 @@ class Media {
     isBefore: boolean = false;
     isAfter: boolean = false;
 
-    constructor({ geometry, gl, image, index, length, scene, text, bend, textColor, borderRadius, font, isMobile, spacing, cardSize }: any) {
+    // FIX: Usamos la interfaz que definimos para las props. ¡No más 'any'!
+    constructor({
+        geometry, gl, image, index, length, scene, screen, text, viewport,
+        bend, textColor, borderRadius, font, isMobile, spacing, cardSize
+    }: MediaConstructorProps) {
         this.geometry = geometry;
         this.gl = gl;
         this.image = image;
         this.index = index;
         this.length = length;
         this.scene = scene;
+        this.screen = screen;
         this.text = text;
+        this.viewport = viewport;
         this.bend = bend;
         this.textColor = textColor;
         this.borderRadius = borderRadius;
@@ -304,8 +331,7 @@ class Media {
         if (viewport) this.viewport = viewport;
 
         if (!this.screen || !this.viewport) return;
-        
-        // FIX: Se definen los tipos para que TypeScript no se queje de la indexación implícita.
+
         type CardSizeConfig = { base: number; width: number; height: number; };
         type CardConfig = { mobile: CardSizeConfig; desktop: CardSizeConfig; };
 
@@ -314,7 +340,7 @@ class Media {
             normal: { mobile: { base: 1400, width: 500, height: 600 }, desktop: { base: 1600, width: 600, height: 800 } },
             large: { mobile: { base: 1200, width: 600, height: 700 }, desktop: { base: 1400, width: 700, height: 900 } }
         };
-        
+
         const sizeConfig = cardSizes[this.cardSize];
         const config = this.isMobile ? sizeConfig.mobile : sizeConfig.desktop;
 
@@ -326,7 +352,6 @@ class Media {
         if (this.spacing !== null) {
             this.padding = this.spacing;
         } else {
-            // FIX: Tipado para el objeto de espaciado.
             const spacingConfig: Record<'small' | 'normal' | 'large', number> = {
                 small: this.isMobile ? 4 : 5,
                 normal: this.isMobile ? 3 : 4,
@@ -397,7 +422,7 @@ class App {
     touchStartX: number = 0;
     velocity: number = 0;
     isScrolling: boolean = false;
-    
+
     renderer: OGLRenderer;
     gl: OGLContext;
     camera: OGLCamera;
@@ -420,21 +445,21 @@ class App {
         this.font = font || "bold 24px 'Inter', sans-serif";
         this.spacing = spacing === undefined ? null : spacing;
         this.cardSize = cardSize || "normal";
-        
+
         this.isMobile = isMobile();
-        
+
         const scrollEase = this.isMobile ? 0.08 : 0.05;
         this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0, position: 0 };
-        
+
         this.renderer = this.createRenderer();
         this.gl = this.renderer.gl;
         this.camera = this.createCamera();
         this.scene = new Transform();
         this.planeGeometry = this.createGeometry();
-        this.onResize(); 
+        this.onResize();
         this.createMedias();
         this.addEventListeners();
-        
+
         this.onCheckDebounce = debounce(this.onCheck, this.isMobile ? 100 : 200);
         this.update();
     }
@@ -482,51 +507,43 @@ class App {
             spacing: this.spacing,
             cardSize: this.cardSize,
         }));
-        this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
     }
 
-    // FIX: Se usan arrow functions para mantener el contexto de 'this' sin necesidad de 'bind'.
     onTouchDown = (e: TouchEvent | MouseEvent) => {
         this.isDown = true;
         this.isScrolling = false;
         this.scroll.position = this.scroll.current;
         this.start = 'touches' in e ? e.touches[0].clientX : e.clientX;
-        
+
         this.touchStartTime = Date.now();
         this.touchStartX = this.start;
         this.velocity = 0;
-        
-        if ('touches' in e) {
-            // e.preventDefault(); // Considerar si es necesario, puede bloquear el scroll vertical
-        }
     }
 
     onTouchMove = (e: TouchEvent | MouseEvent) => {
         if (!this.isDown) return;
-        
+
         const x = 'touches' in e ? e.touches[0].clientX : e.clientX;
         const distance = (this.start - x) * (this.isMobile ? 0.03 : 0.05);
         this.scroll.target = this.scroll.position + distance;
-        
+
         const now = Date.now();
         const deltaTime = now - this.touchStartTime;
         if (deltaTime > 0) {
             this.velocity = (x - this.touchStartX) / deltaTime;
         }
-        
+
         this.isScrolling = true;
     }
 
+
     onTouchUp = (e: TouchEvent | MouseEvent) => {
         if (!this.isDown) return;
-        
         this.isDown = false;
-        
         if (this.isMobile && Math.abs(this.velocity) > 0.1) {
             const inertia = this.velocity * -50;
             this.scroll.target += inertia;
         }
-        
         setTimeout(this.onCheck, this.isMobile ? 50 : 100);
     }
 
@@ -547,17 +564,17 @@ class App {
 
     onResize = () => {
         if (!this.container) return;
-        
+
         this.screen = { width: this.container.clientWidth, height: this.container.clientHeight };
         this.renderer.setSize(this.screen.width, this.screen.height);
         this.camera.perspective({ aspect: this.screen.width / this.screen.height });
-        
+
         const fov = (this.camera.fov * Math.PI) / 180;
         const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
         const width = height * this.camera.aspect;
         this.viewport = { width, height };
-        
-        if (this.medias) {
+
+        if (this.medias.length > 0) {
             this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
         }
     }
@@ -575,7 +592,7 @@ class App {
 
     addEventListeners() {
         window.addEventListener('resize', this.onResize, { passive: true });
-        
+
         if (this.isMobile) {
             this.container.addEventListener('touchstart', this.onTouchDown, { passive: true });
             window.addEventListener('touchmove', this.onTouchMove, { passive: true });
@@ -588,14 +605,14 @@ class App {
             window.addEventListener('mouseup', this.onTouchUp);
         }
     }
-    
+
     destroy() {
         if (this.raf) {
             window.cancelAnimationFrame(this.raf);
         }
         window.removeEventListener('resize', this.onResize);
         window.removeEventListener('wheel', this.onWheel);
-        
+
         this.container.removeEventListener('touchstart', this.onTouchDown);
         this.container.removeEventListener('mousedown', this.onTouchDown);
 
