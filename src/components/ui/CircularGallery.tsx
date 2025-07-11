@@ -641,17 +641,13 @@ export default function CircularGallery({
     const [isMobileDevice, setIsMobileDevice] = useState(false);
 
     useEffect(() => {
-        setIsMobileDevice(isMobile());
-    }, []);
-
-    useEffect(() => {
-        if (!containerRef.current) return;
-        if (!items || items.length === 0) {
-            console.warn('CircularGallery: No items provided');
+        const container = containerRef.current;
+        if (!container || !items || items.length === 0) {
             return;
         }
 
-        const app = new App(containerRef.current, {
+        // 1. Creamos la instancia de la galería
+        const app = new App(container, {
             items,
             bend,
             textColor,
@@ -661,7 +657,25 @@ export default function CircularGallery({
             cardSize
         });
 
+        // 2. Creamos el observador
+        const resizeObserver = new ResizeObserver(entries => {
+            // Este callback se ejecuta cuando el contenedor tiene un tamaño estable
+            // y cada vez que cambia.
+            if (entries && entries.length > 0) {
+                // Aquí llamamos a la función onResize de nuestra app
+                // que recalcula todo con las dimensiones correctas.
+                app.onResize();
+            }
+        });
+
+        // 3. Le decimos al observador que vigile nuestro contenedor
+        resizeObserver.observe(container);
+
+        // 4. Función de limpieza: SÚPER IMPORTANTE
         return () => {
+            // Cuando el componente se desmonte, dejamos de observar
+            // y destruimos la instancia de la app para evitar fugas de memoria.
+            resizeObserver.disconnect();
             app.destroy();
         };
     }, [items, bend, textColor, borderRadius, font, spacing, cardSize]);
