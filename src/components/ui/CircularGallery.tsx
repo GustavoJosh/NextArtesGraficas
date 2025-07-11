@@ -55,7 +55,7 @@ function debounce(func: (...args: unknown[]) => void, wait: number) {
   let timeout: NodeJS.Timeout;
   return function (this: unknown, ...args: unknown[]) {
     clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, args as any[]), wait);
+    timeout = setTimeout(() => func.call(this, ...args), wait);
   };
 }
 
@@ -537,7 +537,7 @@ class App {
     }
 
 
-    onTouchUp = (e: TouchEvent | MouseEvent) => {
+    onTouchUp = (_e: TouchEvent | MouseEvent) => {
         if (!this.isDown) return;
         this.isDown = false;
         if (this.isMobile && Math.abs(this.velocity) > 0.1) {

@@ -14,7 +14,7 @@ export function TestimonialCard({ name, company, quote }: TestimonialCardProps) 
     <Card className="bg-gray-900 border-gray-700 text-white">
       <CardContent className="pt-6">
         <Quote className="w-8 h-8 text-blue-400 mb-4" />
-        <p className="text-gray-300 italic">"{quote}"</p>
+<p className="text-gray-300 italic">{`"${quote}"`}</p>
       </CardContent>
       <CardFooter className="flex items-center gap-4 mt-4">
         <Avatar>
