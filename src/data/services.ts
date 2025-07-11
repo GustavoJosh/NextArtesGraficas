@@ -51,6 +51,8 @@ export const getImagePath = (imageName: string) => {
   // En Next.js, las imágenes en public/ se sirven desde la raíz
   // Primero intentamos con .webp
   const webpPath = `/images/services/${imageName}.webp`;
+  const _jpgPath = `/images/services/${imageName}.jpg`;
+  const _pngPath = `/images/services/${imageName}.png`;
   
   // Para producción, deberías verificar qué archivo existe
   // Por ahora, asumimos que tienes archivos .webp
