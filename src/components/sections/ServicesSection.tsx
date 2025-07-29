@@ -19,7 +19,7 @@ export function ServicesSection() {
   const servicesForBento = services.map(service => ({
     title: service.title,
     description: service.description,
-    category: service.category as 'impresion' | 'laser' | 'papeleria',
+    category: service.category,
     imageName: service.imageName,
  
   }));

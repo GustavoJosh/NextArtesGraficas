@@ -6,7 +6,7 @@ import { ProjectCard } from '@/components/ui/ProjectCard';
 import { projects } from '@/data/projects';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Sparkles, Menu, Globe, Grid3X3, Star, TrendingUp } from 'lucide-react';
+import { Sparkles, Menu, Globe, Grid3X3, Star, TrendingUp, LucideIcon } from 'lucide-react';
 
 type Category = 'all' | 'menu' | 'website';
 
@@ -17,7 +17,7 @@ export default function PortafolioPage() {
     ? projects
     : projects.filter(project => project.category === activeFilter);
   
-  const categories: { key: Category, name: string, icon: any, count: number }[] = [
+  const categories: { key: Category, name: string, icon: LucideIcon, count: number }[] = [
     { 
       key: 'all', 
       name: 'Todos', 

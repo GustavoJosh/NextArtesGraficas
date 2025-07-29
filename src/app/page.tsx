@@ -11,7 +11,6 @@ export default function Home() {
   return (
     <>
       <Header />
-      <script src="http://localhost:8097"></script>
       <main className="pt-16"> {/* Add padding-top to account for fixed header */}
         <section id="hero">
           <HeroSection />

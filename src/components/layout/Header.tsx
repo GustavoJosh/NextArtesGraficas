@@ -34,7 +34,7 @@ export function Header({ currentPath }: HeaderProps) {
     const mobileMenuRef = useRef<HTMLDivElement>(null);
     const menuButtonRef = useRef<HTMLButtonElement>(null);
     const firstMenuItemRef = useRef<HTMLAnchorElement>(null);
-    
+
     // Use provided currentPath or fallback to usePathname hook
     const activePath = currentPath || pathname;
 
@@ -47,10 +47,10 @@ export function Header({ currentPath }: HeaderProps) {
 
     const handleMenuToggle = () => {
         if (isAnimating) return;
-        
+
         setIsAnimating(true);
         setIsMenuOpen(!isMenuOpen);
-        
+
         // Reset animation state after transition completes
         setTimeout(() => {
             setIsAnimating(false);
@@ -59,10 +59,10 @@ export function Header({ currentPath }: HeaderProps) {
 
     const handleMenuClose = () => {
         if (isAnimating) return;
-        
+
         setIsAnimating(true);
         setIsMenuOpen(false);
-        
+
         setTimeout(() => {
             setIsAnimating(false);
             // Return focus to menu button when closing
@@ -78,7 +78,7 @@ export function Header({ currentPath }: HeaderProps) {
         setMobileLogo(true);
     };
 
-    // Handle keyboard navigation
+    // Handle keyboard navigation for React events
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (!isMenuOpen) return;
 
@@ -93,7 +93,35 @@ export function Header({ currentPath }: HeaderProps) {
                 if (menuItems && menuItems.length > 0) {
                     const firstItem = menuItems[0];
                     const lastItem = menuItems[menuItems.length - 1];
-                    
+
+                    if (event.shiftKey && document.activeElement === firstItem) {
+                        event.preventDefault();
+                        lastItem.focus();
+                    } else if (!event.shiftKey && document.activeElement === lastItem) {
+                        event.preventDefault();
+                        firstItem.focus();
+                    }
+                }
+                break;
+        }
+    };
+
+    // Handle keyboard navigation for DOM events
+    const handleDOMKeyDown = (event: KeyboardEvent) => {
+        if (!isMenuOpen) return;
+
+        switch (event.key) {
+            case 'Escape':
+                event.preventDefault();
+                handleMenuClose();
+                break;
+            case 'Tab':
+                // Trap focus within mobile menu
+                const menuItems = mobileMenuRef.current?.querySelectorAll('a');
+                if (menuItems && menuItems.length > 0) {
+                    const firstItem = menuItems[0];
+                    const lastItem = menuItems[menuItems.length - 1];
+
                     if (event.shiftKey && document.activeElement === firstItem) {
                         event.preventDefault();
                         lastItem.focus();
@@ -116,8 +144,8 @@ export function Header({ currentPath }: HeaderProps) {
 
         if (isMenuOpen) {
             document.addEventListener('mousedown', handleClickOutside);
-            document.addEventListener('keydown', handleKeyDown as any);
-            
+            document.addEventListener('keydown', handleDOMKeyDown);
+
             // Focus first menu item when menu opens
             setTimeout(() => {
                 firstMenuItemRef.current?.focus();
@@ -126,7 +154,7 @@ export function Header({ currentPath }: HeaderProps) {
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
-            document.removeEventListener('keydown', handleKeyDown as any);
+            document.removeEventListener('keydown', handleDOMKeyDown);
         };
     }, [isMenuOpen]);
 
@@ -173,7 +201,7 @@ export function Header({ currentPath }: HeaderProps) {
                                     </span>
                                 </div>
                             )}
-                            
+
                             {/* Mobile Logo */}
                             {!mobileLogo ? (
                                 <div className="block sm:hidden">
@@ -205,11 +233,10 @@ export function Header({ currentPath }: HeaderProps) {
                                 <Link
                                     key={item.name}
                                     href={item.href}
-                                    className={`px-3 py-2 text-sm font-medium transition-colors relative ${
-                                        active
+                                    className={`px-3 py-2 text-sm font-medium transition-colors relative ${active
                                             ? 'text-blue-600'
                                             : 'text-gray-700 hover:text-blue-600'
-                                    }`}
+                                        }`}
                                 >
                                     {item.name}
                                     {active && (
@@ -243,21 +270,19 @@ export function Header({ currentPath }: HeaderProps) {
                 </div>
 
                 {/* Mobile Navigation */}
-                <div 
-                    className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-                        isMenuOpen 
-                            ? 'max-h-96 opacity-100' 
+                <div
+                    className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen
+                            ? 'max-h-96 opacity-100'
                             : 'max-h-0 opacity-0'
-                    }`}
+                        }`}
                 >
-                    <div 
+                    <div
                         ref={mobileMenuRef}
                         id="mobile-menu"
-                        className={`px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200 transform transition-transform duration-300 ease-in-out ${
-                            isMenuOpen 
-                                ? 'translate-y-0' 
+                        className={`px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200 transform transition-transform duration-300 ease-in-out ${isMenuOpen
+                                ? 'translate-y-0'
                                 : '-translate-y-2'
-                        }`}
+                            }`}
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="mobile-menu-button"
@@ -278,11 +303,10 @@ export function Header({ currentPath }: HeaderProps) {
                                             window.location.href = item.href;
                                         }
                                     }}
-                                    className={`block w-full text-left px-4 py-3 text-base font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 relative ${
-                                        active
+                                    className={`block w-full text-left px-4 py-3 text-base font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 relative ${active
                                             ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600 shadow-sm'
                                             : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50 hover:shadow-sm hover:translate-x-1'
-                                    }`}
+                                        }`}
                                     role="menuitem"
                                     tabIndex={isMenuOpen ? 0 : -1}
                                     aria-current={active ? 'page' : undefined}
