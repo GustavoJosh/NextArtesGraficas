@@ -17,7 +17,7 @@ export function PortfolioSection() {
     ? projects
     : projects.filter(project => project.category === activeFilter);
   
-  const categories: { key: Category, name: string, icon: any, count: number }[] = [
+  const categories: { key: Category, name: string, icon: React.ComponentType<{ className?: string }>, count: number }[] = [
     { 
       key: 'all', 
       name: 'Todos', 

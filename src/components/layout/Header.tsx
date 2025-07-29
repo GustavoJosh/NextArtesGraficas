@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -57,7 +57,7 @@ export function Header({ currentPath }: HeaderProps) {
         }, 300);
     };
 
-    const handleMenuClose = () => {
+    const handleMenuClose = useCallback(() => {
         if (isAnimating) return;
 
         setIsAnimating(true);
@@ -68,7 +68,7 @@ export function Header({ currentPath }: HeaderProps) {
             // Return focus to menu button when closing
             menuButtonRef.current?.focus();
         }, 300);
-    };
+    }, [isAnimating]);
 
     const handleLogoError = () => {
         setLogoError(true);
@@ -81,7 +81,7 @@ export function Header({ currentPath }: HeaderProps) {
 
 
     // Handle keyboard navigation for DOM events
-    const handleDOMKeyDown = (event: KeyboardEvent) => {
+    const handleDOMKeyDown = useCallback((event: KeyboardEvent) => {
         if (!isMenuOpen) return;
 
         switch (event.key) {
@@ -106,7 +106,7 @@ export function Header({ currentPath }: HeaderProps) {
                 }
                 break;
         }
-    };
+    }, [isMenuOpen, handleMenuClose]);
 
     // Close menu on outside click
     useEffect(() => {

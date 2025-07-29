@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { services, getImagePath } from '@/data/services';
+import { services } from '@/data/services';
 import { ServiceCard } from '@/components/ui/ServiceCard';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
@@ -76,7 +76,7 @@ export default function ServiciosPage() {
                   key={service.title}
                   title={service.title}
                   description={service.description}
-                  image={getImagePath(service.imageName)}
+                  category={service.category}
                 />
               ))}
             </div>

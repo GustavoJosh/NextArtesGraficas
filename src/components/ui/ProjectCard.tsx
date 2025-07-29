@@ -93,7 +93,7 @@ export function ProjectCard({ title, description, image, url, status, technologi
 
         {/* Technology badges */}
         <div className="flex flex-wrap gap-2 mb-4">
-          {technologies.slice(0, 3).map((tech, index) => (
+          {technologies.slice(0, 3).map((tech) => (
             <Badge 
               key={tech} 
               variant="outline" 

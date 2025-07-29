@@ -38,7 +38,7 @@ const digitalServices = [
 ];
 
 export function DigitalServicesSection() {
-  const [activeService, setActiveService] = useState(0);
+  const [, setActiveService] = useState(0);
 
   return (
     <section className="w-full py-16 md:py-24 bg-gradient-to-br from-[#0E345A] via-[#1A3A5C] to-[#0A1B2E] relative overflow-hidden">

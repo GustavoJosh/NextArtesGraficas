@@ -1,16 +1,12 @@
 // src/components/ui/ServiceCard.tsx
 "use client";
 
-import { useState } from 'react';
-import { Printer, Zap, FileText, Scissors, Palette, Sticker } from 'lucide-react';
-import { ServiceIcon } from './PrintingAnimations';
+import { Printer, Zap, FileText, Palette } from 'lucide-react';
 
 interface ServiceCardProps {
   title: string;
   description: string;
-  category: 'impresion' | 'laser' | 'papeleria';
-  imageName: string;
-  index: number;
+  category?: 'impresion' | 'laser' | 'papeleria';
 }
 
 const getServiceIcon = (category: string) => {
@@ -31,7 +27,7 @@ const getCategoryColor = (category: string) => {
   }
 };
 
-export function ServiceCard({ title, description, category, imageName, index }: ServiceCardProps) {
+export function ServiceCard({ title, description, category = 'impresion' }: ServiceCardProps) {
   const Icon = getServiceIcon(category);
   const colorGradient = getCategoryColor(category);
 
@@ -80,17 +76,15 @@ export function ServiceCard({ title, description, category, imageName, index }: 
   );
 }
 
-export function ServiceGrid({ services }: { services: any[] }) {
+export function ServiceGrid({ services }: { services: ServiceCardProps[] }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-      {services.map((service, index) => (
+      {services.map((service) => (
         <ServiceCard
           key={service.title}
           title={service.title}
           description={service.description}
           category={service.category}
-          imageName={service.imageName}
-          index={index}
         />
       ))}
     </div>

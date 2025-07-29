@@ -537,7 +537,7 @@ class App {
     }
 
 
-    onTouchUp = (_e: TouchEvent | MouseEvent) => {
+    onTouchUp = () => {
         if (!this.isDown) return;
         this.isDown = false;
         if (this.isMobile && Math.abs(this.velocity) > 0.1) {
@@ -638,7 +638,7 @@ export default function CircularGallery({
     cardSize = "normal"
 }: CircularGalleryProps) {
     const containerRef = useRef<HTMLDivElement>(null);
-    const [isMobileDevice, setIsMobileDevice] = useState(false);
+    const [isMobileDevice] = useState(false);
 
     useEffect(() => {
         const container = containerRef.current;

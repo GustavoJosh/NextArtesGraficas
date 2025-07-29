@@ -1,7 +1,7 @@
 // src/components/ui/PrintingAnimations.tsx
 "use client";
 
-import { Printer, Zap, FileText, Scissors, Palette, Layers } from 'lucide-react';
+import { Printer, Zap, FileText, Palette, Layers } from 'lucide-react';
 
 export function FloatingPrintElements() {
   return (
@@ -68,7 +68,7 @@ export function PrinterMachine() {
 }
 
 export function ServiceIcon({ icon: Icon, category, isActive = false }: {
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
   category: string;
   isActive?: boolean;
 }) {
