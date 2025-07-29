@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 export function CtaSection() {
   return (
-    <section id="contacto" className="w-full py-16 md:py-28 bg-blue-600">
+    <section id="contacto" className="w-full py-16 md:py-28 bg-[#0E345A]">
       <div className="container mx-auto px-4 md:px-6 text-center text-white">
         <h2 className="text-3xl md:text-5xl font-bold">
           ¿Listo para darle vida a tu marca?

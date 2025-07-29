@@ -1,4 +1,4 @@
-// src/components/sections/PortfolioSection.tsx
+// src/app/portafolio/page.tsx
 "use client";
 
 import { useState } from 'react';
@@ -10,7 +10,7 @@ import { Sparkles, Menu, Globe, Grid3X3, Star, TrendingUp } from 'lucide-react';
 
 type Category = 'all' | 'menu' | 'website';
 
-export function PortfolioSection() {
+export default function PortafolioPage() {
   const [activeFilter, setActiveFilter] = useState<Category>('all');
 
   const filteredProjects = activeFilter === 'all'
@@ -44,14 +44,14 @@ export function PortfolioSection() {
   const popularCount = projects.filter(p => p.status === 'popular').length;
 
   return (
-    <section id="portfolio" className="w-full py-16 md:py-24 bg-gradient-to-b from-[#0E345A] to-[#0A1B2E] relative overflow-hidden">
+    <main className="w-full min-h-screen bg-gradient-to-b from-[#0E345A] to-[#0A1B2E] relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-10 w-40 h-40 bg-[#F7DF14] rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-48 h-48 bg-[#0E345A] rounded-full blur-3xl"></div>
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 py-16 md:py-24 relative z-10">
         {/* Header with stats */}
         <div className="text-center mb-16">
           <div className="flex items-center justify-center mb-4">
@@ -60,11 +60,11 @@ export function PortfolioSection() {
             <Sparkles className="w-6 h-6 text-[#F7DF14] ml-2" />
           </div>
           
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             <span className="bg-gradient-to-r from-[#F7DF14] via-white to-[#F7DF14] text-transparent bg-clip-text">
               Nuestro Trabajo
             </span>
-          </h2>
+          </h1>
           
           <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-8">
             Un vistazo a algunos de nuestros proyectos exitosos. Cada proyecto refleja nuestro compromiso con la calidad y la innovación.
@@ -181,6 +181,6 @@ export function PortfolioSection() {
           </div>
         </div>
       </div>
-    </section>
+    </main>
   );
 }

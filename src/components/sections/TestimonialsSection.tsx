@@ -18,6 +18,9 @@ export function TestimonialsSection() {
               name={testimonial.name}
               company={testimonial.company}
               quote={testimonial.quote}
+              rating={testimonial.rating}
+              service={testimonial.service}
+              date={testimonial.date}
             />
           ))}
         </div>

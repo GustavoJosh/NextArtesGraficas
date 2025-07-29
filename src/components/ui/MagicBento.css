@@ -1,0 +1,293 @@
+:root {
+  --hue: 27;
+  --sat: 69%;
+  --white: hsl(0, 0%, 100%);
+  /* Colores adaptados a tu tema */
+  --primary-gold: #F7DF14;
+  --primary-gold-rgb: 247, 223, 20;
+  --primary-blue: #0E345A;
+  --primary-blue-dark: #0A1B2E;
+  --primary-blue-medium: #2D66C1;
+  --border-color: rgba(247, 223, 20, 0.2);
+  --background-dark: rgba(14, 52, 90, 0.8);
+  --glow-color: var(--primary-gold-rgb);
+  color-scheme: light dark;
+}
+
+.card-grid {
+  display: grid;
+  gap: 0.75em;
+  padding: 1em;
+  max-width: 64em;
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
+  margin: 0 auto;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  aspect-ratio: 4/3;
+  min-height: 220px;
+  width: 100%;
+  max-width: 100%;
+  padding: 1.5em;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  background: linear-gradient(135deg, var(--background-dark) 0%, rgba(45, 102, 193, 0.6) 100%);
+  font-weight: 300;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  --glow-x: 50%;
+  --glow-y: 50%;
+  --glow-intensity: 0;
+  --glow-radius: 200px;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(247, 223, 20, 0.15),
+              0 4px 20px rgba(14, 52, 90, 0.3);
+  border-color: rgba(247, 223, 20, 0.4);
+}
+
+.card__header,
+.card__content {
+  display: flex;
+  position: relative;
+  color: var(--white);
+}
+
+.card__header {
+  gap: 0.75em;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
+.card__content {
+  flex-direction: column;
+}
+
+.card__label {
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+  background: linear-gradient(135deg, var(--primary-gold) 0%, #FFE55C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card__title,
+.card__description {
+  --clamp-title: 2;
+  --clamp-desc: 3;
+}
+
+.card__title {
+  font-weight: 600;
+  font-size: 18px;
+  margin: 0 0 0.5em;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.card__description {
+  font-size: 14px;
+  line-height: 1.4;
+  opacity: 0.85;
+  color: #e2e8f0;
+}
+
+.card--text-autohide .card__title,
+.card--text-autohide .card__description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card--text-autohide .card__title {
+  -webkit-line-clamp: var(--clamp-title);
+  line-clamp: var(--clamp-title);
+}
+
+.card--text-autohide .card__description {
+  -webkit-line-clamp: var(--clamp-desc);
+  line-clamp: var(--clamp-desc);
+}
+
+@media (max-width: 599px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+    width: 95%;
+    margin: 0 auto;
+    padding: 0.5em;
+    gap: 0.5em;
+  }
+
+  .card {
+    width: 100%;
+    min-height: 180px;
+    padding: 1.25em;
+  }
+
+  .card__title {
+    font-size: 16px;
+  }
+
+  .card__description {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 600px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .card:nth-child(3) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .card:nth-child(4) {
+    grid-column: 1/span 2;
+    grid-row: 2/span 2;
+  }
+
+  .card:nth-child(6) {
+    grid-column: 4;
+    grid-row: 3;
+  }
+}
+
+/* Border glow effect mejorado */
+.card--border-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  background: radial-gradient(var(--glow-radius) circle at var(--glow-x) var(--glow-y),
+      rgba(var(--glow-color), calc(var(--glow-intensity) * 0.8)) 0%,
+      rgba(var(--glow-color), calc(var(--glow-intensity) * 0.4)) 30%,
+      transparent 60%);
+  border-radius: inherit;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: subtract;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.card--border-glow:hover::after {
+  opacity: 1;
+}
+
+.card--border-glow:hover {
+  box-shadow: 0 8px 30px rgba(247, 223, 20, 0.25), 
+              0 4px 20px rgba(14, 52, 90, 0.4),
+              0 0 40px rgba(247, 223, 20, 0.1);
+}
+
+.particle-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.particle::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: rgba(247, 223, 20, 0.3);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.particle-container:hover {
+  box-shadow: 0 8px 30px rgba(247, 223, 20, 0.2), 
+              0 4px 20px rgba(14, 52, 90, 0.3);
+}
+
+/* Global spotlight styles */
+.global-spotlight {
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+  z-index: 200 !important;
+  pointer-events: none;
+  background: radial-gradient(circle,
+    rgba(247, 223, 20, 0.2) 0%,
+    rgba(247, 223, 20, 0.12) 15%,
+    rgba(247, 223, 20, 0.06) 25%,
+    rgba(247, 223, 20, 0.03) 40%,
+    rgba(247, 223, 20, 0.01) 65%,
+    transparent 70%
+  ) !important;
+}
+
+.bento-section {
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Efectos adicionales para mejor integración */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(247, 223, 20, 0.05) 0%, 
+    transparent 50%, 
+    rgba(14, 52, 90, 0.1) 100%);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.card__header,
+.card__content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Animación suave para los iconos */
+.card__header svg {
+  transition: all 0.3s ease;
+}
+
+.card:hover .card__header svg {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(247, 223, 20, 0.6));
+}
+
+/* Mejora para el spotlight en móvil */
+@media (max-width: 768px) {
+  .global-spotlight {
+    display: none;
+  }
+  
+  .card--border-glow::after {
+    display: none;
+  }
+}
