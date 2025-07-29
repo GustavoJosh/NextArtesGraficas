@@ -3,8 +3,8 @@
 import DecryptedText from '@/components/ui/DecryptedText';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { MenuIcon, WebsiteIcon, PrinterIcon, LaserIcon } from '@/components/ui/PrintingIcons';
-import { Monitor, Smartphone, Palette, Code, Globe, FileText } from 'lucide-react';
+import { MenuIcon, WebsiteIcon, PrinterIcon } from '@/components/ui/PrintingIcons';
+import { Monitor, Palette, Code, Globe, FileText } from 'lucide-react';
 
 const digitalServices = [
   {
@@ -89,7 +89,6 @@ export function DigitalServicesSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
           {digitalServices.map((service, index) => {
             const IconComponent = service.icon;
-            const isActive = activeService === index;
             
             return (
               <div

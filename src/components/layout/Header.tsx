@@ -78,33 +78,7 @@ export function Header({ currentPath }: HeaderProps) {
         setMobileLogo(true);
     };
 
-    // Handle keyboard navigation for React events
-    const handleKeyDown = (event: React.KeyboardEvent) => {
-        if (!isMenuOpen) return;
 
-        switch (event.key) {
-            case 'Escape':
-                event.preventDefault();
-                handleMenuClose();
-                break;
-            case 'Tab':
-                // Trap focus within mobile menu
-                const menuItems = mobileMenuRef.current?.querySelectorAll('a');
-                if (menuItems && menuItems.length > 0) {
-                    const firstItem = menuItems[0];
-                    const lastItem = menuItems[menuItems.length - 1];
-
-                    if (event.shiftKey && document.activeElement === firstItem) {
-                        event.preventDefault();
-                        lastItem.focus();
-                    } else if (!event.shiftKey && document.activeElement === lastItem) {
-                        event.preventDefault();
-                        firstItem.focus();
-                    }
-                }
-                break;
-        }
-    };
 
     // Handle keyboard navigation for DOM events
     const handleDOMKeyDown = (event: KeyboardEvent) => {
@@ -156,7 +130,7 @@ export function Header({ currentPath }: HeaderProps) {
             document.removeEventListener('mousedown', handleClickOutside);
             document.removeEventListener('keydown', handleDOMKeyDown);
         };
-    }, [isMenuOpen]);
+    }, [isMenuOpen, handleDOMKeyDown, handleMenuClose]);
 
     // Prevent body scroll when menu is open
     useEffect(() => {
@@ -234,8 +208,8 @@ export function Header({ currentPath }: HeaderProps) {
                                     key={item.name}
                                     href={item.href}
                                     className={`px-3 py-2 text-sm font-medium transition-colors relative ${active
-                                            ? 'text-blue-600'
-                                            : 'text-gray-700 hover:text-blue-600'
+                                        ? 'text-blue-600'
+                                        : 'text-gray-700 hover:text-blue-600'
                                         }`}
                                 >
                                     {item.name}
@@ -272,16 +246,16 @@ export function Header({ currentPath }: HeaderProps) {
                 {/* Mobile Navigation */}
                 <div
                     className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen
-                            ? 'max-h-96 opacity-100'
-                            : 'max-h-0 opacity-0'
+                        ? 'max-h-96 opacity-100'
+                        : 'max-h-0 opacity-0'
                         }`}
                 >
                     <div
                         ref={mobileMenuRef}
                         id="mobile-menu"
                         className={`px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200 transform transition-transform duration-300 ease-in-out ${isMenuOpen
-                                ? 'translate-y-0'
-                                : '-translate-y-2'
+                            ? 'translate-y-0'
+                            : '-translate-y-2'
                             }`}
                         role="menu"
                         aria-orientation="vertical"
@@ -304,8 +278,8 @@ export function Header({ currentPath }: HeaderProps) {
                                         }
                                     }}
                                     className={`block w-full text-left px-4 py-3 text-base font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 relative ${active
-                                            ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600 shadow-sm'
-                                            : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50 hover:shadow-sm hover:translate-x-1'
+                                        ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600 shadow-sm'
+                                        : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50 hover:shadow-sm hover:translate-x-1'
                                         }`}
                                     role="menuitem"
                                     tabIndex={isMenuOpen ? 0 : -1}

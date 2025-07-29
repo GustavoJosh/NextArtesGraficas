@@ -1,6 +1,5 @@
 // src/components/sections/HeroSection.tsx
 "use client";
-import RotatingText from "@/components/ui/RotatingText";
 import { Button } from "@/components/ui/button";
 import { Sparkles, ArrowDown, Monitor, Printer, Palette } from "lucide-react";
 import Image from "next/image";

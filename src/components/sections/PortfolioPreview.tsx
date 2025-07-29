@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { projects } from '@/data/projects';
 import { ProjectCard } from '@/components/ui/ProjectCard';
-import { Sparkles, ArrowRight, Star } from 'lucide-react';
+import { ArrowRight, Star } from 'lucide-react';
 
 export function PortfolioPreview() {
   // Get featured projects or first 3 projects for preview
