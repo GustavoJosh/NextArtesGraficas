@@ -2,6 +2,7 @@
 
 // src/app/testimonios/TestimonialsContent.tsx
 import { TestimonialCard } from '@/components/ui/TestimonialCard';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { testimonials } from '@/data/testimonials';
 import { useState, useMemo } from 'react';
 import { Filter } from 'lucide-react';
@@ -23,11 +24,22 @@ export function TestimonialsContent() {
     return testimonials.filter(testimonial => testimonial.service === selectedService);
   }, [selectedService]);
 
+  // Breadcrumb items for navigation
+  const breadcrumbItems = [
+    { name: 'Testimonios' }
+  ];
+
   return (
     <>
       {/* Hero Section */}
       <section className="w-full py-12 md:py-24 bg-gradient-to-b from-gray-900 to-gray-950">
         <div className="container mx-auto px-4 md:px-6">
+          
+          {/* Breadcrumb Navigation */}
+          <div className="mb-6">
+            <Breadcrumb items={breadcrumbItems} />
+          </div>
+          
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
               Testimonios

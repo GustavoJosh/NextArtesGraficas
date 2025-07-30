@@ -6,6 +6,8 @@ import { ProjectCard } from '@/components/ui/ProjectCard';
 import { projects } from '@/data/projects';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Header } from '@/components/layout/Header';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { Sparkles, Menu, Globe, Grid3X3, Star, TrendingUp, LucideIcon } from 'lucide-react';
 
 type Category = 'all' | 'menu' | 'website';
@@ -43,15 +45,29 @@ export default function PortafolioPage() {
   const newCount = projects.filter(p => p.status === 'new').length;
   const popularCount = projects.filter(p => p.status === 'popular').length;
 
-  return (
-    <main className="w-full min-h-screen bg-gradient-to-b from-[#0E345A] to-[#0A1B2E] relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-10 w-40 h-40 bg-[#F7DF14] rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-48 h-48 bg-[#0E345A] rounded-full blur-3xl"></div>
-      </div>
+  // Breadcrumb items for navigation
+  const breadcrumbItems = [
+    { name: 'Portafolio' }
+  ];
 
-      <div className="container mx-auto px-4 md:px-6 py-16 md:py-24 relative z-10">
+  return (
+    <>
+      {/* Header component for consistent navigation */}
+      <Header />
+      
+      <main className="w-full min-h-screen bg-gradient-to-b from-[#0E345A] to-[#0A1B2E] relative overflow-hidden pt-16">
+        {/* Background decoration */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-40 h-40 bg-[#F7DF14] rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-48 h-48 bg-[#0E345A] rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-4 md:px-6 py-16 md:py-24 relative z-10">
+          
+          {/* Breadcrumb Navigation */}
+          <div className="mb-6">
+            <Breadcrumb items={breadcrumbItems} />
+          </div>
         {/* Header with stats */}
         <div className="text-center mb-16">
           <div className="flex items-center justify-center mb-4">
@@ -179,8 +195,9 @@ export default function PortafolioPage() {
               </Button>
             </div>
           </div>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }

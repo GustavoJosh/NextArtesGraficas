@@ -6,6 +6,37 @@ import { PortfolioPreview } from "@/components/sections/PortfolioPreview";
 import { TestimonialsPreview } from "@/components/sections/TestimonialsPreview";
 import { ContactPreview } from "@/components/sections/ContactPreview";
 import { Footer } from "@/components/layout/Footer";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Artes Gráficas Digitales | Impresión, Láser y Soluciones Digitales",
+  description: "Servicios profesionales de impresión digital, corte láser, diseño gráfico y soluciones digitales. Menús para restaurantes, páginas web y más. Calidad garantizada.",
+  keywords: "impresión digital, corte láser, grabado láser, diseño gráfico, menús digitales, páginas web, lonas publicitarias, papelería comercial",
+  authors: [{ name: "Artes Gráficas Digitales" }],
+  openGraph: {
+    title: "Artes Gráficas Digitales - Soluciones Profesionales de Impresión",
+    description: "Transformamos tus ideas en realidad con servicios de impresión digital, corte láser y soluciones digitales innovadoras.",
+    type: "website",
+    locale: "es_ES",
+    siteName: "Artes Gráficas Digitales",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Artes Gráficas Digitales - Soluciones Profesionales",
+    description: "Servicios profesionales de impresión digital, corte láser y diseño gráfico.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+};
 
 export default function Home() {
   return (

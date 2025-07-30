@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
+import { NavigationLink } from '@/components/navigation/NavigationWrapper';
 
 // TypeScript interfaces for navigation items and props
 interface NavigationItem {
@@ -70,13 +71,15 @@ export function Header({ currentPath }: HeaderProps) {
         }, 300);
     }, [isAnimating]);
 
-    const handleLogoError = () => {
+    const handleLogoError = useCallback(() => {
+        console.warn('Desktop logo failed to load, falling back to text');
         setLogoError(true);
-    };
+    }, []);
 
-    const handleMobileLogoError = () => {
+    const handleMobileLogoError = useCallback(() => {
+        console.warn('Mobile logo failed to load, falling back to text');
         setMobileLogo(true);
-    };
+    }, []);
 
 
 
@@ -146,8 +149,28 @@ export function Header({ currentPath }: HeaderProps) {
     }, [isMenuOpen]);
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <>
+            {/* CSS-only fallback for JavaScript-disabled environments */}
+            <noscript>
+                <style>{`
+                    .mobile-menu-fallback {
+                        display: block !important;
+                        max-height: none !important;
+                        opacity: 1 !important;
+                    }
+                    .mobile-menu-button-fallback {
+                        display: none !important;
+                    }
+                    @media (min-width: 768px) {
+                        .mobile-menu-fallback {
+                            display: none !important;
+                        }
+                    }
+                `}</style>
+            </noscript>
+            
+            <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <div className="flex-shrink-0">
@@ -204,7 +227,7 @@ export function Header({ currentPath }: HeaderProps) {
                         {navigationItems.map((item) => {
                             const active = isActive(item.href, activePath);
                             return (
-                                <Link
+                                <NavigationLink
                                     key={item.name}
                                     href={item.href}
                                     className={`px-3 py-2 text-sm font-medium transition-colors relative ${active
@@ -216,7 +239,7 @@ export function Header({ currentPath }: HeaderProps) {
                                     {active && (
                                         <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 rounded-full"></span>
                                     )}
-                                </Link>
+                                </NavigationLink>
                             );
                         })}
                     </nav>
@@ -226,7 +249,7 @@ export function Header({ currentPath }: HeaderProps) {
                         <button
                             ref={menuButtonRef}
                             onClick={handleMenuToggle}
-                            className="text-gray-700 hover:text-blue-600 p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md"
+                            className="mobile-menu-button-fallback text-gray-700 hover:text-blue-600 p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md"
                             aria-label={isMenuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
                             aria-expanded={isMenuOpen}
                             aria-controls="mobile-menu"
@@ -245,7 +268,7 @@ export function Header({ currentPath }: HeaderProps) {
 
                 {/* Mobile Navigation */}
                 <div
-                    className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen
+                    className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out mobile-menu-fallback ${isMenuOpen
                         ? 'max-h-96 opacity-100'
                         : 'max-h-0 opacity-0'
                         }`}
@@ -264,12 +287,12 @@ export function Header({ currentPath }: HeaderProps) {
                         {navigationItems.map((item, index) => {
                             const active = isActive(item.href, activePath);
                             return (
-                                <Link
+                                <NavigationLink
                                     key={item.name}
                                     ref={index === 0 ? firstMenuItemRef : null}
                                     href={item.href}
                                     onClick={handleMenuClose}
-                                    onKeyDown={(e) => {
+                                    onKeyDown={(e: React.KeyboardEvent<HTMLAnchorElement>) => {
                                         if (e.key === 'Enter' || e.key === ' ') {
                                             e.preventDefault();
                                             handleMenuClose();
@@ -297,12 +320,13 @@ export function Header({ currentPath }: HeaderProps) {
                                     {active && (
                                         <span className="sr-only">Página actual</span>
                                     )}
-                                </Link>
+                                </NavigationLink>
                             );
                         })}
                     </div>
                 </div>
             </div>
         </header>
+        </>
     );
 }
