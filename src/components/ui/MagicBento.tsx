@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useCallback, useState } from "react";
 import { gsap } from "gsap";
 import { Printer, Zap, FileText, Palette } from 'lucide-react';
+import Image from 'next/image';
+import { getImagePath } from '@/data/services';
 import "./MagicBento.css";
 
 // Interfaces adaptadas para servicios
@@ -604,17 +606,33 @@ const MagicServicesBento: React.FC<ServiceBentoProps> = ({
                 clickEffect={clickEffect}
                 enableMagnetism={enableMagnetism}
               >
-                <div className="card__header">
-                  <div className="card__label" style={{ color: categoryColor }}>
-                    {categoryLabel}
-                  </div>
-                  <div style={{ color: categoryColor }}>
-                    <Icon size={20} />
-                  </div>
+                {/* Background Image */}
+                <div className="absolute inset-0 overflow-hidden rounded-lg">
+                  <Image
+                    src={getImagePath(service.imageName)}
+                    alt={service.title}
+                    fill
+                    className="object-cover"
+                  />
+                  {/* Dark overlay for better text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
                 </div>
-                <div className="card__content">
-                  <h2 className="card__title">{service.title}</h2>
-                  <p className="card__description">{service.description}</p>
+                
+                {/* Content Overlay */}
+                <div className="relative z-10 h-full flex flex-col justify-between p-4">
+                  <div className="card__header">
+                    <div className="card__label" style={{ color: categoryColor }}>
+                      {categoryLabel}
+                    </div>
+                    <div style={{ color: categoryColor }}>
+                      <Icon size={20} />
+                    </div>
+                  </div>
+                  
+                  <div className="card__content">
+                    <h2 className="card__title text-white font-bold text-lg mb-2">{service.title}</h2>
+                    <p className="card__description text-gray-200 text-sm">{service.description}</p>
+                  </div>
                 </div>
               </ParticleCard>
             );
@@ -732,17 +750,33 @@ const MagicServicesBento: React.FC<ServiceBentoProps> = ({
                 el.addEventListener("click", handleClick);
               }}
             >
-              <div className="card__header">
-                <div className="card__label" style={{ color: categoryColor }}>
-                  {categoryLabel}
-                </div>
-                <div style={{ color: categoryColor }}>
-                  <Icon size={20} />
-                </div>
+              {/* Background Image */}
+              <div className="absolute inset-0 overflow-hidden rounded-lg">
+                <Image
+                  src={getImagePath(service.imageName)}
+                  alt={service.title}
+                  fill
+                  className="object-cover"
+                />
+                {/* Dark overlay for better text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
               </div>
-              <div className="card__content">
-                <h2 className="card__title">{service.title}</h2>
-                <p className="card__description">{service.description}</p>
+              
+              {/* Content Overlay */}
+              <div className="relative z-10 h-full flex flex-col justify-between p-4">
+                <div className="card__header">
+                  <div className="card__label" style={{ color: categoryColor }}>
+                    {categoryLabel}
+                  </div>
+                  <div style={{ color: categoryColor }}>
+                    <Icon size={20} />
+                  </div>
+                </div>
+                
+                <div className="card__content">
+                  <h2 className="card__title text-white font-bold text-lg mb-2">{service.title}</h2>
+                  <p className="card__description text-gray-200 text-sm">{service.description}</p>
+                </div>
               </div>
             </div>
           );

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
-import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle, MessageCircle } from 'lucide-react';
 
 interface FormData {
   name: string;
@@ -86,7 +86,7 @@ export function ContactContent() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
+
     // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors(prev => ({ ...prev, [name]: undefined }));
@@ -95,7 +95,7 @@ export function ContactContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -114,12 +114,12 @@ export function ContactContent() {
         `Servicio de interés: ${formData.service || 'No especificado'}\n\n` +
         `Mensaje:\n${formData.message}`
       );
-      
+
       const mailtoLink = `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-      
+
       // Open email client
       window.location.href = mailtoLink;
-      
+
       // Reset form and show success message
       setFormData({
         name: '',
@@ -130,7 +130,7 @@ export function ContactContent() {
         message: ''
       });
       setSubmitStatus('success');
-      
+
     } catch (error) {
       console.error('Error sending message:', error);
       setSubmitStatus('error');
@@ -149,12 +149,12 @@ export function ContactContent() {
       {/* Hero Section */}
       <section className="w-full py-12 md:py-24 bg-gradient-to-b from-gray-900 to-gray-950">
         <div className="container mx-auto px-4 md:px-6">
-          
+
           {/* Breadcrumb Navigation */}
           <div className="mb-6">
             <Breadcrumb items={breadcrumbItems} />
           </div>
-          
+
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
               Contacto
@@ -170,14 +170,14 @@ export function ContactContent() {
       <section className="w-full py-12 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-            
+
             {/* Contact Form */}
             <div>
               <Card className="p-8 bg-gray-900 border-gray-800">
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
                   Envíanos un mensaje
                 </h2>
-                
+
                 {submitStatus === 'success' && (
                   <div className="mb-6 p-4 bg-green-900/20 border border-green-700 rounded-lg flex items-center gap-3">
                     <CheckCircle className="w-5 h-5 text-green-400" />
@@ -208,9 +208,8 @@ export function ContactContent() {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className={`w-full px-4 py-3 bg-gray-800 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
-                          errors.name ? 'border-red-500' : 'border-gray-700'
-                        }`}
+                        className={`w-full px-4 py-3 bg-gray-800 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${errors.name ? 'border-red-500' : 'border-gray-700'
+                          }`}
                         placeholder="Tu nombre completo"
                       />
                       {errors.name && (
@@ -228,9 +227,8 @@ export function ContactContent() {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className={`w-full px-4 py-3 bg-gray-800 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
-                          errors.email ? 'border-red-500' : 'border-gray-700'
-                        }`}
+                        className={`w-full px-4 py-3 bg-gray-800 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${errors.email ? 'border-red-500' : 'border-gray-700'
+                          }`}
                         placeholder="tu@email.com"
                       />
                       {errors.email && (
@@ -250,9 +248,8 @@ export function ContactContent() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className={`w-full px-4 py-3 bg-gray-800 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
-                          errors.phone ? 'border-red-500' : 'border-gray-700'
-                        }`}
+                        className={`w-full px-4 py-3 bg-gray-800 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${errors.phone ? 'border-red-500' : 'border-gray-700'
+                          }`}
                         placeholder="+1 234 567 8900"
                       />
                       {errors.phone && (
@@ -306,9 +303,8 @@ export function ContactContent() {
                       rows={5}
                       value={formData.message}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3 bg-gray-800 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors resize-vertical ${
-                        errors.message ? 'border-red-500' : 'border-gray-700'
-                      }`}
+                      className={`w-full px-4 py-3 bg-gray-800 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors resize-vertical ${errors.message ? 'border-red-500' : 'border-gray-700'
+                        }`}
                       placeholder="Cuéntanos sobre tu proyecto..."
                     />
                     {errors.message && (
@@ -344,88 +340,72 @@ export function ContactContent() {
                   Información de contacto
                 </h2>
                 <p className="text-gray-300 mb-8">
-                  Estamos aquí para ayudarte con todos tus proyectos de impresión digital, 
+                  Estamos aquí para ayudarte con todos tus proyectos de impresión digital,
                   corte láser y diseño gráfico. No dudes en contactarnos.
                 </p>
               </div>
 
-              <div className="space-y-6">
-                <Card className="p-6 bg-gray-900 border-gray-800">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-blue-600 rounded-lg">
+              {/* Communication Methods */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card className="p-4 bg-gray-900 border-gray-800 text-center">
+                  <div className="flex flex-col items-center min-h-[180px]">
+                    <div className="p-3 bg-blue-600 rounded-lg mb-4">
                       <Mail className="w-6 h-6 text-white" />
                     </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white mb-1">Email</h3>
-                      <p className="text-gray-300">
-                        <a 
-                          href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`}
-                          className="hover:text-blue-400 transition-colors"
-                        >
-                          {process.env.NEXT_PUBLIC_CONTACT_EMAIL}
-                        </a>
-                      </p>
-                      <p className="text-sm text-gray-400 mt-1">
-                        Respuesta en 24 horas
-                      </p>
-                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-2">Email</h3>
+                    <p className="text-gray-300 mb-2 break-words text-sm px-2">
+                      <a
+                        href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}`}
+                        className="hover:text-blue-400 transition-colors"
+                      >
+                        {process.env.NEXT_PUBLIC_CONTACT_EMAIL}
+                      </a>
+                    </p>
+                    <p className="text-sm text-gray-400">
+                      Respuesta en 24 horas
+                    </p>
                   </div>
                 </Card>
 
-                <Card className="p-6 bg-gray-900 border-gray-800">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-green-600 rounded-lg">
+                <Card className="p-4 bg-gray-900 border-gray-800 text-center">
+                  <div className="flex flex-col items-center min-h-[180px]">
+                    <div className="p-3 bg-green-600 rounded-lg mb-4">
                       <Phone className="w-6 h-6 text-white" />
                     </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white mb-1">Teléfono</h3>
-                      <p className="text-gray-300">
-                        <a 
-                          href="tel:+1234567890"
-                          className="hover:text-green-400 transition-colors"
-                        >
-                          +1 (234) 567-8900
-                        </a>
-                      </p>
-                      <p className="text-sm text-gray-400 mt-1">
-                        Lun - Vie: 9:00 AM - 6:00 PM
-                      </p>
-                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-2">Teléfono</h3>
+                    <p className="text-gray-300 mb-2 break-words text-sm px-2">
+                      <a
+                        href="tel:6121210933"
+                        className="hover:text-green-400 transition-colors"
+                      >
+                        (612) 121-0933
+                      </a>
+                    </p>
+                    <p className="text-sm text-gray-400">
+                      Llamadas directas
+                    </p>
                   </div>
                 </Card>
 
-                <Card className="p-6 bg-gray-900 border-gray-800">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-purple-600 rounded-lg">
-                      <MapPin className="w-6 h-6 text-white" />
+                <Card className="p-4 bg-gray-900 border-gray-800 text-center">
+                  <div className="flex flex-col items-center min-h-[180px]">
+                    <div className="p-3 bg-green-500 rounded-lg mb-4">
+                      <MessageCircle className="w-6 h-6 text-white" />
                     </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white mb-1">Ubicación</h3>
-                      <p className="text-gray-300">
-                        Calle Principal 123<br />
-                        Ciudad, Estado 12345<br />
-                        País
-                      </p>
-                      <p className="text-sm text-gray-400 mt-1">
-                        Visitas con cita previa
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-
-                <Card className="p-6 bg-gray-900 border-gray-800">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-orange-600 rounded-lg">
-                      <Clock className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white mb-1">Horarios</h3>
-                      <div className="text-gray-300 space-y-1">
-                        <p>Lunes - Viernes: 9:00 AM - 6:00 PM</p>
-                        <p>Sábados: 10:00 AM - 2:00 PM</p>
-                        <p>Domingos: Cerrado</p>
-                      </div>
-                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-2">WhatsApp</h3>
+                    <p className="text-gray-300 mb-2 break-words text-sm px-2">
+                      <a
+                        href="https://wa.me/5216121210933"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-green-400 transition-colors"
+                      >
+                        +52 (612) 121-0933
+                      </a>
+                    </p>
+                    <p className="text-sm text-gray-400">
+                      Respuesta inmediata
+                    </p>
                   </div>
                 </Card>
               </div>
@@ -455,6 +435,88 @@ export function ContactContent() {
         </div>
       </section>
 
+      {/* Google Maps Section */}
+      <section className="w-full py-12 md:py-24 bg-gray-800">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Nuestra Ubicación
+            </h2>
+            <p className="text-gray-300 max-w-2xl mx-auto">
+              Visítanos en nuestras instalaciones. Estamos ubicados en La Paz, Baja California Sur.
+            </p>
+          </div>
+
+          <div className="max-w-6xl mx-auto">
+            <Card className="p-6 bg-gray-900 border-gray-700">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                {/* Map Embed */}
+                <div className="lg:col-span-2">
+                  <div className="relative w-full h-96 rounded-lg overflow-hidden">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3664.8234567890123!2d-110.31234567890123!3d24.123456789012345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86af4e123456789a%3A0x123456789abcdef0!2sC.%20Gama%202025%2C%20Libertad%2C%2023078%20La%20Paz%2C%20B.C.S.%2C%20Mexico!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className="rounded-lg"
+                      title="Ubicación de Artes Gráficas Digitales"
+                    />
+                  </div>
+                </div>
+
+                {/* Location Details */}
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      Visítanos
+                    </h3>
+                    <p className="text-gray-300 text-sm mb-6">
+                      C. Gama 2025, Libertad<br />
+                      La Paz, Baja California Sur 23078<br />
+                      México
+                    </p>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-lg p-4">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="p-2 bg-orange-600 rounded-lg">
+                        <Clock className="w-4 h-4 text-white" />
+                      </div>
+                      <h4 className="text-white font-medium">Horarios de Atención</h4>
+                    </div>
+                    <div className="text-gray-300 text-sm space-y-1 ml-11">
+                      <p><strong>Lun:</strong> 9:00 AM - 5:00 PM</p>
+                      <p><strong>Mar - Vie:</strong> 9:00 AM - 6:00 PM</p>
+                      <p><strong>Sáb:</strong> 9:00 AM - 1:00 PM</p>
+                      <p><strong>Dom:</strong> Cerrado</p>
+                    </div>
+                  </div>
+
+                  <div className="text-center">
+                    <a
+                      href="https://g.co/kgs/YZXWMgX"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
+                    >
+                      <MapPin className="w-4 h-4" />
+                      Abrir en Google Maps
+                    </a>
+                    <p className="text-xs text-gray-400 mt-2">
+                      Visitas con cita previa
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <section className="w-full py-12 md:py-24 bg-gray-900">
         <div className="container mx-auto px-4 md:px-6">
@@ -473,9 +535,9 @@ export function ContactContent() {
                 ¿Cuánto tiempo toma completar un proyecto?
               </h3>
               <p className="text-gray-300">
-                El tiempo de entrega depende del tipo y complejidad del proyecto. 
-                Proyectos simples pueden estar listos en 1-3 días, mientras que proyectos 
-                más complejos pueden tomar 1-2 semanas. Te daremos un tiempo estimado específico 
+                El tiempo de entrega depende del tipo y complejidad del proyecto.
+                Proyectos simples pueden estar listos en 1-3 días, mientras que proyectos
+                más complejos pueden tomar 1-2 semanas. Te daremos un tiempo estimado específico
                 cuando discutamos tu proyecto.
               </p>
             </Card>
@@ -485,8 +547,8 @@ export function ContactContent() {
                 ¿Ofrecen servicios de diseño personalizado?
               </h3>
               <p className="text-gray-300">
-                Sí, ofrecemos servicios completos de diseño gráfico personalizado. 
-                Nuestro equipo puede crear diseños únicos desde cero o trabajar con 
+                Sí, ofrecemos servicios completos de diseño gráfico personalizado.
+                Nuestro equipo puede crear diseños únicos desde cero o trabajar con
                 tus ideas existentes para desarrollar la solución perfecta para tu marca.
               </p>
             </Card>
@@ -496,8 +558,8 @@ export function ContactContent() {
                 ¿Qué formatos de archivo aceptan?
               </h3>
               <p className="text-gray-300">
-                Aceptamos una amplia variedad de formatos incluyendo AI, PSD, PDF, EPS, 
-                JPG, PNG, y más. Si tienes dudas sobre un formato específico, no dudes 
+                Aceptamos una amplia variedad de formatos incluyendo AI, PSD, PDF, EPS,
+                JPG, PNG, y más. Si tienes dudas sobre un formato específico, no dudes
                 en contactarnos y te ayudaremos.
               </p>
             </Card>
@@ -507,8 +569,8 @@ export function ContactContent() {
                 ¿Manejan proyectos de gran volumen?
               </h3>
               <p className="text-gray-300">
-                Absolutamente. Tenemos la capacidad y experiencia para manejar proyectos 
-                de cualquier tamaño, desde pedidos pequeños hasta producciones de gran volumen. 
+                Absolutamente. Tenemos la capacidad y experiencia para manejar proyectos
+                de cualquier tamaño, desde pedidos pequeños hasta producciones de gran volumen.
                 Ofrecemos precios especiales para pedidos grandes.
               </p>
             </Card>

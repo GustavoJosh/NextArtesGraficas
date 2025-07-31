@@ -2,26 +2,18 @@
 "use client";
 
 import Link from 'next/link';
-import CircularGallery from '@/components/ui/CircularGallery';
 import MagicServicesBento from '@/components/ui/MagicBento';
-import { services, getImagePath } from '@/data/services';
+import { services } from '@/data/services';
 import { Button } from '@/components/ui/button';
 import { LayoutGrid, Sparkles } from 'lucide-react';
 
 export function ServicesSection() {
-  const servicesForGallery = services.map(service => ({
-    text: service.title,
-    image: getImagePath(service.imageName),
-    description: service.description
-  }));
-
   // Transformar los servicios para que sean compatibles con MagicBento
   const servicesForBento = services.map(service => ({
     title: service.title,
     description: service.description,
     category: service.category,
     imageName: service.imageName,
- 
   }));
 
   return (
@@ -39,11 +31,11 @@ export function ServicesSection() {
             <span className="text-[#F7DF14] font-medium uppercase tracking-wider text-sm">Servicios Profesionales</span>
             <Sparkles className="w-6 h-6 text-[#F7DF14] ml-2" />
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 bg-gradient-to-r from-[#F7DF14] via-white to-[#F7DF14] text-transparent bg-clip-text">
             Nuestros Servicios
           </h2>
-          
+
           <p className="text-gray-400 mt-2 text-lg max-w-2xl mx-auto">
             Todo lo que necesitas para que tu marca destaque. Desde impresión tradicional hasta soluciones digitales innovadoras.
           </p>
@@ -67,14 +59,6 @@ export function ServicesSection() {
           />
         </div>
 
-        {/* Interactive circular gallery */}
-        <div className="mb-12">
-          <h3 className="text-2xl font-bold text-white text-center mb-8">
-            Explora Nuestro Portfolio
-          </h3>
-          <CircularGallery items={servicesForGallery} />
-        </div>
-
         {/* Call to action */}
         <div className="text-center">
           <div className="inline-flex items-center space-x-4">
@@ -84,7 +68,7 @@ export function ServicesSection() {
                 Ver Catálogo Completo
               </Link>
             </Button>
-            
+
             <Button variant="outline" size="lg" className="border-[#F7DF14] text-[#F7DF14] hover:bg-[#F7DF14] hover:text-[#0E345A]">
               <Link href="#contacto">
                 Solicitar Cotización

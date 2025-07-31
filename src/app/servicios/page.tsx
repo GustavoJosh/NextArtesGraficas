@@ -84,6 +84,7 @@ export default function ServiciosPage() {
                     title={service.title}
                     description={service.description}
                     category={service.category}
+                    imageName={service.imageName}
                   />
                 ))}
               </div>
