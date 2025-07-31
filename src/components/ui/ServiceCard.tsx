@@ -29,7 +29,7 @@ const getCategoryColor = (category: string) => {
   }
 };
 
-export function ServiceCard({ title, description, category = 'impresion', imageName }: ServiceCardProps) {
+export function ServiceCard({ title, description, category = 'impresion' }: ServiceCardProps) {
   const Icon = getServiceIcon(category);
   const colorGradient = getCategoryColor(category);
   
