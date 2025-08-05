@@ -248,6 +248,19 @@
   user-select: none;
 }
 
+
+
+/* Efectos adicionales para las animaciones de entrada */
+.card-grid .card {
+  will-change: transform, opacity;
+}
+
+.card-grid .card.animating-in {
+  transform-origin: center center;
+}
+
+
+
 /* Efectos adicionales para mejor integración */
 .card::before {
   content: '';

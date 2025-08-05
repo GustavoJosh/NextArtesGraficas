@@ -77,12 +77,12 @@ export default function Home() {
             </div>
             <div className="h-96">
               <CircularGallery 
-                bend={2}
+                bend={0.5}
                 textColor="#0E345A"
-                borderRadius={0.1}
+                borderRadius={0}
                 font="bold 24px sans-serif"
-                scrollSpeed={1.5}
-                scrollEase={0.08}
+                scrollSpeed={2}
+                scrollEase={0.2}
               />
             </div>
           </div>
