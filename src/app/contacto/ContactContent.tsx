@@ -5,6 +5,9 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
+import ScrollStack, { ScrollStackItem } from '@/components/ui/ScrollStack';
+import { FAQCard } from '@/components/ui/FAQCard';
+import { faqData } from '@/data/faq';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle, MessageCircle } from 'lucide-react';
 
 interface FormData {
@@ -517,63 +520,48 @@ export function ContactContent() {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="w-full py-12 md:py-24 bg-gray-900">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Preguntas Frecuentes
-            </h2>
-            <p className="text-gray-300 max-w-2xl mx-auto">
-              Encuentra respuestas a las preguntas más comunes sobre nuestros servicios
-            </p>
-          </div>
+      {/* FAQ Section with ScrollStack */}
+      <section className="w-full h-screen bg-gray-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-gray-800" />
 
-          <div className="max-w-4xl mx-auto space-y-6">
-            <Card className="p-6 bg-gray-800 border-gray-700">
-              <h3 className="text-lg font-semibold text-white mb-2">
-                ¿Cuánto tiempo toma completar un proyecto?
-              </h3>
-              <p className="text-gray-300">
-                El tiempo de entrega depende del tipo y complejidad del proyecto.
-                Proyectos simples pueden estar listos en 1-3 días, mientras que proyectos
-                más complejos pueden tomar 1-2 semanas. Te daremos un tiempo estimado específico
-                cuando discutamos tu proyecto.
-              </p>
-            </Card>
+        {/* Header */}
+        <div className="relative z-10 text-center pt-12 pb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Preguntas Frecuentes
+          </h2>
+          <p className="text-gray-300 max-w-2xl mx-auto px-4">
+            Encuentra respuestas a las preguntas más comunes sobre nuestros servicios
+          </p>
+        </div>
 
-            <Card className="p-6 bg-gray-800 border-gray-700">
-              <h3 className="text-lg font-semibold text-white mb-2">
-                ¿Ofrecen servicios de diseño personalizado?
-              </h3>
-              <p className="text-gray-300">
-                Sí, ofrecemos servicios completos de diseño gráfico personalizado.
-                Nuestro equipo puede crear diseños únicos desde cero o trabajar con
-                tus ideas existentes para desarrollar la solución perfecta para tu marca.
-              </p>
-            </Card>
+        {/* ScrollStack Container */}
+        <div className="relative z-10 h-full">
+          <ScrollStack
+            className="h-full"
+            itemDistance={120}
+            itemScale={0}
+            itemStackDistance={25}
+            stackPosition="25%"
+            scaleEndPosition="15%"
+            baseScale={0.88}
+            rotationAmount={0}
+            blurAmount={0.5}
+          >
+            {faqData.map((faq, index) => (
+              <ScrollStackItem key={faq.id}>
+                <FAQCard faq={faq} index={index} />
+              </ScrollStackItem>
+            ))}
+          </ScrollStack>
+        </div>
 
-            <Card className="p-6 bg-gray-800 border-gray-700">
-              <h3 className="text-lg font-semibold text-white mb-2">
-                ¿Qué formatos de archivo aceptan?
-              </h3>
-              <p className="text-gray-300">
-                Aceptamos una amplia variedad de formatos incluyendo AI, PSD, PDF, EPS,
-                JPG, PNG, y más. Si tienes dudas sobre un formato específico, no dudes
-                en contactarnos y te ayudaremos.
-              </p>
-            </Card>
-
-            <Card className="p-6 bg-gray-800 border-gray-700">
-              <h3 className="text-lg font-semibold text-white mb-2">
-                ¿Manejan proyectos de gran volumen?
-              </h3>
-              <p className="text-gray-300">
-                Absolutamente. Tenemos la capacidad y experiencia para manejar proyectos
-                de cualquier tamaño, desde pedidos pequeños hasta producciones de gran volumen.
-                Ofrecemos precios especiales para pedidos grandes.
-              </p>
-            </Card>
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+          <div className="flex flex-col items-center text-gray-400">
+            <p className="text-sm mb-2">Desplázate para ver más</p>
+            <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
+              <div className="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-bounce" />
+            </div>
           </div>
         </div>
       </section>
