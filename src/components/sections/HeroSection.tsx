@@ -8,38 +8,38 @@ import CircularText from '@/components/ui/CircularText';
 export function HeroSection() {
   return (
     <section className="relative w-full min-h-screen flex flex-col justify-center items-center text-center p-8 bg-gradient-to-br from-[#0A1B2E] via-[#0E345A] to-[#1A3A5C] text-white overflow-hidden">
-      <div className="relative z-10 max-w-4xl mx-auto">    
-       <div className="mb-8">
-  {/*
+      <div className="relative z-10 max-w-4xl mx-auto">
+        <div className="mb-8">
+          {/*
     Quitamos 'flex', 'items-center', y 'justify-center'.
     El 'relative' es lo único que necesita para anclar al hijo absol
   */}
-  <div className="relative w-48 h-48 mx-auto mb-4">
-    
-    <CircularText
-      text="Artes • Gráficas • Digitales • "
-      onHover="speedUp"
-      spinDuration={25}
-      // Estas clases ahora sí funcionarán como se espera
-      className="absolute top-0 left-0 w-full h-full text-[#F7DF14]"
-    />
-    
-    {/* Este logo, al no ser absoluto, podemos centrarlo dentro del div
-    */}
-    <Image
-      src="/images/logos/circle.png"
-      alt="Artes Gráficas Digitales Logo"
-      width={128}
-      height={128}
-      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 object-contain mt-[4px] ml-[5px]"
-      priority
-    />
-  </div>
-</div>
+          <div className="relative w-48 h-48 mx-auto mb-4">
 
-  <h1 className="text-5xl md:text-7xl leading-normal font-bold bg-gradient-to-r from-[#F7DF14] via-white to-[#F7DF14] text-transparent bg-clip-text">
-    Artes Gráficas Digitales
-  </h1>
+            <CircularText
+              text="Artes • Gráficas • Digitales • "
+              onHover="speedUp"
+              spinDuration={25}
+              // Estas clases ahora sí funcionarán como se espera
+              className="absolute top-0 left-0 w-full h-full text-[#F7DF14]"
+            />
+
+            {/* Este logo, al no ser absoluto, podemos centrarlo dentro del div
+    */}
+            <Image
+              src="/images/logos/circle.png"
+              alt="Artes Gráficas Digitales Logo"
+              width={128}
+              height={128}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 object-contain mt-[4px] ml-[5px]"
+              priority
+            />
+          </div>
+        </div>
+
+        <h1 className="text-5xl md:text-7xl leading-normal font-bold bg-gradient-to-r from-[#F7DF14] via-white to-[#F7DF14] text-transparent bg-clip-text">
+          Artes Gráficas Digitales
+        </h1>
 
 
         <div className="flex items-center justify-center mt-2 mb-4">
@@ -85,7 +85,7 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8 mb-16">
           <Button
             className="px-8 py-3 bg-[#F7DF14] text-[#0E345A] font-semibold rounded-lg shadow-lg hover:bg-[#E6C200] transition-all duration-300 transform hover:scale-105"
             onClick={() => {
@@ -97,7 +97,7 @@ export function HeroSection() {
 
           <Button
             variant="outline"
-            className="px-6 py-3 border-2 border-[#F7DF14] text-[#F7DF14] hover:bg-[#F7DF14] hover:text-[#0E345A] transition-all duration-300"
+            className="px-6 py-3 border-2 border-[#F7DF14] text-white bg-[#0E345A] hover:bg-[#F7DF14] hover:text-[#0E345A] transition-all duration-300"
             onClick={() => {
               document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
             }}
@@ -105,11 +105,11 @@ export function HeroSection() {
             Ver Portfolio
           </Button>
         </div>
+      </div>
 
-        {/* Static scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-          <ArrowDown className="w-6 h-6 text-[#F7DF14]" />
-        </div>
+      {/* Static scroll indicator - moved outside main content container */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+        <ArrowDown className="w-6 h-6 text-[#F7DF14]" />
       </div>
 
       {/* Background gradient overlay */}
