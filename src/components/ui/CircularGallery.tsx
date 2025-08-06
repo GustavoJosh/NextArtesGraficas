@@ -310,7 +310,7 @@ class Media {
       program: this.program,
     });
     this.plane.setParent(this.scene);
-    
+
     // Add click functionality
     (this.plane as Mesh & { userData?: PlaneUserData }).userData = {
       image: this.image,
@@ -578,22 +578,22 @@ class App {
     // Only handle click if we didn't drag
     const currentX = e.clientX;
     const dragDistance = Math.abs(currentX - this.start);
-    
+
     if (dragDistance < 5) { // Small threshold for click vs drag
       // Find the closest media item to the center
       let closestMedia: Media | null = null;
       let minDistance = Infinity;
-      
-      this.medias.forEach((media) => {
+
+      for (const media of this.medias) {
         const mediaX = media.plane.position.x;
         const distance = Math.abs(mediaX);
-        
+
         if (distance < minDistance && Math.abs(mediaX) < media.width / 2) {
           minDistance = distance;
           closestMedia = media;
         }
-      });
-      
+      }
+
       if (closestMedia && closestMedia.onImageClick) {
         closestMedia.onImageClick(closestMedia.image, closestMedia.text);
       }
