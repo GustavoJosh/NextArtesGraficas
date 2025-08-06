@@ -7,6 +7,12 @@ import "./CircularGallery.css";
 
 type GL = Renderer["gl"];
 
+interface PlaneUserData {
+  image: string;
+  text: string;
+  onImageClick?: (image: string, text: string) => void;
+}
+
 function debounce<T extends (...args: unknown[]) => void>(func: T, wait: number) {
   let timeout: number;
   return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
@@ -306,7 +312,7 @@ class Media {
     this.plane.setParent(this.scene);
     
     // Add click functionality
-    (this.plane as Mesh & { userData?: any }).userData = {
+    (this.plane as Mesh & { userData?: PlaneUserData }).userData = {
       image: this.image,
       text: this.text,
       onImageClick: this.onImageClick,
