@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 
 interface ImageModalProps {
   isOpen: boolean;
@@ -55,12 +56,16 @@ export default function ImageModal({ isOpen, imageSrc, imageAlt, onClose }: Imag
             />
           </svg>
         </button>
-        <img
-          src={imageSrc}
-          alt={imageAlt}
-          className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
-          onClick={(e) => e.stopPropagation()}
-        />
+        <div className="relative max-w-full max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            width={800}
+            height={600}
+            className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+            priority
+          />
+        </div>
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-lg">
           <p className="text-white text-lg font-semibold text-center">{imageAlt}</p>
         </div>

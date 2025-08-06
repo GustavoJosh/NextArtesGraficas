@@ -306,7 +306,7 @@ class Media {
     this.plane.setParent(this.scene);
     
     // Add click functionality
-    (this.plane as any).userData = {
+    (this.plane as Mesh & { userData?: any }).userData = {
       image: this.image,
       text: this.text,
       onImageClick: this.onImageClick,
@@ -574,10 +574,6 @@ class App {
     const dragDistance = Math.abs(currentX - this.start);
     
     if (dragDistance < 5) { // Small threshold for click vs drag
-      const rect = (this.renderer.gl.canvas as HTMLCanvasElement).getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-      
       // Find the closest media item to the center
       let closestMedia = null;
       let minDistance = Infinity;
