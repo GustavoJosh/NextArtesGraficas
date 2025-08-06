@@ -5,6 +5,9 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
+import ScrollStack, { ScrollStackItem } from '@/components/ui/ScrollStack';
+import { FAQCard } from '@/components/ui/FAQCard';
+import { faqData } from '@/data/faq';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle, MessageCircle } from 'lucide-react';
 
 interface FormData {
@@ -104,32 +107,31 @@ export function ContactContent() {
     setSubmitStatus('idle');
 
     try {
-      // Create mailto link with form data
-      const subject = encodeURIComponent(`Consulta de ${formData.name} - ${formData.service || 'Consulta General'}`);
-      const body = encodeURIComponent(
-        `Nombre: ${formData.name}\n` +
-        `Email: ${formData.email}\n` +
-        `Teléfono: ${formData.phone || 'No proporcionado'}\n` +
-        `Empresa: ${formData.company || 'No proporcionado'}\n` +
-        `Servicio de interés: ${formData.service || 'No especificado'}\n\n` +
-        `Mensaje:\n${formData.message}`
-      );
-
-      const mailtoLink = `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-
-      // Open email client
-      window.location.href = mailtoLink;
-
-      // Reset form and show success message
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        service: '',
-        message: ''
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-      setSubmitStatus('success');
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Reset form and show success message
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          company: '',
+          service: '',
+          message: ''
+        });
+        setSubmitStatus('success');
+      } else {
+        console.error('Server error:', data.error);
+        setSubmitStatus('error');
+      }
 
     } catch (error) {
       console.error('Error sending message:', error);
@@ -179,10 +181,16 @@ export function ContactContent() {
                 </h2>
 
                 {submitStatus === 'success' && (
-                  <div className="mb-6 p-4 bg-green-900/20 border border-green-700 rounded-lg flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-400" />
-                    <p className="text-green-300">
-                      ¡Mensaje enviado correctamente! Te contactaremos pronto.
+                  <div className="mb-6 p-4 bg-green-900/20 border border-green-700 rounded-lg">
+                    <div className="flex items-center gap-3 mb-3">
+                      <CheckCircle className="w-5 h-5 text-green-400" />
+                      <p className="text-green-300 font-medium">
+                        ¡Solicitud enviada correctamente!
+                      </p>
+                    </div>
+                    <p className="text-green-200 text-sm">
+                      Hemos recibido tu mensaje y nos pondremos en contacto contigo en las próximas 24 horas. 
+                      Para una respuesta más rápida, contáctanos por WhatsApp.
                     </p>
                   </div>
                 )}
@@ -517,63 +525,62 @@ export function ContactContent() {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="w-full py-12 md:py-24 bg-gray-900">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Preguntas Frecuentes
-            </h2>
-            <p className="text-gray-300 max-w-2xl mx-auto">
-              Encuentra respuestas a las preguntas más comunes sobre nuestros servicios
-            </p>
+      {/* FAQ Section - Desktop: ScrollStack, Mobile: Static Grid */}
+      <section className="w-full bg-gray-900 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-gray-800" />
+
+        {/* Header */}
+        <div className="relative z-10 text-center pt-12 pb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Preguntas Frecuentes
+          </h2>
+          <p className="text-gray-300 max-w-2xl mx-auto px-4">
+            Encuentra respuestas a las preguntas más comunes sobre nuestros servicios
+          </p>
+        </div>
+
+        {/* Mobile FAQ - Static Grid (visible only on mobile) */}
+        <div className="block lg:hidden relative z-10 pb-12">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto">
+              {faqData.map((faq, index) => (
+                <FAQCard key={faq.id} faq={faq} index={index} />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop FAQ - ScrollStack (visible only on desktop) */}
+        <div className="hidden lg:block h-screen overflow-hidden">
+          {/* ScrollStack Container */}
+          <div className="relative z-10 h-full">
+            <ScrollStack
+              className="h-full"
+              itemDistance={120}
+              itemScale={0}
+              itemStackDistance={5}
+              stackPosition="25%"
+              scaleEndPosition="15%"
+              baseScale={0.88}
+              rotationAmount={0}
+              blurAmount={0}
+            >
+              {faqData.map((faq, index) => (
+                <ScrollStackItem key={faq.id}>
+                  <FAQCard faq={faq} index={index} />
+                </ScrollStackItem>
+              ))}
+            </ScrollStack>
           </div>
 
-          <div className="max-w-4xl mx-auto space-y-6">
-            <Card className="p-6 bg-gray-800 border-gray-700">
-              <h3 className="text-lg font-semibold text-white mb-2">
-                ¿Cuánto tiempo toma completar un proyecto?
-              </h3>
-              <p className="text-gray-300">
-                El tiempo de entrega depende del tipo y complejidad del proyecto.
-                Proyectos simples pueden estar listos en 1-3 días, mientras que proyectos
-                más complejos pueden tomar 1-2 semanas. Te daremos un tiempo estimado específico
-                cuando discutamos tu proyecto.
-              </p>
-            </Card>
-
-            <Card className="p-6 bg-gray-800 border-gray-700">
-              <h3 className="text-lg font-semibold text-white mb-2">
-                ¿Ofrecen servicios de diseño personalizado?
-              </h3>
-              <p className="text-gray-300">
-                Sí, ofrecemos servicios completos de diseño gráfico personalizado.
-                Nuestro equipo puede crear diseños únicos desde cero o trabajar con
-                tus ideas existentes para desarrollar la solución perfecta para tu marca.
-              </p>
-            </Card>
-
-            <Card className="p-6 bg-gray-800 border-gray-700">
-              <h3 className="text-lg font-semibold text-white mb-2">
-                ¿Qué formatos de archivo aceptan?
-              </h3>
-              <p className="text-gray-300">
-                Aceptamos una amplia variedad de formatos incluyendo AI, PSD, PDF, EPS,
-                JPG, PNG, y más. Si tienes dudas sobre un formato específico, no dudes
-                en contactarnos y te ayudaremos.
-              </p>
-            </Card>
-
-            <Card className="p-6 bg-gray-800 border-gray-700">
-              <h3 className="text-lg font-semibold text-white mb-2">
-                ¿Manejan proyectos de gran volumen?
-              </h3>
-              <p className="text-gray-300">
-                Absolutamente. Tenemos la capacidad y experiencia para manejar proyectos
-                de cualquier tamaño, desde pedidos pequeños hasta producciones de gran volumen.
-                Ofrecemos precios especiales para pedidos grandes.
-              </p>
-            </Card>
+          {/* Scroll Indicator */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+            <div className="flex flex-col items-center text-gray-400">
+              <p className="text-sm mb-2">Desplázate para ver más</p>
+              <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
+                <div className="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-bounce" />
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -47,7 +47,7 @@ const getStatusBadge = (status?: string) => {
 
 export function ProjectCard({ title, description, image, url, status, technologies, completionTime, client }: ProjectCardProps) {
   return (
-    <Card className="group bg-gray-800/50 backdrop-blur-sm border-gray-700/50 text-white flex flex-col h-full transform transition-all duration-300 hover:-translate-y-2 hover:border-gray-600/80 overflow-hidden">
+    <Card className="group bg-gray-800/50 backdrop-blur-sm border-gray-700/50 text-white flex flex-col h-full transform transition-all duration-300 hover:-translate-y-2 hover:border-gray-600/80 hover:shadow-2xl hover:shadow-blue-500/20 overflow-hidden will-change-transform">
       <CardHeader className="relative p-0">
         <div className="aspect-video relative overflow-hidden">
           <Image

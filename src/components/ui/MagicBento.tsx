@@ -1,9 +1,15 @@
 import React, { useRef, useEffect, useCallback, useState } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Printer, Zap, FileText, Palette } from 'lucide-react';
 import Image from 'next/image';
 import { getImagePath } from '@/data/services';
 import "./MagicBento.css";
+
+// Registrar ScrollTrigger
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // Interfaces adaptadas para servicios
 export interface ServiceBentoCardProps {
@@ -564,15 +570,147 @@ const MagicServicesBento: React.FC<ServiceBentoProps> = ({
   enableMagnetism = true,
 }) => {
   const gridRef = useRef<HTMLDivElement>(null);
+  const leftSectionRef = useRef<HTMLDivElement>(null);
+  const rightSectionRef = useRef<HTMLDivElement>(null);
+  const centerLineRef = useRef<HTMLDivElement>(null);
   const isMobile = useMobileDetection();
-  const shouldDisableAnimations = disableAnimations || isMobile;
+  const shouldDisableParticleAnimations = disableAnimations || isMobile;
+
+  // Configurar animaciones de entrada desde los bordes
+  useEffect(() => {
+    if (disableAnimations || !gridRef.current) return;
+
+    const setupAnimations = () => {
+      const cards = gridRef.current?.querySelectorAll('.card');
+      if (!cards) return;
+
+      const leftCards: Element[] = [];
+      const rightCards: Element[] = [];
+      const centerCards: Element[] = [];
+
+      // Clasificar las tarjetas según su posición en el grid
+      cards.forEach((card, index) => {
+        // En desktop (4 columnas): izquierda (col 1-2), derecha (col 3-4)
+        // En tablet (2 columnas): izquierda (col 1), derecha (col 2)
+        const isDesktop = window.innerWidth >= 1024;
+        const isTablet = window.innerWidth >= 600 && window.innerWidth < 1024;
+
+        if (isDesktop) {
+          // Layout desktop: 4 columnas
+          const col = (index % 4) + 1;
+          if (col <= 2) {
+            leftCards.push(card);
+          } else {
+            rightCards.push(card);
+          }
+        } else if (isTablet) {
+          // Layout tablet: 2 columnas
+          const col = (index % 2) + 1;
+          if (col === 1) {
+            leftCards.push(card);
+          } else {
+            rightCards.push(card);
+          }
+        } else {
+          // Mobile: todas las tarjetas desde abajo
+          centerCards.push(card);
+        }
+      });
+
+      return { leftCards, rightCards, centerCards };
+    };
+
+    const animationData = setupAnimations();
+    if (!animationData) return;
+
+    const { leftCards, rightCards, centerCards } = animationData;
+
+    // Configurar posiciones iniciales
+    gsap.set(leftCards, { 
+      x: -200, 
+      opacity: 0,
+      scale: 0.8
+    });
+    
+    gsap.set(rightCards, { 
+      x: 200, 
+      opacity: 0,
+      scale: 0.8
+    });
+
+    gsap.set(centerCards, { 
+      y: 100, 
+      opacity: 0,
+      scale: 0.9
+    });
+
+    // Crear timeline para las animaciones
+    const tl = gsap.timeline({
+      delay: isMobile ? 0.2 : 0, // En móvil, delay mínimo para que se ejecute automáticamente
+      ...(isMobile ? {} : {
+        scrollTrigger: {
+          trigger: gridRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse",
+        }
+      }),
+      onComplete: () => {
+        // Limpiar las transformaciones después de la animación
+        gsap.set([...leftCards, ...rightCards, ...centerCards], { 
+          clearProps: "all" 
+        });
+      }
+    });
+
+    // Animar tarjetas desde la izquierda
+    if (leftCards.length > 0) {
+      tl.to(leftCards, {
+        x: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "back.out(1.7)"
+      }, isMobile ? 0 : 0.3);
+    }
+
+    // Animar tarjetas desde la derecha
+    if (rightCards.length > 0) {
+      tl.to(rightCards, {
+        x: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "back.out(1.7)"
+      }, isMobile ? 0.2 : 0.5);
+    }
+
+    // Animar tarjetas desde abajo (mobile)
+    if (centerCards.length > 0) {
+      tl.to(centerCards, {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "back.out(1.7)"
+      }, 0);
+    }
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      tl.kill();
+    };
+  }, [disableAnimations, isMobile, services.length]);
 
   return (
     <>
       {enableSpotlight && (
         <GlobalSpotlight
           gridRef={gridRef}
-          disableAnimations={shouldDisableAnimations}
+          disableAnimations={shouldDisableParticleAnimations}
           enabled={enableSpotlight}
           spotlightRadius={spotlightRadius}
           glowColor={glowColor}
@@ -599,7 +737,7 @@ const MagicServicesBento: React.FC<ServiceBentoProps> = ({
               <ParticleCard
                 key={index}
                 {...cardProps}
-                disableAnimations={shouldDisableAnimations}
+                disableAnimations={shouldDisableParticleAnimations}
                 particleCount={particleCount}
                 glowColor={glowColor}
                 enableTilt={enableTilt}
@@ -646,7 +784,7 @@ const MagicServicesBento: React.FC<ServiceBentoProps> = ({
                 if (!el) return;
 
                 const handleMouseMove = (e: MouseEvent) => {
-                  if (shouldDisableAnimations) return;
+                  if (shouldDisableParticleAnimations) return;
 
                   const rect = el.getBoundingClientRect();
                   const x = e.clientX - rect.left;
@@ -679,7 +817,7 @@ const MagicServicesBento: React.FC<ServiceBentoProps> = ({
                 };
 
                 const handleMouseLeave = () => {
-                  if (shouldDisableAnimations) return;
+                  if (shouldDisableParticleAnimations) return;
 
                   if (enableTilt) {
                     gsap.to(el, {
@@ -701,7 +839,7 @@ const MagicServicesBento: React.FC<ServiceBentoProps> = ({
                 };
 
                 const handleClick = (e: MouseEvent) => {
-                  if (!clickEffect || shouldDisableAnimations) return;
+                  if (!clickEffect || shouldDisableParticleAnimations) return;
 
                   const rect = el.getBoundingClientRect();
                   const x = e.clientX - rect.left;

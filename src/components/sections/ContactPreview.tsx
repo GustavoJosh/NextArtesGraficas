@@ -54,7 +54,7 @@ export function ContactPreview() {
               asChild 
               variant="outline" 
               size="lg" 
-              className="border-[#F7DF14] text-[#F7DF14] hover:bg-[#F7DF14] hover:text-[#0E345A] px-8 py-3"
+              className="border-[#F7DF14] text-white bg-[#0E345A] hover:bg-[#F7DF14] hover:text-[#0E345A] px-8 py-3"
             >
               <a href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'info@empresa.com'}`}>
                 Enviar Email Directo
