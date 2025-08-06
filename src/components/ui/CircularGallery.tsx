@@ -10,7 +10,7 @@ type GL = Renderer["gl"];
 interface PlaneUserData {
   image: string;
   text: string;
-  onImageClick?: (image: string, text: string) => void;
+  onImageClick?: (image: string) => void;
 }
 
 function debounce<T extends (...args: unknown[]) => void>(func: T, wait: number) {
@@ -162,7 +162,7 @@ interface MediaProps {
   textColor: string;
   borderRadius?: number;
   font?: string;
-  onImageClick?: (image: string, text: string) => void;
+  onImageClick?: (image: string) => void;
 }
 
 class Media {
@@ -181,7 +181,7 @@ class Media {
   textColor: string;
   borderRadius: number;
   font?: string;
-  onImageClick?: (image: string, text: string) => void;
+  onImageClick?: (image: string) => void;
   program!: Program;
   plane!: Mesh;
   title!: Title;
@@ -400,7 +400,7 @@ interface AppConfig {
   font?: string;
   scrollSpeed?: number;
   scrollEase?: number;
-  onImageClick?: (image: string, text: string) => void;
+  onImageClick?: (image: string) => void;
 }
 
 class App {
@@ -493,7 +493,7 @@ class App {
     textColor: string,
     borderRadius: number,
     font: string,
-    onImageClick?: (image: string, text: string) => void
+    onImageClick?: (image: string) => void
   ) {
     const defaultItems = [
       {
@@ -595,7 +595,7 @@ class App {
       }
 
       if (closestMedia && closestMedia.onImageClick) {
-        closestMedia.onImageClick(closestMedia.image, closestMedia.text);
+        closestMedia.onImageClick(closestMedia.image);
       }
     }
   }
@@ -701,7 +701,7 @@ interface CircularGalleryProps {
   font?: string;
   scrollSpeed?: number;
   scrollEase?: number;
-  onImageClick?: (image: string, text: string) => void;
+  onImageClick?: (image: string) => void;
 }
 
 export default function CircularGallery({

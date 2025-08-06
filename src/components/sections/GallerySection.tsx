@@ -7,8 +7,8 @@ import ImageModal from "@/components/ui/ImageModal";
 export function GallerySection() {
   const [modalImage, setModalImage] = useState<{ src: string; alt: string } | null>(null);
 
-  const handleImageClick = (imageSrc: string, imageText: string) => {
-    setModalImage({ src: imageSrc, alt: imageText });
+  const handleImageClick = (imageSrc: string) => {
+    setModalImage({ src: imageSrc, alt: "Socio" });
   };
 
   const closeModal = () => {
