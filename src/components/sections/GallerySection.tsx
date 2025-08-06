@@ -8,7 +8,7 @@ export function GallerySection() {
   const [modalImage, setModalImage] = useState<{ src: string; alt: string } | null>(null);
 
   const handleImageClick = (imageSrc: string) => {
-    setModalImage({ src: imageSrc, alt: "Socio" });
+    setModalImage({ src: imageSrc, alt: "" });
   };
 
   const closeModal = () => {
