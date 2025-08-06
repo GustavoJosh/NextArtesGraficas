@@ -570,9 +570,6 @@ const MagicServicesBento: React.FC<ServiceBentoProps> = ({
   enableMagnetism = true,
 }) => {
   const gridRef = useRef<HTMLDivElement>(null);
-  const leftSectionRef = useRef<HTMLDivElement>(null);
-  const rightSectionRef = useRef<HTMLDivElement>(null);
-  const centerLineRef = useRef<HTMLDivElement>(null);
   const isMobile = useMobileDetection();
   const shouldDisableParticleAnimations = disableAnimations || isMobile;
 

@@ -22,8 +22,8 @@ function lerp(p1: number, p2: number, t: number): number {
 function autoBind(instance: object): void {
   const proto = Object.getPrototypeOf(instance);
   Object.getOwnPropertyNames(proto).forEach((key) => {
-    if (key !== "constructor" && typeof (instance as any)[key] === "function") {
-      (instance as any)[key] = (instance as any)[key].bind(instance);
+    if (key !== "constructor" && typeof (instance as Record<string, unknown>)[key] === "function") {
+      (instance as Record<string, (...args: unknown[]) => unknown>)[key] = (instance as Record<string, (...args: unknown[]) => unknown>)[key].bind(instance);
     }
   });
 }
@@ -565,7 +565,7 @@ class App {
 
   onWheel(e: Event) {
     const wheelEvent = e as WheelEvent;
-    const delta = wheelEvent.deltaY || (wheelEvent as any).wheelDelta || (wheelEvent as any).detail;
+    const delta = wheelEvent.deltaY || (wheelEvent as WheelEvent & { wheelDelta?: number }).wheelDelta || (wheelEvent as WheelEvent & { detail?: number }).detail;
     this.scroll.target += delta > 0 ? this.scrollSpeed : -this.scrollSpeed;
     this.onCheckDebounce();
   }
