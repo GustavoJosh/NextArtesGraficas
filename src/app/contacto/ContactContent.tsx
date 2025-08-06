@@ -520,8 +520,8 @@ export function ContactContent() {
         </div>
       </section>
 
-      {/* FAQ Section with ScrollStack */}
-      <section className="w-full h-screen bg-gray-900 relative overflow-hidden">
+      {/* FAQ Section - Desktop: ScrollStack, Mobile: Static Grid */}
+      <section className="w-full bg-gray-900 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-gray-800" />
 
         {/* Header */}
@@ -534,33 +534,47 @@ export function ContactContent() {
           </p>
         </div>
 
-        {/* ScrollStack Container */}
-        <div className="relative z-10 h-full">
-          <ScrollStack
-            className="h-full"
-            itemDistance={120}
-            itemScale={0}
-            itemStackDistance={25}
-            stackPosition="25%"
-            scaleEndPosition="15%"
-            baseScale={0.88}
-            rotationAmount={0}
-            blurAmount={0.5}
-          >
-            {faqData.map((faq, index) => (
-              <ScrollStackItem key={faq.id}>
-                <FAQCard faq={faq} index={index} />
-              </ScrollStackItem>
-            ))}
-          </ScrollStack>
+        {/* Mobile FAQ - Static Grid (visible only on mobile) */}
+        <div className="block lg:hidden relative z-10 pb-12">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto">
+              {faqData.map((faq, index) => (
+                <FAQCard key={faq.id} faq={faq} index={index} />
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-          <div className="flex flex-col items-center text-gray-400">
-            <p className="text-sm mb-2">Desplázate para ver más</p>
-            <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
-              <div className="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-bounce" />
+        {/* Desktop FAQ - ScrollStack (visible only on desktop) */}
+        <div className="hidden lg:block h-screen overflow-hidden">
+          {/* ScrollStack Container */}
+          <div className="relative z-10 h-full">
+            <ScrollStack
+              className="h-full"
+              itemDistance={120}
+              itemScale={0}
+              itemStackDistance={5}
+              stackPosition="25%"
+              scaleEndPosition="15%"
+              baseScale={0.88}
+              rotationAmount={0}
+              blurAmount={0}
+            >
+              {faqData.map((faq, index) => (
+                <ScrollStackItem key={faq.id}>
+                  <FAQCard faq={faq} index={index} />
+                </ScrollStackItem>
+              ))}
+            </ScrollStack>
+          </div>
+
+          {/* Scroll Indicator */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+            <div className="flex flex-col items-center text-gray-400">
+              <p className="text-sm mb-2">Desplázate para ver más</p>
+              <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
+                <div className="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-bounce" />
+              </div>
             </div>
           </div>
         </div>
