@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Mail, Phone, Building, Calendar, MessageCircle, ExternalLink } from 'lucide-react';
+import { Mail, Phone, Building, Calendar, MessageCircle } from 'lucide-react';
 
 interface ContactSubmission {
   id: string;
@@ -38,7 +38,7 @@ export default function AdminContactsPage() {
     }
   };
 
-  const filteredSubmissions = submissions.filter(submission => 
+  const filteredSubmissions = submissions.filter(submission =>
     filter === 'all' || submission.status === filter
   );
 
@@ -91,13 +91,12 @@ export default function AdminContactsPage() {
           ].map(({ key, label, count }) => (
             <Button
               key={key}
-              onClick={() => setFilter(key as any)}
+              onClick={() => setFilter(key as 'all' | 'new' | 'contacted' | 'completed')}
               variant={filter === key ? 'default' : 'outline'}
-              className={`${
-                filter === key 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700'
-              }`}
+              className={`${filter === key
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700'
+                }`}
             >
               {label} ({count})
             </Button>
@@ -114,7 +113,7 @@ export default function AdminContactsPage() {
             filteredSubmissions.map((submission) => (
               <Card key={submission.id} className="p-6 bg-gray-900 border-gray-800">
                 <div className="flex flex-col lg:flex-row lg:items-start gap-6">
-                  
+
                   {/* Main Info */}
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-4">
@@ -149,7 +148,7 @@ export default function AdminContactsPage() {
                           {submission.email}
                         </a>
                       </div>
-                      
+
                       {submission.phone && (
                         <div className="flex items-center gap-2 text-gray-300">
                           <Phone className="w-4 h-4 text-green-400" />
@@ -158,7 +157,7 @@ export default function AdminContactsPage() {
                           </a>
                         </div>
                       )}
-                      
+
                       {submission.company && (
                         <div className="flex items-center gap-2 text-gray-300">
                           <Building className="w-4 h-4 text-purple-400" />
@@ -183,7 +182,7 @@ export default function AdminContactsPage() {
                       <Mail className="w-4 h-4" />
                       Responder Email
                     </Button>
-                    
+
                     {submission.phone && (
                       <Button
                         onClick={() => window.open(`https://wa.me/52${submission.phone.replace(/\D/g, '')}`, '_blank')}
@@ -193,7 +192,7 @@ export default function AdminContactsPage() {
                         WhatsApp
                       </Button>
                     )}
-                    
+
                     {submission.phone && (
                       <Button
                         onClick={() => window.open(`tel:${submission.phone}`, '_blank')}
