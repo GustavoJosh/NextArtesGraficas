@@ -581,7 +581,7 @@ class App {
     
     if (dragDistance < 5) { // Small threshold for click vs drag
       // Find the closest media item to the center
-      let closestMedia = null;
+      let closestMedia: Media | null = null;
       let minDistance = Infinity;
       
       this.medias.forEach((media) => {
