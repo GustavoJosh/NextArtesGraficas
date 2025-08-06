@@ -107,32 +107,31 @@ export function ContactContent() {
     setSubmitStatus('idle');
 
     try {
-      // Create mailto link with form data
-      const subject = encodeURIComponent(`Consulta de ${formData.name} - ${formData.service || 'Consulta General'}`);
-      const body = encodeURIComponent(
-        `Nombre: ${formData.name}\n` +
-        `Email: ${formData.email}\n` +
-        `Teléfono: ${formData.phone || 'No proporcionado'}\n` +
-        `Empresa: ${formData.company || 'No proporcionado'}\n` +
-        `Servicio de interés: ${formData.service || 'No especificado'}\n\n` +
-        `Mensaje:\n${formData.message}`
-      );
-
-      const mailtoLink = `mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-
-      // Open email client
-      window.location.href = mailtoLink;
-
-      // Reset form and show success message
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        service: '',
-        message: ''
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-      setSubmitStatus('success');
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Reset form and show success message
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          company: '',
+          service: '',
+          message: ''
+        });
+        setSubmitStatus('success');
+      } else {
+        console.error('Server error:', data.error);
+        setSubmitStatus('error');
+      }
 
     } catch (error) {
       console.error('Error sending message:', error);
@@ -182,10 +181,16 @@ export function ContactContent() {
                 </h2>
 
                 {submitStatus === 'success' && (
-                  <div className="mb-6 p-4 bg-green-900/20 border border-green-700 rounded-lg flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-400" />
-                    <p className="text-green-300">
-                      ¡Mensaje enviado correctamente! Te contactaremos pronto.
+                  <div className="mb-6 p-4 bg-green-900/20 border border-green-700 rounded-lg">
+                    <div className="flex items-center gap-3 mb-3">
+                      <CheckCircle className="w-5 h-5 text-green-400" />
+                      <p className="text-green-300 font-medium">
+                        ¡Solicitud enviada correctamente!
+                      </p>
+                    </div>
+                    <p className="text-green-200 text-sm">
+                      Hemos recibido tu mensaje y nos pondremos en contacto contigo en las próximas 24 horas. 
+                      Para una respuesta más rápida, contáctanos por WhatsApp.
                     </p>
                   </div>
                 )}
