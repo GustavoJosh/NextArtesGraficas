@@ -65,8 +65,14 @@ export function HeroSection() {
           threshold={0.3}
           delay={3}
         >
-          <h1>
-            <ShinyText text="Artes Gráficas Digitales" disabled={false} speed={5} className='text-5xl md:text-7xl leading-normal font-bold text-[#E0CC44]' />
+          <h1 className="bebas-neue-regular text-center">
+            <div className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight relative">
+              <ShinyText text="ARTES GRÁFICAS" disabled={false} speed={5} className='inline-block text-[#E0CC44] tracking-wide' />
+              <span className="text-sm md:text-base lg:text-lg text-[#E0CC44] absolute -top-2 md:-top-3 lg:-top-4 ml-1">®</span>
+            </div>
+            <div className="text-2xl md:text-3xl lg:text-4xl font-normal tracking-[0.3em] -mt-2">
+              <ShinyText text="DIGITALES" disabled={false} speed={5} className='inline-block text-[#E0CC44]' />
+            </div>
           </h1>
         </AnimatedContent>
 
@@ -107,69 +113,69 @@ export function HeroSection() {
           </p>
         </AnimatedContent>
 
-       
-          <div className="flex items-center justify-center space-x-8 my-12">
-            {/* Design */}
-            <div className="flex flex-col items-center">
-              <div className="p-3 bg-[#F7DF14]/20 rounded-full mb-2 hover:bg-[#F7DF14]/30 transition-colors duration-300">
-                <Palette className="w-6 h-6 text-[#F7DF14]" />
-              </div>
-              <span className="text-sm text-gray-300">Diseño</span>
+
+        <div className="flex items-center justify-center space-x-8 my-12">
+          {/* Design */}
+          <div className="flex flex-col items-center">
+            <div className="p-3 bg-[#F7DF14]/20 rounded-full mb-2 hover:bg-[#F7DF14]/30 transition-colors duration-300">
+              <Palette className="w-6 h-6 text-[#F7DF14]" />
             </div>
-
-            {/* Arrow */}
-            <div className="w-8 h-0.5 bg-gradient-to-r from-[#F7DF14] to-[#0E345A]"></div>
-
-            {/* Print */}
-            <div className="flex flex-col items-center">
-              <div className="p-3 bg-[#0E345A]/30 rounded-full mb-2 hover:bg-[#0E345A]/40 transition-colors duration-300">
-                <Printer className="w-6 h-6 text-blue-300" />
-              </div>
-              <span className="text-sm text-gray-300">Impresión</span>
-            </div>
-
-            {/* Arrow */}
-            <div className="w-8 h-0.5 bg-gradient-to-r from-[#0E345A] to-[#F7DF14]"></div>
-
-            {/* Finish */}
-            <div className="flex flex-col items-center">
-              <div className="p-3 bg-[#F7DF14]/20 rounded-full mb-2 hover:bg-[#F7DF14]/30 transition-colors duration-300">
-                <Monitor className="w-6 h-6 text-[#F7DF14]" />
-              </div>
-              <span className="text-sm text-gray-300">Acabado</span>
-            </div>
+            <span className="text-sm text-gray-300">Diseño</span>
           </div>
-        
 
-        
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8 mb-16">
-            <Button
-              className="px-8 py-3 bg-[#F7DF14] text-[#0E345A] font-semibold rounded-lg shadow-lg hover:bg-[#E6C200] transition-all duration-300 transform hover:scale-105"
-              onClick={() => {
-                document.getElementById('servicios')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              ¡Conoce nuestros servicios!
-            </Button>
+          {/* Arrow */}
+          <div className="w-8 h-0.5 bg-gradient-to-r from-[#F7DF14] to-[#0E345A]"></div>
 
-            <Button
-              variant="outline"
-              className="px-6 py-3 border-2 border-[#F7DF14] text-white bg-[#0E345A] hover:bg-[#F7DF14] hover:text-[#0E345A] transition-all duration-300"
-              onClick={() => {
-                document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              Ver Portfolio
-            </Button>
+          {/* Print */}
+          <div className="flex flex-col items-center">
+            <div className="p-3 bg-[#0E345A]/30 rounded-full mb-2 hover:bg-[#0E345A]/40 transition-colors duration-300">
+              <Printer className="w-6 h-6 text-blue-300" />
+            </div>
+            <span className="text-sm text-gray-300">Impresión</span>
           </div>
+
+          {/* Arrow */}
+          <div className="w-8 h-0.5 bg-gradient-to-r from-[#0E345A] to-[#F7DF14]"></div>
+
+          {/* Finish */}
+          <div className="flex flex-col items-center">
+            <div className="p-3 bg-[#F7DF14]/20 rounded-full mb-2 hover:bg-[#F7DF14]/30 transition-colors duration-300">
+              <Monitor className="w-6 h-6 text-[#F7DF14]" />
+            </div>
+            <span className="text-sm text-gray-300">Acabado</span>
+          </div>
+        </div>
+
+
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8 mb-16">
+          <Button
+            className="px-8 py-3 bg-[#F7DF14] text-[#0E345A] font-semibold rounded-lg shadow-lg hover:bg-[#E6C200] transition-all duration-300 transform hover:scale-105"
+            onClick={() => {
+              document.getElementById('servicios')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            ¡Conoce nuestros servicios!
+          </Button>
+
+          <Button
+            variant="outline"
+            className="px-6 py-3 border-2 border-[#F7DF14] text-white bg-[#0E345A] hover:bg-[#F7DF14] hover:text-[#0E345A] transition-all duration-300"
+            onClick={() => {
+              document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            Ver Portfolio
+          </Button>
+        </div>
       </div>
 
       {/* Animated scroll indicator */}
-      
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-          <ArrowDown className="w-6 h-6 text-[#F7DF14] animate-bounce" />
-        </div>
-  
+
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+        <ArrowDown className="w-6 h-6 text-[#F7DF14] animate-bounce" />
+      </div>
+
 
       {/* Background gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#0A1B2E]/50 to-transparent pointer-events-none"></div>

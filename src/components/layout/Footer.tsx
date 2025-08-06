@@ -1,5 +1,5 @@
 // src/components/layout/Footer.tsx
-import { Twitter, Instagram, Linkedin } from "lucide-react";
+import { FaFacebook, FaInstagram, FaTiktok, FaWhatsapp } from "react-icons/fa";
 
 export function Footer() {
   return (
@@ -9,14 +9,41 @@ export function Footer() {
           © 2025 Artes Gráficas Digitales. Todos los derechos reservados.
         </p>
         <div className="flex gap-4 mt-4 md:mt-0">
-          <a href="#" className="hover:text-white" aria-label="Twitter">
-            <Twitter className="w-5 h-5" />
+          <a 
+            href="https://www.facebook.com/artes.graficasg" 
+            className="hover:text-white" 
+            aria-label="Facebook"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaFacebook className="w-6 h-6" />
           </a>
-          <a href="#" className="hover:text-white" aria-label="Instagram">
-            <Instagram className="w-5 h-5" />
+          <a 
+            href="https://www.instagram.com/artesgraficasbcs/" 
+            className="hover:text-white" 
+            aria-label="Instagram"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaInstagram className="w-6 h-6" />
           </a>
-          <a href="#" className="hover:text-white" aria-label="LinkedIn">
-            <Linkedin className="w-5 h-5" />
+          <a 
+            href="https://www.tiktok.com/@artesgraficasdigitales" 
+            className="hover:text-white" 
+            aria-label="TikTok"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaTiktok className="w-6 h-6" />
+          </a>
+          <a 
+            href="#" 
+            className="hover:text-white" 
+            aria-label="WhatsApp"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaWhatsapp className="w-6 h-6" />
           </a>
         </div>
       </div>
