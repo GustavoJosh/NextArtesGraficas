@@ -302,8 +302,7 @@ export function Header({ currentPath }: HeaderProps) {
                                     key={item.name}
                                     ref={index === 0 ? firstMenuItemRef : null}
                                     href={item.href}
-                                    onClick={(e: React.MouseEvent) => {
-                                        e.stopPropagation();
+                                    onClick={() => {
                                         handleMenuClose();
                                     }}
                                     onKeyDown={(e: React.KeyboardEvent<HTMLAnchorElement>) => {
