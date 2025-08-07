@@ -46,11 +46,19 @@ export function Header({ currentPath }: HeaderProps) {
         return false;
     };
 
-    const handleMenuToggle = () => {
+    const handleMenuToggle = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        
         if (isAnimating) return;
 
         setIsAnimating(true);
         setIsMenuOpen(!isMenuOpen);
+
+        // Add navigation-active class to prevent gallery interactions
+        if (window.innerWidth < 768) {
+            document.body.classList.add('navigation-active');
+        }
 
         // Reset animation state after transition completes
         setTimeout(() => {
@@ -63,6 +71,9 @@ export function Header({ currentPath }: HeaderProps) {
 
         setIsAnimating(true);
         setIsMenuOpen(false);
+
+        // Remove navigation-active class
+        document.body.classList.remove('navigation-active');
 
         setTimeout(() => {
             setIsAnimating(false);
@@ -249,7 +260,7 @@ export function Header({ currentPath }: HeaderProps) {
                         <button
                             ref={menuButtonRef}
                             onClick={handleMenuToggle}
-                            className="mobile-menu-button-fallback text-gray-700 hover:text-blue-600 p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md"
+                            className="mobile-menu-button mobile-menu-button-fallback text-gray-700 hover:text-blue-600 p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md"
                             aria-label={isMenuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
                             aria-expanded={isMenuOpen}
                             aria-controls="mobile-menu"
@@ -268,7 +279,7 @@ export function Header({ currentPath }: HeaderProps) {
 
                 {/* Mobile Navigation */}
                 <div
-                    className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out mobile-menu-fallback ${isMenuOpen
+                    className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out mobile-menu-fallback mobile-menu ${isMenuOpen
                         ? 'max-h-96 opacity-100'
                         : 'max-h-0 opacity-0'
                         }`}
@@ -291,10 +302,14 @@ export function Header({ currentPath }: HeaderProps) {
                                     key={item.name}
                                     ref={index === 0 ? firstMenuItemRef : null}
                                     href={item.href}
-                                    onClick={handleMenuClose}
+                                    onClick={(e: React.MouseEvent) => {
+                                        e.stopPropagation();
+                                        handleMenuClose();
+                                    }}
                                     onKeyDown={(e: React.KeyboardEvent<HTMLAnchorElement>) => {
                                         if (e.key === 'Enter' || e.key === ' ') {
                                             e.preventDefault();
+                                            e.stopPropagation();
                                             handleMenuClose();
                                             // Navigate programmatically
                                             window.location.href = item.href;

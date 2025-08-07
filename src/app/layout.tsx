@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Bebas_Neue } from "next/font/google";
+import { Geist, Geist_Mono, Bebas_Neue, Alumni_Sans_Pinstripe, Contrail_One } from "next/font/google";
 import "./globals.css";
 import { BusinessStructuredData, WebsiteStructuredData } from "@/components/seo/StructuredData";
 
@@ -15,6 +15,19 @@ const geistMono = Geist_Mono({
 
 const bebasNeue = Bebas_Neue({
   variable: "--font-bebas-neue",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const alumniSansPinstripe = Alumni_Sans_Pinstripe({
+  variable: "--font-alumni-sans-pinstripe",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+});
+
+const contrailOne = Contrail_One({
+  variable: "--font-contrail-one",
   subsets: ["latin"],
   weight: "400",
 });
@@ -72,7 +85,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${bebasNeue.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${bebasNeue.variable} ${alumniSansPinstripe.variable} ${contrailOne.variable} antialiased`}
       >
         <BusinessStructuredData />
         <WebsiteStructuredData 

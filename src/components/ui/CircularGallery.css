@@ -3,8 +3,21 @@
     height: 100%;
     overflow: hidden;
     cursor: grab;
+    isolation: isolate;
 }
 
 .circular-gallery:active {
     cursor: grabbing;
+}
+
+/* Event isolation styles for navigation interactions - scoped to avoid layout issues */
+.navigation-active .circular-gallery {
+    pointer-events: none;
+}
+
+.navigation-active header,
+.navigation-active nav,
+.navigation-active .mobile-menu,
+.navigation-active .breadcrumb {
+    pointer-events: auto;
 }

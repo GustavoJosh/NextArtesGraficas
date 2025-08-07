@@ -46,6 +46,7 @@ export function GallerySection() {
               onImageClick={handleImageClick}
             />
           </div>
+          <h2 className='text-center'>¡Desliza para navegar o presiona sobre una imagen para verla completa!</h2>
         </div>
       </section>
       
@@ -55,6 +56,6 @@ export function GallerySection() {
         imageAlt={modalImage?.alt || ""}
         onClose={closeModal}
       />
-    </>
+    </>          
   );
 }

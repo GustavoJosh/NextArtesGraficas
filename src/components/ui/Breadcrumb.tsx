@@ -11,6 +11,15 @@ interface BreadcrumbProps {
   className?: string;
 }
 
+const handleBreadcrumbClick = (e: React.MouseEvent, href?: string) => {
+  e.stopPropagation();
+  
+  if (href) {
+    // Let Next.js Link handle the navigation naturally
+    // The stopPropagation prevents gallery interference
+  }
+};
+
 export function Breadcrumb({ items, className = '' }: BreadcrumbProps) {
   return (
     <nav aria-label="Breadcrumb" className={`flex items-center space-x-2 text-sm ${className}`}>
@@ -18,6 +27,7 @@ export function Breadcrumb({ items, className = '' }: BreadcrumbProps) {
         href="/"
         className="flex items-center text-gray-400 hover:text-blue-400 transition-colors"
         aria-label="Ir al inicio"
+        onClick={(e) => handleBreadcrumbClick(e, "/")}
       >
         <Home className="h-4 w-4" />
         <span className="sr-only">Inicio</span>
@@ -30,6 +40,7 @@ export function Breadcrumb({ items, className = '' }: BreadcrumbProps) {
             <Link
               href={item.href}
               className="text-gray-400 hover:text-blue-400 transition-colors"
+              onClick={(e) => handleBreadcrumbClick(e, item.href)}
             >
               {item.name}
             </Link>

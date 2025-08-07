@@ -1,9 +1,25 @@
 // src/components/sections/ContactPreview.tsx
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
+import DecryptedText from '@/components/ui/DecryptedText';
+import { useState, useEffect } from 'react';
 
 export function ContactPreview() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   return (
     <section className="w-full py-16 md:py-20 bg-[#0E345A] relative overflow-hidden">
       {/* Background decoration */}
@@ -16,13 +32,34 @@ export function ContactPreview() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-[#F7DF14] via-white to-[#F7DF14] text-transparent bg-clip-text">
-              ¿Listo para darle vida a tu marca?
+              {isMobile ? (
+                "¿Listo para darle vida a tu marca?"
+              ) : (
+                <DecryptedText
+                  text="¿Listo para darle vida a tu marca?"
+                  animateOn="view"
+                  speed={50}
+                  maxIterations={10}
+                  revealDirection="start"
+                  sequential={true}
+                />
+              )}
             </span>
           </h2>
-          
+
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Hablemos de tu proyecto. Estamos listos para escuchar tus ideas y
-            convertirlas en realidad.
+            {isMobile ? (
+              "Hablemos de tu proyecto. Estamos listos para escuchar tus ideas y convertirlas en realidad."
+            ) : (
+              <DecryptedText
+                text="Hablemos de tu proyecto. Estamos listos para escuchar tus ideas y convertirlas en realidad."
+                animateOn="view"
+                speed={20}
+                maxIterations={10}
+                revealDirection='start'
+                sequential={true}
+              />
+            )}
           </p>
 
           {/* Quick contact info */}
@@ -49,11 +86,11 @@ export function ContactPreview() {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            
-            <Button 
-              asChild 
-              variant="outline" 
-              size="lg" 
+
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
               className="border-[#F7DF14] text-white bg-[#0E345A] hover:bg-[#F7DF14] hover:text-[#0E345A] px-8 py-3"
             >
               <a href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'info@empresa.com'}`}>

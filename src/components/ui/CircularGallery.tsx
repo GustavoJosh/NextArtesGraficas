@@ -2,6 +2,7 @@
 
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from "ogl";
 import { useEffect, useRef } from "react";
+import { isNavigationZone, isValidGalleryClick, debounceEvent } from "@/lib/eventManagement";
 
 import "./CircularGallery.css";
 
@@ -13,13 +14,7 @@ interface PlaneUserData {
   onImageClick?: (image: string) => void;
 }
 
-function debounce<T extends (...args: unknown[]) => void>(func: T, wait: number) {
-  let timeout: number;
-  return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
-    window.clearTimeout(timeout);
-    timeout = window.setTimeout(() => func.apply(this, args), wait);
-  };
-}
+// Removed local debounce function - now using the one from eventManagement
 
 function lerp(p1: number, p2: number, t: number): number {
   return p1 + (p2 - p1) * t;
@@ -433,7 +428,7 @@ class App {
   boundOnClick!: (e: MouseEvent) => void;
 
   isDown: boolean = false;
-  start: number = 0;
+  start: { x: number; y: number } = { x: 0, y: 0 };
 
   constructor(
     container: HTMLElement,
@@ -452,7 +447,7 @@ class App {
     this.container = container;
     this.scrollSpeed = scrollSpeed;
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
-    this.onCheckDebounce = debounce(this.onCheck.bind(this), 200);
+    this.onCheckDebounce = debounceEvent(this.onCheck.bind(this), 200);
     this.createRenderer();
     this.createCamera();
     this.createScene();
@@ -569,41 +564,54 @@ class App {
   }
 
   onTouchDown(e: MouseEvent | TouchEvent) {
+    // Don't handle touch events in navigation zones
+    if (isNavigationZone(e.target)) {
+      return;
+    }
+
     this.isDown = true;
     this.scroll.position = this.scroll.current;
-    this.start = "touches" in e ? e.touches[0].clientX : e.clientX;
+    this.start = {
+      x: "touches" in e ? e.touches[0].clientX : e.clientX,
+      y: "touches" in e ? e.touches[0].clientY : e.clientY
+    };
   }
 
   onClick(e: MouseEvent) {
-    // Only handle click if we didn't drag
-    const currentX = e.clientX;
-    const dragDistance = Math.abs(currentX - this.start);
+    // Use enhanced click detection that respects navigation zones
+    if (!isValidGalleryClick(e, this.start, 10)) {
+      return;
+    }
 
-    if (dragDistance < 5) { // Small threshold for click vs drag
-      // Find the closest media item to the center
-      let closestMedia: Media | null = null;
-      let minDistance = Infinity;
+    // Find the closest media item to the center
+    let closestMedia: Media | null = null;
+    let minDistance = Infinity;
 
-      for (const media of this.medias) {
-        const mediaX = media.plane.position.x;
-        const distance = Math.abs(mediaX);
+    for (const media of this.medias) {
+      const mediaX = media.plane.position.x;
+      const distance = Math.abs(mediaX);
 
-        if (distance < minDistance && Math.abs(mediaX) < media.width / 2) {
-          minDistance = distance;
-          closestMedia = media;
-        }
+      if (distance < minDistance && Math.abs(mediaX) < media.width / 2) {
+        minDistance = distance;
+        closestMedia = media;
       }
+    }
 
-      if (closestMedia && closestMedia.onImageClick) {
-        closestMedia.onImageClick(closestMedia.image);
-      }
+    if (closestMedia && closestMedia.onImageClick) {
+      closestMedia.onImageClick(closestMedia.image);
     }
   }
 
   onTouchMove(e: MouseEvent | TouchEvent) {
     if (!this.isDown) return;
+    
+    // Don't handle move events in navigation zones
+    if (isNavigationZone(e.target)) {
+      return;
+    }
+
     const x = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const distance = (this.start - x) * (this.scrollSpeed * 0.025);
+    const distance = (this.start.x - x) * (this.scrollSpeed * 0.025);
     this.scroll.target = (this.scroll.position ?? 0) + distance;
   }
 
@@ -663,30 +671,45 @@ class App {
     this.boundOnTouchMove = this.onTouchMove.bind(this);
     this.boundOnTouchUp = this.onTouchUp.bind(this);
     this.boundOnClick = this.onClick.bind(this);
+    
+    // Keep resize listener global as it affects the entire gallery
     window.addEventListener("resize", this.boundOnResize);
-    window.addEventListener("mousewheel", this.boundOnWheel);
-    window.addEventListener("wheel", this.boundOnWheel);
-    window.addEventListener("mousedown", this.boundOnTouchDown);
-    window.addEventListener("mousemove", this.boundOnTouchMove);
-    window.addEventListener("mouseup", this.boundOnTouchUp);
-    window.addEventListener("click", this.boundOnClick);
-    window.addEventListener("touchstart", this.boundOnTouchDown);
-    window.addEventListener("touchmove", this.boundOnTouchMove);
-    window.addEventListener("touchend", this.boundOnTouchUp);
+    
+    // Scope interaction events to the gallery container
+    this.container.addEventListener("mousewheel", this.boundOnWheel);
+    this.container.addEventListener("wheel", this.boundOnWheel);
+    this.container.addEventListener("mousedown", this.boundOnTouchDown);
+    this.container.addEventListener("mousemove", this.boundOnTouchMove);
+    this.container.addEventListener("mouseup", this.boundOnTouchUp);
+    this.container.addEventListener("click", this.boundOnClick);
+    this.container.addEventListener("touchstart", this.boundOnTouchDown, { passive: false });
+    this.container.addEventListener("touchmove", this.boundOnTouchMove, { passive: false });
+    this.container.addEventListener("touchend", this.boundOnTouchUp);
   }
 
   destroy() {
     window.cancelAnimationFrame(this.raf);
+    
+    // Remove global listeners
     window.removeEventListener("resize", this.boundOnResize);
-    window.removeEventListener("mousewheel", this.boundOnWheel);
-    window.removeEventListener("wheel", this.boundOnWheel);
-    window.removeEventListener("mousedown", this.boundOnTouchDown);
-    window.removeEventListener("mousemove", this.boundOnTouchMove);
-    window.removeEventListener("mouseup", this.boundOnTouchUp);
-    window.removeEventListener("click", this.boundOnClick);
-    window.removeEventListener("touchstart", this.boundOnTouchDown);
-    window.removeEventListener("touchmove", this.boundOnTouchMove);
-    window.removeEventListener("touchend", this.boundOnTouchUp);
+    
+    // Remove container-scoped listeners
+    if (this.container) {
+      this.container.removeEventListener("mousewheel", this.boundOnWheel);
+      this.container.removeEventListener("wheel", this.boundOnWheel);
+      this.container.removeEventListener("mousedown", this.boundOnTouchDown);
+      this.container.removeEventListener("mousemove", this.boundOnTouchMove);
+      this.container.removeEventListener("mouseup", this.boundOnTouchUp);
+      this.container.removeEventListener("click", this.boundOnClick);
+      this.container.removeEventListener("touchstart", this.boundOnTouchDown);
+      this.container.removeEventListener("touchmove", this.boundOnTouchMove);
+      this.container.removeEventListener("touchend", this.boundOnTouchUp);
+    }
+    
+    // Clean up any navigation-active state
+    document.body.classList.remove('navigation-active');
+    
+    // Clean up WebGL resources
     if (this.renderer && this.renderer.gl && this.renderer.gl.canvas.parentNode) {
       this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas as HTMLCanvasElement);
     }
