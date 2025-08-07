@@ -54,12 +54,21 @@ export const metadata: Metadata = {
     locale: "es_ES",
     siteName: "Artes Gráficas Digitales",
     url: "https://artesgraficasdigitales.com",
+    images: [
+      {
+        url: "https://artesgraficasdigitales.com/images/logos/banner.png",
+        width: 1200,
+        height: 630,
+        alt: "Artes Gráficas Digitales - Logo",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Artes Gráficas Digitales - Soluciones Profesionales",
     description: "Servicios profesionales de impresión digital, corte láser y diseño gráfico.",
     creator: "@artesgraficasdigitales",
+    images: ["https://artesgraficasdigitales.com/images/logos/banner.png"],
   },
   robots: {
     index: true,
