@@ -28,7 +28,7 @@ export default function ServiciosPage() {
 
   // Breadcrumb items for navigation
   const breadcrumbItems = [
-    { name: 'Servicios' }
+    { name: 'Imprenta' }
   ];
 
   return (
@@ -47,7 +47,7 @@ export default function ServiciosPage() {
           {/* Encabezado */}
           <div className="text-left mb-12">
             <h1 className="text-4xl md:text-5xl font-bold">
-              Catálogo de Servicios
+              Servicios de Imprenta
             </h1>
             <p className="text-gray-400 mt-2">
               Encuentra la solución perfecta para tu proyecto.

@@ -38,7 +38,7 @@ export function PortfolioPreview() {
   // Get featured projects or first 3 projects for preview
   const featuredProjects = projects.filter(p => p.status === 'featured').slice(0, 3);
   const previewProjects = featuredProjects.length >= 3 ? featuredProjects : projects.slice(0, 3);
-  
+
   // Refs para las animaciones
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -58,19 +58,19 @@ export function PortfolioPreview() {
     if (!header || !grid || !cta || !cards) return;
 
     // Configurar posiciones iniciales
-    gsap.set(header, { 
-      y: 60, 
-      opacity: 0 
+    gsap.set(header, {
+      y: 60,
+      opacity: 0
     });
 
-    gsap.set(cards, { 
-      y: 80, 
+    gsap.set(cards, {
+      y: 80,
       opacity: 0,
       scale: 0.9
     });
 
-    gsap.set(cta, { 
-      y: 60, 
+    gsap.set(cta, {
+      y: 60,
       opacity: 0,
       scale: 0.95
     });
@@ -88,8 +88,8 @@ export function PortfolioPreview() {
       }),
       onComplete: () => {
         // Limpiar las transformaciones después de la animación
-        gsap.set([header, ...Array.from(cards), cta], { 
-          clearProps: "all" 
+        gsap.set([header, ...Array.from(cards), cta], {
+          clearProps: "all"
         });
       }
     });
@@ -101,11 +101,11 @@ export function PortfolioPreview() {
       duration: 0.8,
       ease: "power2.out"
     }, 0)
-    .to(header.querySelector('h2'), {
-      backgroundPosition: "0% 50%",
-      duration: 1.2,
-      ease: "power2.out"
-    }, 0.2);
+      .to(header.querySelector('h2'), {
+        backgroundPosition: "0% 50%",
+        duration: 1.2,
+        ease: "power2.out"
+      }, 0.2);
 
     // Animar tarjetas de proyecto con stagger y efectos adicionales
     tl.to(cards, {
@@ -119,7 +119,7 @@ export function PortfolioPreview() {
         ease: "power2.out"
       },
       ease: "back.out(1.7)",
-      onComplete: function() {
+      onComplete: function () {
         // Agregar un sutil efecto de brillo después de la animación
         this.targets().forEach((card: Element, index: number) => {
           gsap.to(card, {
@@ -142,11 +142,11 @@ export function PortfolioPreview() {
       duration: 0.8,
       ease: "back.out(1.7)"
     }, 0.9)
-    .to(cta.querySelector('.portfolio-cta'), {
-      boxShadow: "0 0 40px rgba(247, 223, 20, 0.2)",
-      duration: 0.5,
-      ease: "power2.out"
-    }, 1.2);
+      .to(cta.querySelector('.portfolio-cta'), {
+        boxShadow: "0 0 40px rgba(247, 223, 20, 0.2)",
+        duration: 0.5,
+        ease: "power2.out"
+      }, 1.2);
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -166,16 +166,16 @@ export function PortfolioPreview() {
         <div ref={headerRef} className="text-center mb-12">
           <div className="flex items-center justify-center mb-4">
             <Star className="w-5 h-5 text-[#F7DF14] mr-2" />
-            <span className="text-[#F7DF14] font-medium uppercase tracking-wider text-sm">Portfolio</span>
+            <span className="text-[#F7DF14] font-medium uppercase tracking-wider text-sm">Servicios Digitales</span>
             <Star className="w-5 h-5 text-[#F7DF14] ml-2" />
           </div>
-          
+
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             <span className="bg-gradient-to-r from-[#F7DF14] via-white to-[#F7DF14] text-transparent bg-clip-text bg-[length:200%_100%] animate-gradient">
-              Nuestros Mejores Trabajos
+              Nuestros Servicios Digitales
             </span>
           </h2>
-          
+
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
             Proyectos que reflejan nuestro compromiso con la calidad y la innovación
           </p>
@@ -206,11 +206,11 @@ export function PortfolioPreview() {
               ¿Quieres ver más de nuestro trabajo?
             </h3>
             <p className="text-gray-400 mb-6">
-              Explora nuestro portfolio completo con más de {projects.length} proyectos exitosos
+              Explora nuestros servicios digitales completos con más de {projects.length} proyectos exitosos
             </p>
             <Button asChild size="lg" className="bg-[#F7DF14] text-[#0E345A] hover:bg-[#F7DF14]/90">
               <Link href="/portafolio" className="inline-flex items-center">
-                Ver Portfolio Completo
+                Ver Servicios Digitales
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>

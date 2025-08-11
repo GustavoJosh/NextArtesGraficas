@@ -20,8 +20,8 @@ interface HeaderProps {
 
 const navigationItems: NavigationItem[] = [
     { name: 'Inicio', href: '/' },
-    { name: 'Servicios', href: '/servicios' },
-    { name: 'Portafolio', href: '/portafolio' },
+    { name: 'Imprenta', href: '/servicios' },
+    { name: 'Servicios digitales', href: '/portafolio' },
     { name: 'Testimonios', href: '/testimonios' },
     { name: 'Contacto', href: '/contacto' },
 ];

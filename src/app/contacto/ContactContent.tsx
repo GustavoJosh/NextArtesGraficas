@@ -426,14 +426,14 @@ export function ContactContent() {
                     href="/servicios"
                     className="p-4 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors text-center"
                   >
-                    <h4 className="text-white font-medium mb-1">Ver Servicios</h4>
+                    <h4 className="text-white font-medium mb-1">Ver Imprenta</h4>
                     <p className="text-sm text-gray-400">Conoce todo lo que ofrecemos</p>
                   </a>
                   <a
                     href="/portafolio"
                     className="p-4 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors text-center"
                   >
-                    <h4 className="text-white font-medium mb-1">Ver Portafolio</h4>
+                    <h4 className="text-white font-medium mb-1">Ver Servicios Digitales</h4>
                     <p className="text-sm text-gray-400">Mira nuestros trabajos</p>
                   </a>
                 </div>

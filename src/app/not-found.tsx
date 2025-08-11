@@ -27,10 +27,10 @@ export default function NotFound() {
                   <p>O navega a una de estas páginas:</p>
                   <div className="mt-2 space-x-4">
                     <Link href="/servicios" className="text-blue-600 hover:text-blue-800 underline">
-                      Servicios
+                      Imprenta
                     </Link>
                     <Link href="/portafolio" className="text-blue-600 hover:text-blue-800 underline">
-                      Portafolio
+                      Servicios digitales
                     </Link>
                     <Link href="/testimonios" className="text-blue-600 hover:text-blue-800 underline">
                       Testimonios

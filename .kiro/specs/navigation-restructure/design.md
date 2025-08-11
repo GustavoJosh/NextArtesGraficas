@@ -9,8 +9,8 @@ This design transforms the current single-page application into a multi-page web
 ### Page Structure
 ```
 /                    - Homepage (Hero + key highlights)
-/servicios          - Services page (existing, enhanced)
-/portafolio         - Portfolio showcase page
+/servicios          - Imprenta page (existing, enhanced)
+/portafolio         - Servicios digitales showcase page
 /testimonios        - Customer testimonials page
 /contacto           - Contact information and forms
 ```
@@ -68,8 +68,8 @@ const isActive = (href: string, currentPath: string) => {
 ```typescript
 const navigationItems: NavigationItem[] = [
   { name: 'Inicio', href: '/' },
-  { name: 'Servicios', href: '/servicios' },
-  { name: 'Portafolio', href: '/portafolio' },
+  { name: 'Imprenta', href: '/servicios' },
+  { name: 'Servicios digitales', href: '/portafolio' },
   { name: 'Testimonios', href: '/testimonios' },
   { name: 'Contacto', href: '/contacto' },
 ];
@@ -88,18 +88,18 @@ interface PageLayout {
 
 ### Homepage (`/`)
 - **Hero Section**: Main value proposition and call-to-action
-- **Services Preview**: Brief overview with link to full services page
-- **Featured Portfolio**: 2-3 highlighted projects
+- **Services Preview**: Brief overview with link to full imprenta page
+- **Featured Digital Services**: 2-3 highlighted projects
 - **Quick Contact**: Simple contact form or information
 
-### Services Page (`/servicios`)
+### Imprenta Page (`/servicios`)
 - **Enhanced existing page**: Keep current filtering functionality
 - **Add breadcrumb navigation**
 - **Improve header integration**
 
-### Portfolio Page (`/portafolio`)
-- **Project Showcase**: Grid layout of portfolio items
-- **Category Filtering**: Similar to services page
+### Servicios Digitales Page (`/portafolio`)
+- **Project Showcase**: Grid layout of digital services items
+- **Category Filtering**: Similar to imprenta page
 - **Project Details**: Modal or dedicated pages for individual projects
 
 ### Testimonials Page (`/testimonios`)

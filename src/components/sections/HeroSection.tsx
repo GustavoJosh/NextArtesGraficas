@@ -155,7 +155,7 @@ export function HeroSection() {
               document.getElementById('servicios')?.scrollIntoView({ behavior: 'smooth' });
             }}
           >
-            ¡Conoce nuestros servicios!
+            ¡Conoce nuestra imprenta!
           </Button>
 
           <Button

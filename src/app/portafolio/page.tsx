@@ -47,7 +47,7 @@ export default function PortafolioPage() {
 
   // Breadcrumb items for navigation
   const breadcrumbItems = [
-    { name: 'Portafolio' }
+    { name: 'Servicios digitales' }
   ];
 
   return (
@@ -72,13 +72,13 @@ export default function PortafolioPage() {
         <div className="text-center mb-16">
           <div className="flex items-center justify-center mb-4">
             <Sparkles className="w-6 h-6 text-[#F7DF14] mr-2" />
-            <span className="text-[#F7DF14] font-medium uppercase tracking-wider text-sm">Portfolio Profesional</span>
+            <span className="text-[#F7DF14] font-medium uppercase tracking-wider text-sm">Servicios Digitales</span>
             <Sparkles className="w-6 h-6 text-[#F7DF14] ml-2" />
           </div>
           
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             <span className="bg-gradient-to-r from-[#F7DF14] via-white to-[#F7DF14] text-transparent bg-clip-text">
-              Nuestro Trabajo
+              Servicios Digitales
             </span>
           </h1>
           

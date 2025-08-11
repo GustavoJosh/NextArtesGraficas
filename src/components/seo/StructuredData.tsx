@@ -238,8 +238,8 @@ export function PortfolioStructuredData({ projects }: PortfolioStructuredDataPro
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "name": "Portafolio de Proyectos - Artes Gráficas Digitales",
-    "description": "Proyectos exitosos realizados por Artes Gráficas Digitales",
+    "name": "Servicios Digitales - Artes Gráficas Digitales",
+    "description": "Servicios digitales exitosos realizados por Artes Gráficas Digitales",
     "numberOfItems": projects.length,
     "itemListElement": projects.map((project, index) => ({
       "@type": "ListItem",
