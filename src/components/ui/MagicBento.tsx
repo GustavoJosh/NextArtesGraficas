@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Printer, Zap, FileText, Palette } from 'lucide-react';
 import Image from 'next/image';
-import { getImagePath } from '@/data/services';
+import { getServiceImagePath } from '@/data/services';
 import "./MagicBento.css";
 
 // Registrar ScrollTrigger
@@ -744,7 +744,7 @@ const MagicServicesBento: React.FC<ServiceBentoProps> = ({
                 {/* Background Image */}
                 <div className="absolute inset-0 overflow-hidden rounded-lg">
                   <Image
-                    src={getImagePath(service.imageName)}
+                    src={getServiceImagePath(service.imageName)}
                     alt={service.title}
                     fill
                     className="object-cover"
@@ -888,7 +888,7 @@ const MagicServicesBento: React.FC<ServiceBentoProps> = ({
               {/* Background Image */}
               <div className="absolute inset-0 overflow-hidden rounded-lg">
                 <Image
-                  src={getImagePath(service.imageName)}
+                  src={getServiceImagePath(service.imageName)}
                   alt={service.title}
                   fill
                   className="object-cover"
