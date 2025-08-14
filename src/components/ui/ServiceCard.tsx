@@ -3,7 +3,7 @@
 
 import { Printer, Zap, FileText, Palette, Clock, ChevronDown, ChevronUp } from 'lucide-react';
 import Image from 'next/image';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Service, ServiceExample } from '@/data/services';
 
@@ -23,10 +23,6 @@ interface ServiceCardProps {
     maxSize?: string;
     minQuantity?: number;
     features: string[];
-  };
-  pricing?: {
-    startingFrom?: string;
-    unit?: string;
   };
   onExpand?: (isExpanded: boolean) => void;
 }
@@ -49,25 +45,23 @@ const getCategoryColor = (category: string) => {
   }
 };
 
-export function ServiceCard({ 
-  title, 
-  description, 
-  category = 'impresion', 
+export function ServiceCard({
+  title,
+  description,
+  category = 'impresion',
   imageName,
   deliveryTime,
   examples = [],
   specifications,
-  pricing,
   onExpand
 }: ServiceCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [focusedIndex, setFocusedIndex] = useState(-1);
   const cardRef = useRef<HTMLDivElement>(null);
   const expandButtonRef = useRef<HTMLButtonElement>(null);
-  
+
   const Icon = getServiceIcon(category);
   const colorGradient = getCategoryColor(category);
-  
+
   // Use imageName if provided, otherwise use placeholder
   const imageUrl = imageName ? `/images/services/${imageName}.webp` : "/images/services/impresion-digital.webp";
 
@@ -92,14 +86,18 @@ export function ServiceCard({
   const previewExamples = examples.slice(0, 3);
 
   return (
-    <motion.div 
+    <motion.div
       ref={cardRef}
       className="relative group cursor-pointer"
       layout
       initial={false}
-      animate={{ 
+      animate={{
         scale: isExpanded ? 1 : 1,
         zIndex: isExpanded ? 10 : 1
+      }}
+      whileHover={{
+        y: -4,
+        transition: { duration: 0.2, ease: "easeOut" }
       }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
       role="article"
@@ -108,16 +106,19 @@ export function ServiceCard({
       aria-expanded={isExpanded}
       aria-label={`${title} service card. Press Enter to ${isExpanded ? 'collapse' : 'expand'} details.`}
     >
-      {/* Card container with dynamic height */}
-      <motion.div 
-        className="relative bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 hover:border-gray-600/80 transition-all duration-300 overflow-hidden"
+      {/* Card container with dynamic height - responsive sizing */}
+      <motion.div
+        className="relative bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 hover:border-gray-600/80 transition-all duration-300 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-cyan-500/10"
         layout
-        animate={{ 
-          height: isExpanded ? 'auto' : '16rem' // h-64 = 16rem
+        animate={{
+          height: isExpanded ? 'auto' : 'auto' // Let content determine height
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
+        style={{
+          minHeight: isExpanded ? 'auto' : 'clamp(16rem, 18vw, 20rem)' // Responsive min-height: 256px to 320px
+        }}
       >
-        
+
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
@@ -131,8 +132,8 @@ export function ServiceCard({
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30"></div>
         </div>
 
-        {/* Content Overlay */}
-        <div className="relative z-10 h-full flex flex-col justify-between p-6">
+        {/* Content Overlay - responsive padding */}
+        <div className="relative z-10 h-full flex flex-col justify-between p-4 sm:p-6 lg:p-8">
           {/* Header with icon and delivery badge */}
           <div className="flex justify-between items-start">
             <div className="flex items-center space-x-1 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1 border border-white/20">
@@ -146,7 +147,7 @@ export function ServiceCard({
                 {category === 'impresion' ? 'Impresión' : category === 'laser' ? 'Láser' : 'Papelería'}
               </span>
             </div>
-            
+
             {/* Delivery Time Badge */}
             {deliveryTime && (
               <div className="flex items-center space-x-1 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1 border border-white/20">
@@ -160,11 +161,11 @@ export function ServiceCard({
 
           {/* Content at bottom */}
           <div className="text-left">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-300 group-hover:to-purple-300 transition-all duration-300">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-300 group-hover:to-purple-300 transition-all duration-300 leading-tight">
                 {title}
               </h3>
-              
+
               {/* Expand/Collapse Button - Touch-friendly 44px minimum */}
               <button
                 ref={expandButtonRef}
@@ -179,39 +180,38 @@ export function ServiceCard({
                 )}
               </button>
             </div>
-            
-            <p className="text-gray-200 text-sm leading-relaxed mb-3">
+
+            <p className="text-gray-200 text-sm sm:text-base lg:text-lg leading-relaxed mb-4 lg:mb-6">
               {description}
             </p>
 
-            {/* Example Thumbnails Preview (only when collapsed) */}
+            {/* Example Thumbnails Preview (only when collapsed) - large visualization positioned right */}
             {!isExpanded && previewExamples.length > 0 && (
-              <div className="flex items-center space-x-2 mb-2">
-                <span className="text-xs text-gray-400">Ejemplos:</span>
-                <div className="flex space-x-1">
-                  {previewExamples.map((example, index) => (
-                    <div 
+              <div className="flex items-start justify-between gap-4">
+                <span className="text-xs sm:text-sm text-gray-400 mt-2">Ejemplos:</span>
+                <div className="flex space-x-2 sm:space-x-3 flex-shrink-0">
+                  {previewExamples.map((example) => (
+                    <div
                       key={example.id}
-                      className="w-8 h-8 rounded border border-white/20 overflow-hidden bg-gray-700"
+                      className="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-lg border border-white/20 overflow-hidden bg-gray-700 hover:border-white/40 transition-all duration-200"
                     >
                       <Image
                         src={example.imagePath}
                         alt={example.title}
-                        width={32}
-                        height={32}
-                        className="w-full h-full object-cover"
+                        width={112}
+                        height={112}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
                       />
                     </div>
                   ))}
                   {examples.length > 3 && (
-                    <div className="w-8 h-8 rounded border border-white/20 bg-black/40 flex items-center justify-center">
-                      <span className="text-xs text-white font-medium">+{examples.length - 3}</span>
+                    <div className="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-lg border border-white/20 bg-black/40 flex items-center justify-center hover:bg-black/60 transition-all duration-200">
+                      <span className="text-sm sm:text-base lg:text-lg text-white font-medium">+{examples.length - 3}</span>
                     </div>
                   )}
                 </div>
               </div>
             )}
-
 
           </div>
         </div>
@@ -226,7 +226,7 @@ export function ServiceCard({
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="relative z-10 bg-gray-900/90 backdrop-blur-sm border-t border-gray-700/50"
             >
-              <div className="p-6 space-y-6">
+              <div className="p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
                 {/* Delivery Information */}
                 {deliveryTime && (
                   <div>
@@ -257,9 +257,9 @@ export function ServiceCard({
                   <div>
                     <h4 className="text-sm font-semibold text-white mb-3">Características</h4>
                     <div className="flex flex-wrap gap-2">
-                      {specifications.features.map((feature, index) => (
-                        <span 
-                          key={index}
+                      {specifications.features.map((feature, featureIndex) => (
+                        <span
+                          key={featureIndex}
                           className="px-3 py-1 bg-black/30 rounded-full text-xs text-gray-300 border border-gray-600"
                         >
                           {feature}
@@ -274,14 +274,13 @@ export function ServiceCard({
                   <div>
                     <h4 className="text-sm font-semibold text-white mb-3">Materiales</h4>
                     <div className="flex flex-wrap gap-2">
-                      {specifications.materials.map((material, index) => (
-                        <span 
-                          key={index}
-                          className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            category === 'impresion' ? 'bg-cyan-500/20 text-cyan-200 border border-cyan-500/30' :
-                            category === 'laser' ? 'bg-orange-500/20 text-orange-200 border border-orange-500/30' :
-                            'bg-emerald-500/20 text-emerald-200 border border-emerald-500/30'
-                          }`}
+                      {specifications.materials.map((material, materialIndex) => (
+                        <span
+                          key={materialIndex}
+                          className={`px-3 py-1 rounded-full text-xs font-medium ${category === 'impresion' ? 'bg-cyan-500/20 text-cyan-200 border border-cyan-500/30' :
+                              category === 'laser' ? 'bg-orange-500/20 text-orange-200 border border-orange-500/30' :
+                                'bg-emerald-500/20 text-emerald-200 border border-emerald-500/30'
+                            }`}
                         >
                           {material}
                         </span>
@@ -290,15 +289,15 @@ export function ServiceCard({
                   </div>
                 )}
 
-                {/* Examples Gallery */}
+                {/* Examples Gallery - Large Format */}
                 {examples.length > 0 && (
                   <div>
-                    <h4 className="text-sm font-semibold text-white mb-3">Ejemplos de Trabajo</h4>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                      {examples.slice(0, 6).map((example, index) => (
-                        <div 
+                    <h4 className="text-sm font-semibold text-white mb-4">Ejemplos de Trabajo</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+                      {examples.slice(0, 4).map((example) => (
+                        <div
                           key={example.id}
-                          className="aspect-square rounded-lg overflow-hidden bg-gray-700 border border-gray-600 hover:border-gray-500 transition-colors duration-200 touch-manipulation min-h-[44px] cursor-pointer"
+                          className="group relative rounded-xl overflow-hidden bg-gray-700 border border-gray-600 hover:border-gray-500 transition-all duration-200 touch-manipulation cursor-pointer hover:shadow-lg hover:shadow-cyan-500/20"
                           tabIndex={0}
                           role="button"
                           aria-label={`View example: ${example.title}`}
@@ -309,19 +308,34 @@ export function ServiceCard({
                             }
                           }}
                         >
-                          <Image
-                            src={example.imagePath}
-                            alt={example.title}
-                            width={120}
-                            height={120}
-                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
-                          />
+                          <div className="aspect-[4/3] min-h-[200px] sm:min-h-[240px] lg:min-h-[280px]">
+                            <Image
+                              src={example.imagePath}
+                              alt={example.title}
+                              width={400}
+                              height={300}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                            />
+                          </div>
+                          {/* Image overlay with title */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-6">
+                              <p className="text-white text-sm lg:text-base font-medium truncate">
+                                {example.title}
+                              </p>
+                              {example.description && (
+                                <p className="text-gray-300 text-xs lg:text-sm mt-1 line-clamp-2">
+                                  {example.description}
+                                </p>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
-                    {examples.length > 6 && (
-                      <p className="text-xs text-gray-400 mt-2">
-                        Y {examples.length - 6} ejemplos más...
+                    {examples.length > 4 && (
+                      <p className="text-xs text-gray-400 mt-4 text-center">
+                        Y {examples.length - 4} ejemplos más...
                       </p>
                     )}
                   </div>
@@ -336,7 +350,7 @@ export function ServiceCard({
           absolute inset-0 bg-gradient-to-br ${colorGradient} opacity-0 group-hover:opacity-20 
           transition-opacity duration-300 rounded-xl pointer-events-none
         `}></div>
-        
+
         {/* Subtle border effect on hover */}
         <div className="absolute inset-0 rounded-xl border-2 border-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-border opacity-0 group-hover:opacity-30 transition-opacity duration-300 pointer-events-none"></div>
       </motion.div>
@@ -349,15 +363,13 @@ export function ServiceGrid({ services }: { services: Service[] }) {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
       {services.map((service) => (
         <ServiceCard
-          key={service.title}
+          key={service.id}
           title={service.title}
           description={service.description}
-          category={service.category}
-          imageName={service.imageName}
+          category={service.categoryId as any} // Will need proper type mapping
           deliveryTime={service.deliveryTime}
           examples={service.examples}
           specifications={service.specifications}
-          pricing={service.pricing}
         />
       ))}
     </div>

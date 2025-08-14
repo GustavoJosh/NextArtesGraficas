@@ -2,20 +2,33 @@
 "use client"; // Para poder usar estado y manejar los filtros
 
 import { useState } from 'react';
-import { services, type Service } from '@/data/services';
+import { services, serviceCategories, type Service, type ServiceCategoryId } from '@/data/services';
 import { ServiceCard } from '@/components/ui/ServiceCard';
 import { Header } from '@/components/layout/Header';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { Filter, ChevronDown, ChevronUp } from 'lucide-react';
 
 // Definimos los tipos de categorías que usaremos para el filtro
-type CategoryKey = 'all' | 'impresion' | 'laser' | 'papeleria';
+type CategoryKey = 'all' | ServiceCategoryId;
 
 const categories: { key: CategoryKey, name: string }[] = [
     { key: 'all', name: 'Todos los Servicios'},
-    { key: 'impresion', name: 'Impresión y Gran Formato'},
-    { key: 'laser', name: 'Corte y Grabado Láser'},
-    { key: 'papeleria', name: 'Papelería y Stickers'},
+    { key: 'anuncios-luminosos', name: 'Anuncios y Luminosos'},
+    { key: 'cnc-laser', name: 'CNC Láser'},
+    { key: 'cnc-router', name: 'CNC Router'},
+    { key: 'corte-vinil', name: 'Corte de Vinil'},
+    { key: 'displays', name: 'Displays'},
+    { key: 'impresion-gran-formato', name: 'Impresión Gran Formato'},
+    { key: 'diseno-grafico', name: 'Diseño Gráfico'},
+    { key: 'imprenta', name: 'Imprenta'},
+    { key: 'imprenta-digital', name: 'Imprenta Digital'},
+    { key: 'letreros-3d', name: 'Letreros 3D'},
+    { key: 'oxicorte-plasma', name: 'Oxicorte y Plasma'},
+    { key: 'articulos-promocionales', name: 'Artículos Promocionales'},
+    { key: 'rotulacion-vehicular', name: 'Rotulación Vehicular'},
+    { key: 'sellos', name: 'Sellos'},
+    { key: 'senaleticas', name: 'Señaléticas'},
+    { key: 'textiles', name: 'Textiles'},
 ];
 
 export default function ServiciosPage() {
@@ -27,7 +40,7 @@ export default function ServiciosPage() {
   // Filtramos los servicios según el estado
   const filteredServices = activeFilter === 'all'
     ? services
-    : services.filter(service => service.category === activeFilter);
+    : services.filter(service => service.categoryId === activeFilter);
 
   // Función para manejar la expansión de tarjetas (opcional para futuras mejoras)
   const handleCardExpand = (isExpanded: boolean, serviceTitle: string) => {
@@ -98,7 +111,7 @@ export default function ServiciosPage() {
                   {categories.map(category => {
                     const categoryServices = category.key === 'all' 
                       ? services 
-                      : services.filter(service => service.category === category.key);
+                      : services.filter(service => service.categoryId === category.key);
                     const serviceCount = categoryServices.length;
                     
                     return (
@@ -132,7 +145,7 @@ export default function ServiciosPage() {
                 {categories.map(category => {
                   const categoryServices = category.key === 'all' 
                     ? services 
-                    : services.filter(service => service.category === category.key);
+                    : services.filter(service => service.categoryId === category.key);
                   const serviceCount = categoryServices.length;
                   
                   return (
@@ -166,22 +179,25 @@ export default function ServiciosPage() {
 
             {/* Columna de Contenido (Grid de Servicios) */}
             <section>
-              {/* Hacemos la cuadrícula más densa con más columnas en pantallas grandes */}
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredServices.map((service) => (
-                  <ServiceCard
-                    key={service.title}
-                    title={service.title}
-                    description={service.description}
-                    category={service.category}
-                    imageName={service.imageName}
-                    deliveryTime={service.deliveryTime}
-                    examples={service.examples}
-                    specifications={service.specifications}
-                    pricing={service.pricing}
-                    onExpand={(isExpanded) => handleCardExpand(isExpanded, service.title)}
-                  />
-                ))}
+              {/* Responsive grid with better spacing for desktop */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+                {filteredServices.map((service) => {
+                  // Get the category info for the service
+                  const category = serviceCategories.find(cat => cat.id === service.categoryId);
+                  return (
+                    <ServiceCard
+                      key={service.id}
+                      title={service.title}
+                      description={service.description}
+                      category={service.categoryId as any} // Will need to update ServiceCard types later
+                      imageName={category?.imageName}
+                      deliveryTime={service.deliveryTime}
+                      examples={service.examples}
+                      specifications={service.specifications}
+                      onExpand={(isExpanded) => handleCardExpand(isExpanded, service.title)}
+                    />
+                  );
+                })}
               </div>
               {filteredServices.length === 0 && (
                   <div className="text-center py-16 text-gray-500">
