@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { AlertCircle, ArrowLeft } from 'lucide-react';
 
 export default function Error({
-  error,
+  error: _error,
   reset,
 }: {
   error: Error & { digest?: string };

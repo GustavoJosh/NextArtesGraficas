@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { services } from '@/data/services';
+import { services, serviceCategories } from '@/data/services';
 import MagicServicesBento from '@/components/ui/MagicBento';
 import { Sparkles, ArrowRight } from 'lucide-react';
 
@@ -12,12 +12,26 @@ export function ServicesPreview() {
   const previewServices = services.slice(0, 6);
 
   // Transform services for MagicBento compatibility
-  const servicesForBento = previewServices.map(service => ({
-    title: service.title,
-    description: service.description,
-    category: service.category as 'impresion' | 'laser' | 'papeleria',
-    imageName: service.imageName,
-  }));
+  const servicesForBento = previewServices.map(service => {
+    const category = serviceCategories.find(cat => cat.id === service.categoryId);
+    
+    // Map service categories to the three main categories expected by MagicBento
+    let mappedCategory: 'impresion' | 'laser' | 'papeleria' = 'impresion';
+    if (service.categoryId.includes('laser') || service.categoryId.includes('cnc')) {
+      mappedCategory = 'laser';
+    } else if (service.categoryId.includes('imprenta') || service.categoryId.includes('impresion')) {
+      mappedCategory = 'impresion';
+    } else {
+      mappedCategory = 'papeleria';
+    }
+    
+    return {
+      title: service.title,
+      description: service.description,
+      category: mappedCategory,
+      imageName: category?.imageName || 'default',
+    };
+  });
 
   return (
     <section className="w-full py-16 md:py-20 bg-gradient-to-b from-[#0A1B2E] to-[#0E345A] relative overflow-hidden">

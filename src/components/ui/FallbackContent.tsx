@@ -25,8 +25,7 @@ const fallbackVariants = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: { 
     opacity: 1, 
-    scale: 1,
-    transition: { duration: 0.3, ease: "easeOut" }
+    scale: 1
   }
 };
 
@@ -94,6 +93,7 @@ export function FallbackContent({
         variants={fallbackVariants}
         initial="hidden"
         animate="visible"
+        transition={{ duration: 0.3 }}
       >
         {content}
       </motion.div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { useIntersectionObserver } from '@/hooks/useScrollAnimations';
 import { ReactNode } from 'react';
 
@@ -117,14 +117,14 @@ export function AnimatedSection({
     triggerOnce: true
   });
 
-  const variants = {
-    ...animationVariants[animation],
+  const variants: Variants = {
+    hidden: animationVariants[animation].hidden,
     visible: {
       ...animationVariants[animation].visible,
       transition: {
-        ...animationVariants[animation].visible.transition,
         delay,
-        duration
+        duration,
+        ease: "easeOut"
       }
     }
   };
@@ -163,7 +163,7 @@ export function AnimatedCard({
 
   return (
     <motion.div
-      ref={elementRef}
+      ref={elementRef as React.RefObject<HTMLDivElement>}
       className={className}
       initial={{ opacity: 0, y: 40, scale: 0.95 }}
       animate={isIntersecting ? {
@@ -215,7 +215,7 @@ export function AnimatedText({
 
   return (
     <motion.div
-      ref={elementRef}
+      ref={elementRef as React.RefObject<HTMLDivElement>}
       className={className}
       initial="hidden"
       animate={isIntersecting ? "visible" : "hidden"}

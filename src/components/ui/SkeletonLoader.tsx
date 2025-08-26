@@ -10,12 +10,7 @@ interface SkeletonLoaderProps {
 
 const skeletonVariants = {
   pulse: {
-    opacity: [0.4, 0.8, 0.4],
-    transition: {
-      duration: 1.5,
-      repeat: Infinity,
-      ease: "easeInOut"
-    }
+    opacity: [0.4, 0.8, 0.4]
   }
 };
 
@@ -32,6 +27,7 @@ export function SkeletonLoader({
             className={`bg-gray-800 rounded-xl p-6 ${className}`}
             variants={skeletonVariants}
             animate="pulse"
+            transition={{ duration: 1.5, repeat: Infinity }}
           >
             {/* Image skeleton */}
             <div className="bg-gray-700 rounded-lg h-48 mb-4" />
@@ -159,6 +155,43 @@ export function PageHeaderSkeleton() {
     >
       <div className="bg-gray-700 rounded h-12 w-1/2 mb-4" />
       <div className="bg-gray-700 rounded h-6 w-3/4" />
+    </motion.div>
+  );
+}
+
+export function ExampleGallerySkeleton() {
+  return (
+    <motion.div 
+      className="space-y-6"
+      variants={skeletonVariants}
+      animate="pulse"
+    >
+      <div className="bg-gray-700 rounded h-8 w-48 mb-4" />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Array.from({ length: 6 }, (_, i) => (
+          <div key={i} className="bg-gray-700 rounded-lg h-48" />
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+export function SpecificationsSkeleton() {
+  return (
+    <motion.div 
+      className="space-y-4"
+      variants={skeletonVariants}
+      animate="pulse"
+    >
+      <div className="bg-gray-700 rounded h-8 w-40 mb-4" />
+      <div className="space-y-3">
+        {Array.from({ length: 5 }, (_, i) => (
+          <div key={i} className="flex justify-between items-center p-3 bg-gray-800 rounded-lg">
+            <div className="bg-gray-700 rounded h-4 w-32" />
+            <div className="bg-gray-700 rounded h-4 w-24" />
+          </div>
+        ))}
+      </div>
     </motion.div>
   );
 }

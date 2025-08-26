@@ -39,32 +39,18 @@ export function ProgressiveDisclosure({
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }
+      y: 0
     }
   };
 
   const contentVariants = {
     closed: {
       height: 0,
-      opacity: 0,
-      transition: {
-        duration: 0.3,
-        ease: [0.25, 0.46, 0.45, 0.94]
-      }
+      opacity: 0
     },
     open: {
       height: 'auto',
-      opacity: 1,
-      transition: {
-        duration: 0.4,
-        ease: [0.25, 0.46, 0.45, 0.94],
-        staggerChildren: 0.1,
-        delayChildren: 0.1
-      }
+      opacity: 1
     }
   };
 
@@ -72,21 +58,18 @@ export function ProgressiveDisclosure({
     closed: { opacity: 0, y: -10 },
     open: { 
       opacity: 1, 
-      y: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeOut"
-      }
+      y: 0
     }
   };
 
   return (
     <motion.div
-      ref={elementRef}
+      ref={elementRef as React.RefObject<HTMLDivElement>}
       className={`bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 overflow-hidden ${className}`}
       initial={animateOnScroll ? "hidden" : "visible"}
       animate={animateOnScroll ? (isIntersecting ? "visible" : "hidden") : "visible"}
       variants={containerVariants}
+      transition={{ duration: 0.5 }}
     >
       {/* Header */}
       <button

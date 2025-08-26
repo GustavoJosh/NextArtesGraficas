@@ -42,20 +42,12 @@ const modalVariants = {
   visible: {
     opacity: 1,
     scale: 1,
-    y: 0,
-    transition: {
-      duration: 0.3,
-      ease: "easeOut"
-    }
+    y: 0
   },
   exit: {
     opacity: 0,
     scale: 0.95,
-    y: 20,
-    transition: {
-      duration: 0.2,
-      ease: "easeIn"
-    }
+    y: 20
   }
 };
 
@@ -80,19 +72,11 @@ const tabContentVariants = {
   },
   visible: { 
     opacity: 1, 
-    x: 0,
-    transition: { 
-      duration: 0.3,
-      ease: "easeOut"
-    }
+    x: 0
   },
   exit: { 
     opacity: 0, 
-    x: -20,
-    transition: { 
-      duration: 0.2,
-      ease: "easeIn"
-    }
+    x: -20
   }
 };
 
@@ -259,6 +243,7 @@ export function ServiceModal({ service, isOpen, onClose, onRequestQuote }: Servi
             initial="hidden"
             animate="visible"
             exit="exit"
+            transition={{ duration: 0.3 }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -437,6 +422,7 @@ export function ServiceModal({ service, isOpen, onClose, onRequestQuote }: Servi
                       initial="hidden"
                       animate="visible"
                       exit="exit"
+                      transition={{ duration: 0.3 }}
                       className="p-6"
                     >
                       {activeTab === 'overview' && (

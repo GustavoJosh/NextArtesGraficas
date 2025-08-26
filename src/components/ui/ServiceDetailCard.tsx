@@ -225,7 +225,6 @@ export function ServiceDetailCard({
             fill
             className="object-cover"
             priority={false}
-            lazy={true}
             fallbackSrc={fallbackUrl}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             quality={85}
@@ -368,7 +367,7 @@ export function ServiceDetailCard({
                         width={32}
                         height={32}
                         className="w-full h-full object-cover"
-                        lazy={false}
+
                         quality={75}
                       />
                     </motion.div>
@@ -623,7 +622,7 @@ export function ServiceDetailCard({
                                   className={`object-cover transition-transform duration-300 ${
                                     !prefersReducedMotion() ? 'group-hover:scale-110' : ''
                                   }`}
-                                  lazy={true}
+
                                   quality={80}
                                   sizes="(max-width: 768px) 50vw, 33vw"
                                 />
@@ -676,7 +675,7 @@ export function ServiceDetailCard({
                                 className={`object-cover transition-transform duration-300 ${
                                   !prefersReducedMotion() ? 'group-hover:scale-110' : ''
                                 }`}
-                                lazy={true}
+
                                 quality={80}
                                 sizes="(max-width: 768px) 50vw, 33vw"
                               />
@@ -729,8 +728,10 @@ export function ServiceDetailGrid({
           key={service.title}
           title={service.title}
           description={service.description}
-          category={service.category}
-          imageName={service.imageName}
+          category={service.categoryId === 'imprenta-digital' || service.categoryId === 'impresion-gran-formato' ? 'impresion' : 
+                   service.categoryId === 'cnc-laser' ? 'laser' : 
+                   service.categoryId === 'imprenta' ? 'papeleria' : undefined}
+          imageName={undefined}
           deliveryTime={service.deliveryTime}
           examples={service.examples}
           specifications={service.specifications}

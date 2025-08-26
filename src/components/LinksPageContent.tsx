@@ -7,7 +7,7 @@ import LightRays from '@/components/ui/LightRays';
 import AnimatedContent from '@/components/ui/AnimatedContent';
 import styles from './LinksPageContent.module.css';
 import LogoLoop from './ui/LogoLoop';
-import { SiInstagram, SiTruenas } from "react-icons/si";
+import { SiInstagram} from "react-icons/si";
 import { SiTiktok } from "react-icons/si";
 import { SiFacebook } from "react-icons/si";
 import { SiWhatsapp } from "react-icons/si";

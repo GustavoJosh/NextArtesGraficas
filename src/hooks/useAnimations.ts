@@ -99,7 +99,7 @@ export function useStaggerAnimation(itemCount: number, delay: number = 0.05) {
       scale: 1,
       transition: {
         duration: isReducedMotion ? 0 : 0.3,
-        ease: "easeOut"
+        ease: "easeOut" as const
       }
     }
   }), [isReducedMotion]);

@@ -366,7 +366,7 @@ export function ServiceGrid({ services }: { services: Service[] }) {
           key={service.id}
           title={service.title}
           description={service.description}
-          category={service.categoryId as any} // Will need proper type mapping
+          category={service.categoryId as 'impresion' | 'laser' | 'papeleria'}
           deliveryTime={service.deliveryTime}
           examples={service.examples}
           specifications={service.specifications}

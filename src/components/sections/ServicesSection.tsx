@@ -3,18 +3,32 @@
 
 import Link from 'next/link';
 import MagicServicesBento from '@/components/ui/MagicBento';
-import { services } from '@/data/services';
+import { services, serviceCategories } from '@/data/services';
 import { Button } from '@/components/ui/button';
 import { LayoutGrid, Sparkles } from 'lucide-react';
 
 export function ServicesSection() {
   // Transformar los servicios para que sean compatibles con MagicBento
-  const servicesForBento = services.map(service => ({
-    title: service.title,
-    description: service.description,
-    category: service.category,
-    imageName: service.imageName,
-  }));
+  const servicesForBento = services.map(service => {
+    const category = serviceCategories.find(cat => cat.id === service.categoryId);
+    
+    // Map service categories to the three main categories expected by MagicBento
+    let mappedCategory: 'impresion' | 'laser' | 'papeleria' = 'impresion';
+    if (service.categoryId.includes('laser') || service.categoryId.includes('cnc')) {
+      mappedCategory = 'laser';
+    } else if (service.categoryId.includes('imprenta') || service.categoryId.includes('impresion')) {
+      mappedCategory = 'impresion';
+    } else {
+      mappedCategory = 'papeleria';
+    }
+    
+    return {
+      title: service.title,
+      description: service.description,
+      category: mappedCategory,
+      imageName: category?.imageName || 'default',
+    };
+  });
 
   return (
     <section id="servicios" className="w-full py-12 md:py-24 bg-gradient-to-b from-[#0A1B2E] to-[#0E345A] relative overflow-hidden">

@@ -46,7 +46,7 @@ export function ParallaxBackground({
 
   return (
     <div
-      ref={elementRef}
+      ref={elementRef as React.RefObject<HTMLDivElement>}
       className={`relative overflow-hidden ${className}`}
       style={{
         transform: getTransform(),

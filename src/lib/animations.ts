@@ -1,5 +1,5 @@
 // Animation utilities and constants for consistent micro-interactions
-import { Variants, Transition } from 'framer-motion';
+import { Variants } from 'framer-motion';
 
 // Animation duration constants
 export const ANIMATION_DURATIONS = {
@@ -291,7 +291,7 @@ export const MICRO_INTERACTIONS = {
   }
 } as const;
 
-export default {
+const animations = {
   ANIMATION_DURATIONS,
   EASING,
   TRANSITIONS,
@@ -309,3 +309,5 @@ export default {
   getMotionVariants,
   MICRO_INTERACTIONS
 };
+
+export default animations;

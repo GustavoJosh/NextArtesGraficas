@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
-import { ServiceExample } from '@/data/services';
+import { ServiceExample, services } from '@/data/services';
 import { OptimizedImage } from './OptimizedImage';
 import { useLazyLoading } from '@/hooks/useLazyLoading';
 import { usePerformanceMonitor } from '@/lib/performance';
@@ -187,7 +187,6 @@ function ExampleModal({
               className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl"
               onLoad={() => setImageLoaded(true)}
               priority={true}
-              lazy={false}
               quality={95}
               sizes="(max-width: 768px) 100vw, 80vw"
             />
@@ -239,13 +238,12 @@ function LazyExampleImage({
   onClick: () => void;
   className?: string;
 }) {
-  const [isLoaded, setIsLoaded] = useState(false);
   const { isInView, elementRef } = useLazyLoading({ threshold: 0.1, rootMargin: '50px' });
   const { prefersReducedMotion } = usePerformanceMonitor();
 
   return (
     <button
-      ref={elementRef}
+      ref={elementRef as React.RefObject<HTMLButtonElement>}
       className={`relative group cursor-pointer overflow-hidden rounded-lg bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200 ${className}`}
       onClick={onClick}
       aria-label={`Ver ejemplo: ${example.title}. ${example.description}`}
@@ -259,10 +257,9 @@ function LazyExampleImage({
           className={`object-cover transition-all duration-300 ${
             !prefersReducedMotion() ? 'group-hover:scale-105' : ''
           }`}
-          onLoad={() => setIsLoaded(true)}
+          onLoad={() => {}}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           quality={80}
-          lazy={true}
         />
       )}
 
@@ -295,13 +292,19 @@ export function ExampleGallery({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [filter, setFilter] = useState<string>('all');
 
+  // Helper function to get category for an example
+  const getExampleCategory = (example: ServiceExample) => {
+    const service = services.find(s => s.id === example.serviceId);
+    return service?.categoryId || 'unknown';
+  };
+
   // Filter examples based on selected filter
   const filteredExamples = filter === 'all' 
     ? examples 
-    : examples.filter(example => example.category === filter);
+    : examples.filter(example => getExampleCategory(example) === filter);
 
   // Get unique categories for filters
-  const categories = Array.from(new Set(examples.map(ex => ex.category)));
+  const categories = Array.from(new Set(examples.map(ex => getExampleCategory(ex)).filter(cat => cat !== 'unknown')));
 
   const openModal = useCallback((example: ServiceExample) => {
     const index = filteredExamples.findIndex(ex => ex.id === example.id);
@@ -365,9 +368,15 @@ export function ExampleGallery({
                     : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                 }`}
               >
-                {category === 'impresion' ? 'Impresión' : 
-                 category === 'laser' ? 'Láser' : 
-                 category === 'papeleria' ? 'Papelería' : category}
+                {category === 'imprenta-digital' ? 'Imprenta Digital' : 
+                 category === 'impresion-gran-formato' ? 'Gran Formato' : 
+                 category === 'cnc-laser' ? 'CNC Láser' : 
+                 category === 'corte-vinil' ? 'Corte Vinil' :
+                 category === 'displays' ? 'Displays' :
+                 category === 'cnc-router' ? 'CNC Router' :
+                 category === 'imprenta' ? 'Imprenta' :
+                 category === 'anuncios-luminosos' ? 'Anuncios Luminosos' :
+                 category}
               </button>
             ))}
           </div>

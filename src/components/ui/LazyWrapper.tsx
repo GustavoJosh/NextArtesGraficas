@@ -147,7 +147,7 @@ export function LazyIntersection({
 }
 
 // Preload utilities for better performance
-export const preloadComponent = (componentImport: () => Promise<any>) => {
+export const preloadComponent = (componentImport: () => Promise<{ default: React.ComponentType<Record<string, unknown>> }>) => {
   // Preload on hover or focus
   const preload = () => {
     componentImport();

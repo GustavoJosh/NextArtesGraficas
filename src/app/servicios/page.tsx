@@ -2,7 +2,7 @@
 "use client"; // Para poder usar estado y manejar los filtros
 
 import { useState } from 'react';
-import { services, serviceCategories, type Service, type ServiceCategoryId } from '@/data/services';
+import { services, serviceCategories, type ServiceCategoryId } from '@/data/services';
 import { ServiceCard } from '@/components/ui/ServiceCard';
 import { Header } from '@/components/layout/Header';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
@@ -43,7 +43,7 @@ export default function ServiciosPage() {
     : services.filter(service => service.categoryId === activeFilter);
 
   // Función para manejar la expansión de tarjetas (opcional para futuras mejoras)
-  const handleCardExpand = (isExpanded: boolean, serviceTitle: string) => {
+  const handleCardExpand = (_isExpanded: boolean, _serviceTitle: string) => {
     // Aquí podrías agregar lógica adicional si necesitas trackear qué tarjetas están expandidas
     // Por ejemplo, para analytics o para cerrar otras tarjetas cuando una se expande
   };
@@ -189,7 +189,7 @@ export default function ServiciosPage() {
                       key={service.id}
                       title={service.title}
                       description={service.description}
-                      category={service.categoryId as any} // Will need to update ServiceCard types later
+                      category={service.categoryId as 'impresion' | 'laser' | 'papeleria'}
                       imageName={category?.imageName}
                       deliveryTime={service.deliveryTime}
                       examples={service.examples}

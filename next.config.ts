@@ -21,8 +21,6 @@ const nextConfig = {
   },
   // Enable experimental features for better performance
   experimental: {
-    // Enable optimized CSS loading
-    optimizeCss: true,
     // Enable optimized package imports
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },

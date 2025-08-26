@@ -83,9 +83,15 @@ class PerformanceMonitor {
   // Get connection quality
   getConnectionQuality(): 'slow' | 'fast' | 'unknown' {
     if ('connection' in navigator) {
-      const connection = (navigator as any).connection;
-      if (connection.effectiveType === '4g') return 'fast';
-      if (connection.effectiveType === '3g' || connection.effectiveType === '2g') return 'slow';
+      const connection = (navigator as Navigator & {
+        connection?: {
+          effectiveType?: string;
+          downlink?: number;
+          rtt?: number;
+        };
+      }).connection;
+      if (connection?.effectiveType === '4g') return 'fast';
+      if (connection?.effectiveType === '3g' || connection?.effectiveType === '2g') return 'slow';
     }
     return 'unknown';
   }

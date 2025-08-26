@@ -91,11 +91,7 @@ const emptyStateVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut"
-    }
+    scale: 1
   }
 };
 
@@ -153,6 +149,7 @@ const EmptyState = ({ searchQuery, activeFilters }: { searchQuery?: string; acti
       variants={emptyStateVariants}
       initial="hidden"
       animate="visible"
+      transition={{ duration: 0.6 }}
       className="col-span-full flex flex-col items-center justify-center py-16 px-6 text-center"
     >
       <div className="relative mb-6">

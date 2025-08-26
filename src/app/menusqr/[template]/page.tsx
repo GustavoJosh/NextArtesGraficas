@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
 interface MenuQRPageProps {
-  params: {
+  params: Promise<{
     template: string;
-  };
+  }>;
 }
 
 // Define available templates
@@ -17,8 +17,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function MenuQRPage({ params }: MenuQRPageProps) {
-  const { template } = params;
+export default async function MenuQRPage({ params }: MenuQRPageProps) {
+  const { template } = await params;
 
   // Check if template exists
   if (!availableTemplates.includes(template)) {

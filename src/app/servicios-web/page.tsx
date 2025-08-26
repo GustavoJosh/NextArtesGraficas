@@ -6,7 +6,7 @@ import { WebServicesCatalog } from '@/components/web-services';
 import { AnimatedSection, AnimatedText } from '@/components/ui/AnimatedSection';
 import { ParallaxContainer, FloatingElements } from '@/components/ui/ParallaxBackground';
 import { ScrollProgress, ScrollToTop } from '@/components/ui/ScrollProgress';
-import { CatalogErrorBoundary } from '@/components/web-services/ErrorBoundaries';
+// import { CatalogErrorBoundary } from '@/components/web-services/ErrorBoundaries';
 import { LazyWrapper } from '@/components/ui/LazyWrapper';
 import { useSmoothScroll } from '@/hooks/useScrollAnimations';
 import { usePerformanceMonitoring, useCoreWebVitals, useBundlePerformance } from '@/hooks/usePerformanceMonitoring';

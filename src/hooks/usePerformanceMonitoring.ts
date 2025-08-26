@@ -29,7 +29,7 @@ export function usePerformanceMonitoring({
   // Log performance metrics
   const logMetrics = useCallback((metrics: PerformanceMetrics) => {
     const shouldLog = process.env.NODE_ENV === 'development' || enableInProduction;
-    
+
     if (!shouldLog || metrics.loadTime < threshold) {
       return;
     }
@@ -58,34 +58,38 @@ export function usePerformanceMonitoring({
       }
 
       // Custom analytics endpoint
-      if (typeof window !== 'undefined' && window.fetch) {
+      if (typeof window !== 'undefined') {
         fetch('/api/analytics/performance', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(metrics)
-        }).catch(() => {
+        }).catch((error) => {
           // Silently fail for analytics
+          if (process.env.NODE_ENV === 'development') {
+            console.warn('Analytics request failed:', error);
+          }
         });
       }
     }
-  }, [componentName, threshold, enableInProduction]);
+  }, [threshold, enableInProduction]);
 
   // Track component mount and unmount
   useEffect(() => {
     const mountTime = performance.now();
+    const startTime = startTimeRef.current;
     renderStartRef.current = mountTime;
 
     return () => {
       const unmountTime = performance.now();
-      const loadTime = unmountTime - startTimeRef.current;
+      const loadTime = unmountTime - startTime;
       const renderTime = unmountTime - renderStartRef.current;
 
       logMetrics({
         componentName,
         loadTime,
         renderTime,
-        interactionTime: interactionStartRef.current 
-          ? unmountTime - interactionStartRef.current 
+        interactionTime: interactionStartRef.current
+          ? unmountTime - interactionStartRef.current
           : undefined
       });
     };
@@ -118,14 +122,14 @@ export function usePerformanceMonitoring({
   // Measure specific operations
   const measureOperation = useCallback((operationName: string, operation: () => void | Promise<void>) => {
     const startTime = performance.now();
-    
+
     const result = operation();
-    
+
     if (result instanceof Promise) {
       return result.finally(() => {
         const endTime = performance.now();
         const duration = endTime - startTime;
-        
+
         if (process.env.NODE_ENV === 'development') {
           console.log(`⏱️ ${componentName} - ${operationName}: ${duration.toFixed(2)}ms`);
         }
@@ -133,11 +137,11 @@ export function usePerformanceMonitoring({
     } else {
       const endTime = performance.now();
       const duration = endTime - startTime;
-      
+
       if (process.env.NODE_ENV === 'development') {
         console.log(`⏱️ ${componentName} - ${operationName}: ${duration.toFixed(2)}ms`);
       }
-      
+
       return result;
     }
   }, [componentName]);
@@ -159,11 +163,11 @@ export function useCoreWebVitals() {
         const observer = new PerformanceObserver((list) => {
           const entries = list.getEntries();
           const lastEntry = entries[entries.length - 1];
-          
+
           if (process.env.NODE_ENV === 'development') {
             console.log(`📊 LCP: ${lastEntry.startTime.toFixed(2)}ms`);
           }
-          
+
           if (typeof window.gtag === 'function') {
             window.gtag('event', 'web_vitals', {
               metric_name: 'LCP',
@@ -172,7 +176,7 @@ export function useCoreWebVitals() {
             });
           }
         });
-        
+
         observer.observe({ entryTypes: ['largest-contentful-paint'] });
       }
     };
@@ -183,12 +187,14 @@ export function useCoreWebVitals() {
         const observer = new PerformanceObserver((list) => {
           const entries = list.getEntries();
           entries.forEach((entry) => {
+            const fidEntry = entry as PerformanceEntry & { processingStart?: number };
+            const fid = (fidEntry.processingStart || 0) - entry.startTime;
+
             if (process.env.NODE_ENV === 'development') {
-              console.log(`📊 FID: ${entry.processingStart - entry.startTime}ms`);
+              console.log(`📊 FID: ${fid.toFixed(2)}ms`);
             }
-            
+
             if (typeof window.gtag === 'function') {
-              const fid = entry.processingStart - entry.startTime;
               window.gtag('event', 'web_vitals', {
                 metric_name: 'FID',
                 metric_value: Math.round(fid),
@@ -197,7 +203,7 @@ export function useCoreWebVitals() {
             }
           });
         });
-        
+
         observer.observe({ entryTypes: ['first-input'] });
       }
     };
@@ -206,19 +212,20 @@ export function useCoreWebVitals() {
     const observeCLS = () => {
       if ('PerformanceObserver' in window) {
         let clsValue = 0;
-        
+
         const observer = new PerformanceObserver((list) => {
           const entries = list.getEntries();
           entries.forEach((entry) => {
-            if (!entry.hadRecentInput) {
-              clsValue += entry.value;
+            const clsEntry = entry as PerformanceEntry & { hadRecentInput?: boolean; value?: number };
+            if (!clsEntry.hadRecentInput && clsEntry.value) {
+              clsValue += clsEntry.value;
             }
           });
-          
+
           if (process.env.NODE_ENV === 'development') {
             console.log(`📊 CLS: ${clsValue.toFixed(4)}`);
           }
-          
+
           if (typeof window.gtag === 'function') {
             window.gtag('event', 'web_vitals', {
               metric_name: 'CLS',
@@ -227,7 +234,7 @@ export function useCoreWebVitals() {
             });
           }
         });
-        
+
         observer.observe({ entryTypes: ['layout-shift'] });
       }
     };
@@ -249,18 +256,19 @@ export function useBundlePerformance() {
       if ('PerformanceObserver' in window) {
         const observer = new PerformanceObserver((list) => {
           const entries = list.getEntries();
-          
+
           entries.forEach((entry) => {
             if (entry.name.includes('.js') || entry.name.includes('.css')) {
-              const size = (entry as any).transferSize || 0;
-              const loadTime = entry.responseEnd - entry.startTime;
-              
+              const resourceEntry = entry as PerformanceResourceTiming;
+              const size = resourceEntry.transferSize || 0;
+              const loadTime = resourceEntry.responseEnd - entry.startTime;
+
               if (process.env.NODE_ENV === 'development' && size > 100000) { // Log large resources
                 console.log(`📦 Large Resource: ${entry.name.split('/').pop()}`);
                 console.log(`   Size: ${(size / 1024).toFixed(2)}KB`);
                 console.log(`   Load Time: ${loadTime.toFixed(2)}ms`);
               }
-              
+
               if (typeof window.gtag === 'function' && size > 500000) { // Track very large resources
                 window.gtag('event', 'resource_performance', {
                   resource_name: entry.name.split('/').pop(),
@@ -271,7 +279,7 @@ export function useBundlePerformance() {
             }
           });
         });
-        
+
         observer.observe({ entryTypes: ['resource'] });
       }
     };
@@ -283,6 +291,6 @@ export function useBundlePerformance() {
 // Declare global gtag function for TypeScript
 declare global {
   interface Window {
-    gtag?: (command: string, targetId: string, config?: any) => void;
+    gtag?: (command: string, targetId: string, config?: Record<string, unknown>) => void;
   }
 }
