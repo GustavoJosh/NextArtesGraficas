@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
+import { useState, useCallback } from 'react';
 import Image from 'next/image';
-import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { ImageIcon, AlertCircle } from 'lucide-react';
 
 interface OptimizedImageProps {
   src: string;
@@ -12,15 +13,39 @@ interface OptimizedImageProps {
   fill?: boolean;
   className?: string;
   priority?: boolean;
-  sizes?: string;
   quality?: number;
   placeholder?: 'blur' | 'empty';
   blurDataURL?: string;
+  fallbackSrc?: string;
   onLoad?: () => void;
   onError?: () => void;
-  fallbackSrc?: string;
-  lazy?: boolean;
+  sizes?: string;
+  style?: React.CSSProperties;
 }
+
+// Default fallback images for different contexts
+const DEFAULT_FALLBACKS = {
+  service: '/images/web-services/placeholder-service.svg',
+  avatar: '/images/placeholder-avatar.svg',
+  logo: '/images/placeholder-logo.svg',
+  general: '/images/placeholder-general.svg'
+};
+
+// Generate a simple blur data URL using a static base64 string
+const generateBlurDataURL = (width: number = 10, height: number = 10) => {
+  // Static blur data URL that works on both server and client
+  return `data:image/svg+xml;base64,${Buffer.from(
+    `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#374151;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#1f2937;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grad)" />
+    </svg>`
+  ).toString('base64')}`;
+};
 
 export function OptimizedImage({
   src,
@@ -30,135 +55,203 @@ export function OptimizedImage({
   fill = false,
   className = '',
   priority = false,
-  sizes,
-  quality = 85,
-  placeholder = 'empty',
+  quality = 75,
+  placeholder = 'blur',
   blurDataURL,
+  fallbackSrc,
   onLoad,
   onError,
-  fallbackSrc,
-  lazy = true,
-  ...props
+  sizes,
+  style
 }: OptimizedImageProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [hasError, setHasError] = useState(false);
-  const [isInView, setIsInView] = useState(!lazy || priority);
-  const imgRef = useRef<HTMLDivElement>(null);
+  const [imageState, setImageState] = useState<'loading' | 'loaded' | 'error'>('loading');
+  const [currentSrc, setCurrentSrc] = useState(src);
+  const [hasTriedFallback, setHasTriedFallback] = useState(false);
 
-  // Intersection Observer for lazy loading
-  useEffect(() => {
-    if (!lazy || priority || isInView) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.disconnect();
-        }
-      },
-      { 
-        threshold: 0.1,
-        rootMargin: '50px' // Start loading 50px before the image comes into view
-      }
-    );
-
-    if (imgRef.current) {
-      observer.observe(imgRef.current);
+  // Determine fallback image based on alt text or use provided fallback
+  const getFallbackSrc = useCallback(() => {
+    if (fallbackSrc) return fallbackSrc;
+    
+    const altLower = alt.toLowerCase();
+    if (altLower.includes('service') || altLower.includes('servicio')) {
+      return DEFAULT_FALLBACKS.service;
     }
-
-    return () => observer.disconnect();
-  }, [lazy, priority, isInView]);
-
-  // Generate WebP source with fallback
-  const getOptimizedSrc = (originalSrc: string) => {
-    // If it's already a WebP, return as is
-    if (originalSrc.endsWith('.webp')) {
-      return originalSrc;
+    if (altLower.includes('avatar') || altLower.includes('profile')) {
+      return DEFAULT_FALLBACKS.avatar;
+    }
+    if (altLower.includes('logo')) {
+      return DEFAULT_FALLBACKS.logo;
     }
     
-    // Convert to WebP by replacing extension
-    const webpSrc = originalSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-    return webpSrc;
-  };
+    return DEFAULT_FALLBACKS.general;
+  }, [alt, fallbackSrc]);
 
-  const handleLoad = () => {
-    setIsLoaded(true);
+  const handleLoad = useCallback(() => {
+    setImageState('loaded');
     onLoad?.();
-  };
+  }, [onLoad]);
 
-  const handleError = () => {
-    setHasError(true);
+  const handleError = useCallback(() => {
+    if (!hasTriedFallback) {
+      // Try fallback image
+      setCurrentSrc(getFallbackSrc());
+      setHasTriedFallback(true);
+      setImageState('loading');
+    } else {
+      // Fallback also failed
+      setImageState('error');
+    }
     onError?.();
-  };
+  }, [hasTriedFallback, getFallbackSrc, onError]);
 
-  const optimizedSrc = getOptimizedSrc(src);
-  const finalSrc = hasError && fallbackSrc ? fallbackSrc : optimizedSrc;
+  // Generate blur data URL if not provided and placeholder is blur
+  const blurData = blurDataURL || (
+    placeholder === 'blur' 
+      ? generateBlurDataURL(width || 400, height || 300)
+      : undefined
+  );
+
+  // Loading skeleton component
+  const LoadingSkeleton = () => (
+    <div className={`bg-gradient-to-br from-gray-700 to-gray-800 animate-pulse flex items-center justify-center ${className}`}>
+      <ImageIcon className="w-8 h-8 text-gray-500" />
+    </div>
+  );
+
+  // Error fallback component
+  const ErrorFallback = () => (
+    <div className={`bg-gray-800 border-2 border-dashed border-gray-600 flex flex-col items-center justify-center text-gray-400 ${className}`}>
+      <AlertCircle className="w-8 h-8 mb-2" />
+      <span className="text-sm text-center px-2">
+        Error al cargar imagen
+      </span>
+    </div>
+  );
+
+  // Show error state if both original and fallback failed
+  if (imageState === 'error') {
+    return <ErrorFallback />;
+  }
 
   return (
-    <div ref={imgRef} className={`relative overflow-hidden ${className}`}>
+    <div className={`relative overflow-hidden ${className}`} style={style}>
       {/* Loading skeleton */}
-      {!isLoaded && isInView && (
-        <div className="absolute inset-0 bg-gray-700 animate-pulse" />
+      {imageState === 'loading' && (
+        <div className="absolute inset-0">
+          <LoadingSkeleton />
+        </div>
       )}
 
-      {/* Image */}
-      {isInView && (
+      {/* Optimized Image */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: imageState === 'loaded' ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+        className="relative w-full h-full"
+      >
         <Image
-          src={finalSrc}
+          src={currentSrc}
           alt={alt}
-          width={width}
-          height={height}
+          width={fill ? undefined : width}
+          height={fill ? undefined : height}
           fill={fill}
-          className={`transition-opacity duration-300 ${
-            isLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
+          className={fill ? 'object-cover' : ''}
           priority={priority}
-          sizes={sizes}
           quality={quality}
           placeholder={placeholder}
-          blurDataURL={blurDataURL}
+          blurDataURL={blurData}
           onLoad={handleLoad}
           onError={handleError}
-          {...props}
+          sizes={sizes || (fill ? '100vw' : undefined)}
+          // Performance optimizations
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
         />
-      )}
+      </motion.div>
 
-      {/* Error state */}
-      {hasError && !fallbackSrc && (
-        <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
-          <div className="text-gray-400 text-sm text-center p-4">
-            <div className="w-8 h-8 mx-auto mb-2 opacity-50">
-              <svg fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <p>Imagen no disponible</p>
-          </div>
+      {/* Progressive loading indicator */}
+      {imageState === 'loading' && (
+        <div className="absolute bottom-2 right-2">
+          <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
         </div>
       )}
     </div>
   );
 }
 
-// Skeleton component for loading states
-export function ImageSkeleton({ 
-  className = '',
-  aspectRatio = 'aspect-square'
-}: { 
+// Specialized components for common use cases
+export function ServiceImage({ 
+  src, 
+  alt, 
+  className = '', 
+  priority = false 
+}: {
+  src: string;
+  alt: string;
   className?: string;
-  aspectRatio?: string;
+  priority?: boolean;
 }) {
   return (
-    <div className={`${aspectRatio} bg-gray-700 animate-pulse rounded-lg ${className}`}>
-      <div className="w-full h-full flex items-center justify-center">
-        <div className="w-8 h-8 text-gray-500">
-          <svg fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
-          </svg>
-        </div>
-      </div>
-    </div>
+    <OptimizedImage
+      src={src}
+      alt={alt}
+      fill
+      className={className}
+      priority={priority}
+      quality={80}
+      fallbackSrc={DEFAULT_FALLBACKS.service}
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+    />
   );
 }
 
-export default OptimizedImage;
+export function AvatarImage({ 
+  src, 
+  alt, 
+  size = 40,
+  className = '' 
+}: {
+  src: string;
+  alt: string;
+  size?: number;
+  className?: string;
+}) {
+  return (
+    <OptimizedImage
+      src={src}
+      alt={alt}
+      width={size}
+      height={size}
+      className={`rounded-full ${className}`}
+      quality={90}
+      fallbackSrc={DEFAULT_FALLBACKS.avatar}
+    />
+  );
+}
+
+export function LogoImage({ 
+  src, 
+  alt, 
+  width = 120, 
+  height = 40,
+  className = '' 
+}: {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  className?: string;
+}) {
+  return (
+    <OptimizedImage
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      className={className}
+      priority
+      quality={95}
+      fallbackSrc={DEFAULT_FALLBACKS.logo}
+    />
+  );
+}

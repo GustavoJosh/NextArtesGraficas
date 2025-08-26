@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/private/', '/admin/', '/api/'],
+      disallow: ['/private/', '/admin/', '/api/', '/links/'],
     },
     sitemap: 'https://artesgraficasdigitales.com/sitemap.xml',
   }

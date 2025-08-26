@@ -26,7 +26,8 @@ const nextConfig = {
     // Enable optimized package imports
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
-
+  // Ensure trailing slash behavior for better static file serving
+  trailingSlash: true,
 };
 
 export default nextConfig;

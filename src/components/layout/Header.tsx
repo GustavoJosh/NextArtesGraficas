@@ -21,6 +21,7 @@ interface HeaderProps {
 const navigationItems: NavigationItem[] = [
     { name: 'Inicio', href: '/' },
     { name: 'Imprenta', href: '/servicios' },
+    { name: 'Servicios Web', href: '/servicios-web' },
     { name: 'Servicios digitales', href: '/portafolio' },
     { name: 'Testimonios', href: '/testimonios' },
     { name: 'Contacto', href: '/contacto' },
@@ -42,7 +43,10 @@ export function Header({ currentPath }: HeaderProps) {
     // Active state detection logic
     const isActive = (href: string, currentPath: string) => {
         if (href === '/' && currentPath === '/') return true;
-        if (href !== '/' && currentPath.startsWith(href)) return true;
+        if (href !== '/') {
+            // Exact match or path starts with href followed by a slash or end of string
+            return currentPath === href || currentPath.startsWith(href + '/');
+        }
         return false;
     };
 
