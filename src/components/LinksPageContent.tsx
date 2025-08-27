@@ -167,7 +167,7 @@ export default function LinksPageContent() {
                                     Piedra y Arena
                                 </Link>
                                 <Link
-                                    href="/paginasweb/linksdinamicos"
+                                    href="https://gustavojosh.github.io/QRDinamico/"
                                     target="_blank"
                                     className="block w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg text-center text-sm sm:text-base font-medium hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform active:scale-95 sm:hover:scale-105 flex items-center justify-center"
                                 >
