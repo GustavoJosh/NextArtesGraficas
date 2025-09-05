@@ -156,8 +156,10 @@ function LinksPageContentInner() {
                             </Link>
 
                             {/* Location Button */}
-                            <Link
-                                href="/ubicacion"
+                            <a
+                                href="https://share.google/tQPdCmjEyDMYpRVkJ"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="flex items-center justify-center w-full bg-white border-2 border-gray-300 rounded-full px-6 py-4 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-sm hover:shadow-md relative"
                             >
                                 <div className="absolute left-4 flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full">
@@ -166,7 +168,7 @@ function LinksPageContentInner() {
                                 <span className="text-gray-800 font-semibold text-lg tracking-wide uppercase">
                                     {t('services.location')}
                                 </span>
-                            </Link>
+                            </a>
 
                             {/* Website Button */}
                             <a
@@ -345,6 +347,18 @@ function LinksPageContentInner() {
                                 </span>
                             </a>
 
+                            {/* QR Interactivo Button */}
+                            <Link
+                                href="/contacto"
+                                className="flex items-center justify-center w-full bg-white border-2 border-gray-300 rounded-full px-6 py-4 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-sm hover:shadow-md relative"
+                            >
+                                <div className="absolute left-4 flex items-center justify-center w-8 h-8 bg-gray-800 rounded-full">
+                                    <QrCode className="w-5 h-5 text-white" />
+                                </div>
+                                <span className="text-gray-800 font-semibold text-lg tracking-wide uppercase">
+                                    {t('services.interactive_qr')}
+                                </span>
+                            </Link>
 
                         </div>
                     </div>

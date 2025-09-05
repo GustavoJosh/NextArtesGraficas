@@ -39,7 +39,8 @@ const translations: Translations = {
   'services.website': { es: 'www.artesgraficasbcs.com', en: 'www.artesgraficasbcs.com' },
   'services.page_designs': { es: 'Diseños Páginas', en: 'Page Designs' },
   'services.qr_menus': { es: 'Menús QR', en: 'QR Menus' },
-  'services.digital_invitations': { es: 'Invitaciones Digitales', en: 'Digital Invitations' },
+  'services.digital_invitations': { es: 'Invitaciones Web', en: 'Web Invitations' },
+  'services.interactive_qr': { es: 'QR Interactivo', en: 'Interactive QR' },
   'services.interactive_qr': { es: 'Menús QR', en: 'QR Menus' },
 
   // Dropdown content - Page Designs
