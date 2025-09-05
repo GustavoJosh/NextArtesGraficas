@@ -29,6 +29,19 @@ const translations: Translations = {
   'btn.printing': { es: 'Imprenta', en: 'Printing' },
   'btn.whatsapp': { es: 'WhatsApp', en: 'WhatsApp' },
   
+  // Service buttons
+  'services.title': { es: 'Nuestros Servicios', en: 'Our Services' },
+  'services.subtitle': { es: 'Te invitamos a conocer nuestros nuevos servicios web completamente bilingües', en: 'We invite you to discover our new completely bilingual web services' },
+  'services.subtitle2': { es: 'Olvídate de la barrera del idioma', en: 'Forget about the language barrier' },
+  'services.whatsapp': { es: 'WhatsApp', en: 'WhatsApp' },
+  'services.quote': { es: 'Cotizar', en: 'Quote' },
+  'services.location': { es: 'Ubicación', en: 'Location' },
+  'services.website': { es: 'www.artesgraficasbcs.com', en: 'www.artesgraficasbcs.com' },
+  'services.page_designs': { es: 'Diseños Páginas', en: 'Page Designs' },
+  'services.qr_menus': { es: 'Menús QR', en: 'QR Menus' },
+  'services.digital_invitations': { es: 'Invitaciones Digitales', en: 'Digital Invitations' },
+  'services.interactive_qr': { es: 'QR Dinámico Interactivo', en: 'Interactive Dynamic QR' },
+  
   // Location details
   'location.visit': { es: 'Visítanos', en: 'Visit Us' },
   'location.hours': { es: 'Horarios de Atención', en: 'Business Hours' },
