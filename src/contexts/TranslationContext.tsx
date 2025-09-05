@@ -16,19 +16,19 @@ const translations: Translations = {
   'nav.home': { es: 'Inicio', en: 'Home' },
   'nav.services': { es: 'Servicios', en: 'Services' },
   'nav.contact': { es: 'Contacto', en: 'Contact' },
-  
+
   // Main content
   'social.title': { es: 'Síguenos en Redes Sociales', en: 'Follow us on Social Media' },
   'location.title': { es: 'Ubicación', en: 'Location' },
   'contact.title': { es: 'Contacto y Servicios', en: 'Contact & Services' },
   'qr.title': { es: 'Plantillas de Menú QR', en: 'QR Menu Templates' },
   'web.title': { es: 'Demos de Páginas Web', en: 'Website Demos' },
-  
+
   // Buttons
   'btn.quote': { es: 'Cotiza en linea con nosotros', en: 'Get a quote online' },
   'btn.printing': { es: 'Imprenta', en: 'Printing' },
   'btn.whatsapp': { es: 'WhatsApp', en: 'WhatsApp' },
-  
+
   // Service buttons
   'services.title': { es: 'Nuestros Servicios', en: 'Our Services' },
   'services.subtitle': { es: 'Te invitamos a conocer nuestros nuevos servicios web completamente bilingües', en: 'We invite you to discover our new completely bilingual web services' },
@@ -40,32 +40,44 @@ const translations: Translations = {
   'services.page_designs': { es: 'Diseños Páginas', en: 'Page Designs' },
   'services.qr_menus': { es: 'Menús QR', en: 'QR Menus' },
   'services.digital_invitations': { es: 'Invitaciones Digitales', en: 'Digital Invitations' },
-  'services.interactive_qr': { es: 'QR Dinámico Interactivo', en: 'Interactive Dynamic QR' },
-  
+  'services.interactive_qr': { es: 'Menús QR', en: 'QR Menus' },
+
+  // Dropdown content - Page Designs
+  'dropdown.online_services': { es: 'Servicios en línea', en: 'Online Services' },
+  'dropdown.construction_business': { es: 'Constructoras/Negocios', en: 'Construction/Business' },
+  'dropdown.interactive_qr': { es: 'QR interactivo', en: 'Interactive QR' },
+  'dropdown.clinic_website': { es: 'Sitio web para consultorio', en: 'Clinic Website' },
+
+  // Dropdown content - QR Menus
+  'dropdown.restaurant_menu': { es: 'Menú para restaurante', en: 'Restaurant Menu' },
+  'dropdown.minimalist_menu': { es: 'Menú minimalista', en: 'Minimalist Menu' },
+  'dropdown.bar_menu': { es: 'Menú para bares', en: 'Bar Menu' },
+  'dropdown.seafood_menu': { es: 'Menú para marisquerías', en: 'Seafood Restaurant Menu' },
+
   // Location details
   'location.visit': { es: 'Visítanos', en: 'Visit Us' },
   'location.hours': { es: 'Horarios de Atención', en: 'Business Hours' },
   'location.maps': { es: 'Abrir en Google Maps', en: 'Open in Google Maps' },
   'location.appointment': { es: 'Visitas con cita previa', en: 'Visits by appointment' },
-  'location.description': { 
+  'location.description': {
     es: 'Visítanos en nuestras instalaciones. Estamos ubicados en La Paz, Baja California Sur.',
     en: 'Visit us at our facilities. We are located in La Paz, Baja California Sur.'
   },
   'location.our': { es: 'Nuestra Ubicación', en: 'Our Location' },
-  
+
   // Call to action
-  'cta.title': { 
+  'cta.title': {
     es: 'Te invitamos a conocer nuestros nuevos servicios digitales',
     en: 'We invite you to discover our new digital services'
   },
-  'cta.description': { 
+  'cta.description': {
     es: 'Descubre nuestras plantillas de menús QR y explora ejemplos de páginas web que hemos creado para nuestros clientes',
     en: 'Discover our QR menu templates and explore examples of websites we have created for our clients'
   },
-  
+
   // WhatsApp
   'whatsapp.response': { es: 'Respuesta inmediata', en: 'Immediate response' },
-  
+
   // Days
   'day.mon': { es: 'Lun', en: 'Mon' },
   'day.tue': { es: 'Mar', en: 'Tue' },

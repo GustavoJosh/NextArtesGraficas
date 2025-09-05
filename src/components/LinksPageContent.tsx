@@ -232,7 +232,7 @@ function LinksPageContentInner() {
                                                     onClick={() => setIsPageDesignsOpen(false)}
                                                 >
                                                     <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-                                                    Puertas Premium
+                                                    {t('dropdown.online_services')}
                                                 </Link>
                                                 <Link
                                                     href="https://gustavojosh.github.io/catalogoRocas/"
@@ -241,7 +241,7 @@ function LinksPageContentInner() {
                                                     onClick={() => setIsPageDesignsOpen(false)}
                                                 >
                                                     <Mountain className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-                                                    Piedra y Arena
+                                                    {t('dropdown.construction_business')}
                                                 </Link>
                                                 <Link
                                                     href="https://gustavojosh.github.io/QRDinamico/"
@@ -250,7 +250,7 @@ function LinksPageContentInner() {
                                                     onClick={() => setIsPageDesignsOpen(false)}
                                                 >
                                                     <Car className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-                                                    Vive La Baja 4x4
+                                                    {t('dropdown.interactive_qr')}
                                                 </Link>
                                                 <Link
                                                     href="https://cadimlapaz.com/"
@@ -259,7 +259,7 @@ function LinksPageContentInner() {
                                                     onClick={() => setIsPageDesignsOpen(false)}
                                                 >
                                                     <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-                                                    Consultorio CADIM
+                                                    {t('dropdown.clinic_website')}
                                                 </Link>
                                             </div>
                                         </div>
@@ -267,43 +267,17 @@ function LinksPageContentInner() {
                                 )}
                             </div>
 
-                            {/* QR Menus Button */}
-                            <Link
-                                href="/menus-qr"
-                                className="flex items-center justify-center w-full bg-white border-2 border-gray-300 rounded-full px-6 py-4 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-sm hover:shadow-md relative"
-                            >
-                                <div className="absolute left-4 flex items-center justify-center w-8 h-8 bg-gray-800 rounded-full">
-                                    <Utensils className="w-5 h-5 text-white" />
-                                </div>
-                                <span className="text-gray-800 font-semibold text-lg tracking-wide uppercase">
-                                    {t('services.qr_menus')}
-                                </span>
-                            </Link>
-
-                            {/* Digital Invitations Button */}
-                            <Link
-                                href="www.invitacionesdigitales.click"
-                                className="flex items-center justify-center w-full bg-white border-2 border-gray-300 rounded-full px-6 py-4 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-sm hover:shadow-md relative"
-                            >
-                                <div className="absolute left-4 flex items-center justify-center w-8 h-8 bg-gray-800 rounded-full">
-                                    <Mail className="w-5 h-5 text-white" />
-                                </div>
-                                <span className="text-gray-800 font-semibold text-lg tracking-wide uppercase">
-                                    {t('services.digital_invitations')}
-                                </span>
-                            </Link>
-
-                            {/* Interactive QR Dropdown Button */}
+                            {/* QR Menus Dropdown Button */}
                             <div ref={qrDropdownRef}>
                                 <button
                                     onClick={() => setIsQrMenuOpen(!isQrMenuOpen)}
                                     className="flex items-center justify-center w-full bg-white border-2 border-gray-300 rounded-full px-6 py-4 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-sm hover:shadow-md relative"
                                 >
                                     <div className="absolute left-4 flex items-center justify-center w-8 h-8 bg-gray-800 rounded-full">
-                                        <QrCode className="w-5 h-5 text-white" />
+                                        <Utensils className="w-5 h-5 text-white" />
                                     </div>
                                     <span className="text-gray-800 font-semibold text-lg tracking-wide uppercase">
-                                        {t('services.interactive_qr')}
+                                        {t('services.qr_menus')}
                                     </span>
                                     <ChevronDown
                                         className={`absolute right-4 w-5 h-5 text-gray-600 transition-transform duration-200 ${isQrMenuOpen ? 'rotate-180' : ''
@@ -327,34 +301,51 @@ function LinksPageContentInner() {
                                                     className="block w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg text-center text-sm sm:text-base font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-200 transform active:scale-95 sm:hover:scale-105"
                                                     onClick={() => setIsQrMenuOpen(false)}
                                                 >
-                                                    Elegante
+                                                    {t('dropdown.restaurant_menu')}
                                                 </Link>
                                                 <Link
                                                     href="/menusqr/minimalista"
                                                     className="block w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg text-center text-sm sm:text-base font-medium hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform active:scale-95 sm:hover:scale-105"
                                                     onClick={() => setIsQrMenuOpen(false)}
                                                 >
-                                                    Minimalista
+                                                    {t('dropdown.minimalist_menu')}
                                                 </Link>
                                                 <Link
                                                     href="/menusqr/neon"
                                                     className="block w-full bg-gradient-to-r from-blue-400 to-blue-500 text-white py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg text-center text-sm sm:text-base font-medium hover:from-blue-500 hover:to-blue-600 transition-all duration-200 transform active:scale-95 sm:hover:scale-105"
                                                     onClick={() => setIsQrMenuOpen(false)}
                                                 >
-                                                    Neón
+                                                    {t('dropdown.bar_menu')}
                                                 </Link>
                                                 <Link
                                                     href="/menusqr/oceano"
                                                     className="block w-full bg-gradient-to-r from-blue-700 to-blue-800 text-white py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg text-center text-sm sm:text-base font-medium hover:from-blue-800 hover:to-blue-900 transition-all duration-200 transform active:scale-95 sm:hover:scale-105"
                                                     onClick={() => setIsQrMenuOpen(false)}
                                                 >
-                                                    Océano
+                                                    {t('dropdown.seafood_menu')}
                                                 </Link>
                                             </div>
                                         </div>
                                     </div>
                                 )}
                             </div>
+
+                            {/* Digital Invitations Button */}
+                            <a
+                                href="https://www.invitacionesdigitales.click"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center justify-center w-full bg-white border-2 border-gray-300 rounded-full px-6 py-4 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-sm hover:shadow-md relative"
+                            >
+                                <div className="absolute left-4 flex items-center justify-center w-8 h-8 bg-gray-800 rounded-full">
+                                    <Mail className="w-5 h-5 text-white" />
+                                </div>
+                                <span className="text-gray-800 font-semibold text-lg tracking-wide uppercase">
+                                    {t('services.digital_invitations')}
+                                </span>
+                            </a>
+
+
                         </div>
                     </div>
                 </AnimatedContent>
