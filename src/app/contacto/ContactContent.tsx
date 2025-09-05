@@ -403,12 +403,12 @@ export function ContactContent() {
                     <h3 className="text-lg font-semibold text-white mb-2">WhatsApp</h3>
                     <p className="text-gray-300 mb-2 break-words text-sm px-2">
                       <a
-                        href="https://wa.me/5216121210933"
+                        href="https://wa.me/5216122025530"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover:text-green-400 transition-colors"
                       >
-                        +52 (612) 121-0933
+                        +52 (612) 202-5530
                       </a>
                     </p>
                     <p className="text-sm text-gray-400">
